@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-VkRzW3aM4XCX8vuIbX5K9SJc5qCWaGH5zU9pBIzpzX3FDgHE9C1HV4u5eANB2J7P" crossorigin="anonymous">
+    <style>
+        .form-label{text-transform:capitalize}
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <a href="index.html" class="btn btn-link mb-4">&larr; Back to Tracker</a>
+    <h2 id="controlId" class="mb-3"></h2>
+    <form id="detailsForm">
+        <div id="formFields"></div>
+        <div class="mb-3">
+            <button type="button" id="addField" class="btn btn-secondary me-2">Add Custom Field</button>
+        </div>
+        <div class="mb-3">
+            <span class="me-2">Last Updated: <span id="lastUpdated"></span></span>
+        </div>
+        <div class="mb-3">
+            <button type="button" id="saveBtn" class="btn btn-primary me-2">Save</button>
+            <button type="button" id="markCompleteBtn" class="btn btn-success me-2">Mark Complete</button>
+            <label class="btn btn-secondary me-2 mb-0">
+                Add Attachment<input type="file" id="attachInput" hidden>
+            </label>
+            <button type="button" id="historyBtn" class="btn btn-outline-info">History Log</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="historyModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="historyList"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zucZXPY329xNX1/SuKD5Vac/mswHxZ34rnOG0r8QwMCKaRZ3eLaxhUJQ6BZBxB2E" crossorigin="anonymous"></script>
+<script>
+function getParam(name){
+  return new URLSearchParams(window.location.search).get(name);
+}
+$(function(){
+  var id = getParam('id');
+  $.getJSON('data/controls.json', function(allData){
+      var schema = new Set();
+      allData.forEach(c => Object.keys(c).forEach(k => schema.add(k)));
+      var custom = JSON.parse(localStorage.getItem('customFields') || '[]');
+      custom.forEach(f => schema.add(f));
+      var control = allData.find(c => c.id === id);
+      var record = {};
+      if(id === 'new'){
+          record = {id:''};
+      }else if(control){
+          record = Object.assign({}, control);
+      } else {
+          $('#controlId').text('Control not found');
+          return;
+      }
+      var stored = JSON.parse(localStorage.getItem('control_'+id) || '{}');
+      Object.assign(record, stored);
+      buildForm(Array.from(schema), record, allData);
+  });
+
+  function buildForm(fields, record, allData){
+      $('#controlId').text(record.id ? record.id + ' - ' + (record.requirement||'') : 'New Control');
+      var container = $('#formFields').empty();
+      fields.forEach(function(field){
+          if(field === 'id' || field === 'lastUpdated') return;
+          var val = record[field] || '';
+          var group = $('<div class="mb-3"></div>');
+          group.append('<label class="form-label">'+field+'</label>');
+          var input;
+          if(field === 'status'){
+              input = $('<select class="form-select" data-field="status"></select>');
+              ['Not Started','Partial','Complete'].forEach(function(o){
+                  input.append('<option '+(val===o?'selected':'')+'>'+o+'</option>');
+              });
+          }else if(['implemented','toImplement','comments','mvlComments2024','mvlComments2025','notesCOO','fullRequirement'].includes(field)){
+              input = $('<textarea class="form-control" rows="2" data-field="'+field+'"></textarea>').val(val);
+          }else if(field === 'dueDate'){
+              input = $('<input type="date" class="form-control" data-field="dueDate">').val(val);
+          }else if(field === 'score'){
+              input = $('<input type="number" class="form-control" data-field="score">').val(val);
+          }else if(field === 'evidence'){
+              input = $('<div class="input-group"><input type="text" class="form-control evidence-text" data-field="evidence"><input type="file" class="form-control evidence-file" style="max-width:40%"></div>');
+              input.find('.evidence-text').val(val);
+          }else{
+              input = $('<input type="text" class="form-control" data-field="'+field+'">').val(val);
+          }
+          group.append(input);
+          container.append(group);
+      });
+      $('#lastUpdated').text(record.lastUpdated || '');
+  }
+
+  $(document).on('change', '.evidence-file', function(){
+      var t = $(this).closest('.input-group').find('.evidence-text');
+      if(this.files[0]) t.val(this.files[0].name);
+  });
+
+  $('#addField').on('click', function(){
+      var name = prompt('New field name');
+      if(!name) return;
+      var custom = JSON.parse(localStorage.getItem('customFields') || '[]');
+      if(!custom.includes(name)){
+          custom.push(name);
+          localStorage.setItem('customFields', JSON.stringify(custom));
+      }
+      var group = $('<div class="mb-3"></div>');
+      group.append('<label class="form-label">'+name+'</label>');
+      group.append('<input type="text" class="form-control" data-field="'+name+'">');
+      $('#formFields').append(group);
+  });
+
+  function collect(){
+      var obj = {};
+      $('#formFields [data-field]').each(function(){
+          obj[$(this).data('field')] = $(this).val();
+      });
+      obj.lastUpdated = new Date().toISOString().split('T')[0];
+      return obj;
+  }
+
+  function save(){
+      var data = collect();
+      if(id === 'new'){
+          $.getJSON('data/controls.json', function(d){
+              var ids = d.map(c=>parseInt(c.id.split('-')[1]));
+              var extra = JSON.parse(localStorage.getItem('controls_new')||'[]');
+              extra.forEach(c=>ids.push(parseInt(c.id.split('-')[1])));
+              var next = Math.max.apply(Math, ids)+1;
+              id = 'C-'+String(next).padStart(3,'0');
+              data.id = id;
+              $('#controlId').text(id+' - '+(data.requirement||''));
+              var arr = JSON.parse(localStorage.getItem('controls_new')||'[]');
+              arr.push(data);
+              localStorage.setItem('controls_new', JSON.stringify(arr));
+              localStorage.setItem('history_'+id, JSON.stringify([{date:new Date().toISOString(), data:data}]));
+              $('#lastUpdated').text(data.lastUpdated);
+              alert('Saved');
+          });
+      }else{
+          localStorage.setItem('control_'+id, JSON.stringify(data));
+          var hist = JSON.parse(localStorage.getItem('history_'+id) || '[]');
+          hist.push({date:new Date().toISOString(), data:data});
+          localStorage.setItem('history_'+id, JSON.stringify(hist));
+          $('#lastUpdated').text(data.lastUpdated);
+          alert('Saved');
+      }
+  }
+
+  $('#saveBtn').on('click', save);
+  $('#markCompleteBtn').on('click', function(){
+      $('#formFields [data-field="status"]').val('Complete');
+      save();
+  });
+  $('#historyBtn').on('click', function(){
+      var hist = JSON.parse(localStorage.getItem('history_'+id) || '[]');
+      var html = '<ul class="list-group">';
+      hist.forEach(function(h){ html += '<li class="list-group-item">'+h.date+'</li>'; });
+      html += '</ul>';
+      $('#historyList').html(html);
+      var modal = new bootstrap.Modal(document.getElementById('historyModal'));
+      modal.show();
+  });
+});
+</script>
+</body>
+</html>
