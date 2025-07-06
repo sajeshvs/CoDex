@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No-Broker Rental Platform - Complete Architecture Plan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+            align-items: stretch;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 150px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .metric {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+        }
+
+        .section-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .flowchart-container {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            align-items: stretch;
+        }
+
+        .feature-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4299e1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .feature-item h4 {
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .feature-item p {
+            flex-grow: 1;
+            margin: 0;
+            color: #4a5568;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #4299e1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-item h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .timeline-item ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .timeline-item li {
+            margin-bottom: 8px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .timeline-item strong {
+            color: #4299e1;
+            font-weight: 600;
+        }
+
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            align-items: stretch;
+        }
+
+        .cost-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 120px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .cost-amount {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4299e1;
+            margin-bottom: 5px;
+        }
+
+        .cost-item h4 {
+            margin: 10px 0 5px 0;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .cost-item p {
+            margin: 0;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .cost-item small {
+            color: #a0aec0;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            
+            .section-header {
+                padding: 15px 20px;
+            }
+            
+            .section-content {
+                padding: 20px;
+            }
+
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cost-breakdown {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .chart-container {
+                height: 300px;
+                padding: 15px;
+            }
+
+            .mermaid {
+                min-height: 250px;
+            }
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .swot-item {
+            padding: 25px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+        }
+
+        .swot-item h4 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .swot-item ul {
+            flex-grow: 1;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .swot-item li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .strengths { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .weaknesses { background: linear-gradient(135deg, #f56565, #e53e3e); }
+        .opportunities { background: linear-gradient(135deg, #4299e1, #3182ce); }
+        .threats { background: linear-gradient(135deg, #ed8936, #dd6b20); }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            background: #4299e1;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 No-Broker Rental Platform</h1>
+            <p>Complete Architecture & Business Plan</p>
+        </div>
+
+        <!-- Key Metrics Dashboard -->
+        <div class="dashboard">
+            <div class="card metric">
+                <div class="metric-value">₹16B</div>
+                <div class="metric-label">Projected Market Size by 2030</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value">15%</div>
+                <div class="metric-label">Market CAGR Growth</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value">2 Weeks</div>
+                <div class="metric-label">Research Sprint Duration</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value">₹368M</div>
+                <div class="metric-label">NoBroker Funding Raised</div>
+            </div>
+        </div>
+
+        <!-- Quick Access Cards -->
+        <div class="dashboard">
+            <div class="card" onclick="openModal('missionModal')">
+                <div class="card-icon">🎯</div>
+                <h3>Mission & Vision</h3>
+                <p>Our core mission to revolutionize the rental market through trust and transparency</p>
+            </div>
+            <div class="card" onclick="openModal('marketModal')">
+                <div class="card-icon">📊</div>
+                <h3>Market Analysis</h3>
+                <p>Comprehensive analysis of the ₹16B PropTech opportunity and competitor landscape</p>
+            </div>
+            <div class="card" onclick="openModal('techModal')">
+                <div class="card-icon">⚙️</div>
+                <h3>Technical Architecture</h3>
+                <p>System architecture, API integrations, and technology stack details</p>
+            </div>
+            <div class="card" onclick="openModal('financialModal')">
+                <div class="card-icon">💰</div>
+                <h3>Financial Model</h3>
+                <p>Revenue streams, cost breakdown, and unit economics analysis</p>
+            </div>
+        </div>
+
+        <!-- Executive Summary Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('executiveSummary')">
+                <h2>📋 Executive Summary</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="executiveSummary">
+                <p><strong>The No-Broker Rental Platform</strong> represents a strategic opportunity to capture market share from the incumbent NoBroker by delivering on their original, now-abandoned promise of a true, transparent C2C rental marketplace.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>🔍 Market Opportunity</h4>
+                        <p>₹16B PropTech market growing at 15% CAGR with clear incumbent weakness</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🛡️ Competitive Advantage</h4>
+                        <p>Government API integration for automated legal agreements</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📈 Revenue Model</h4>
+                        <p>Multi-stream architecture with transaction fees and insurance products</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>⚖️ Compliance First</h4>
+                        <p>DPDP Act 2023 compliance as competitive advantage</p>
+                    </div>
+                </div>
+
+                <h3>Key Success Factors</h3>
+                <ul style="margin: 20px 0; padding-left: 20px;">
+                    <li>Leveraging NoBroker's trust deficit and user frustration</li>
+                    <li>Automated rental agreement generation via IGR Maharashtra API</li>
+                    <li>KYC-verified user base ensuring platform trust</li>
+                    <li>Transparent pricing with no hidden fees</li>
+                    <li>High-margin ancillary services (rental deposit insurance)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Technical Architecture Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('techArchitecture')">
+                <h2>🏗️ Technical Architecture</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="techArchitecture">
+                <h3>Core Technology Stack</h3>
+                <div class="tech-stack">
+                    <span class="tech-item">React.js Frontend</span>
+                    <span class="tech-item">Node.js Backend</span>
+                    <span class="tech-item">MongoDB Database</span>
+                    <span class="tech-item">IGR Maharashtra API</span>
+                    <span class="tech-item">Digio/Signzy KYC</span>
+                    <span class="tech-item">Razorpay Payments</span>
+                    <span class="tech-item">AWS Cloud</span>
+                    <span class="tech-item">Docker Containers</span>
+                </div>
+
+                <h3>System Architecture Flow</h3>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                        graph TD
+                            A[User Registration] --> B[KYC Verification]
+                            B --> C[Profile Creation]
+                            C --> D{User Type?}
+                            D -->|Landlord| E[Property Listing]
+                            D -->|Tenant| F[Property Search]
+                            E --> G[Listing Verification]
+                            F --> H[Property Interest]
+                            G --> I[Secure Chat]
+                            H --> I
+                            I --> J[Agreement Terms]
+                            J --> K[IGR API Integration]
+                            K --> L[Digital Agreement]
+                            L --> M[Payment Processing]
+                            M --> N[Insurance Options]
+                    </div>
+                </div>
+
+                <h3>API Integrations</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>🏛️ IGR Maharashtra API</h4>
+                        <p>Automated leave & license agreement generation with digital signatures</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔐 KYC Services</h4>
+                        <p>Digio/Signzy integration for user verification and document validation</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💳 Payment Gateway</h4>
+                        <p>Razorpay integration for secure transactions and payment routing</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🛡️ Insurance API</h4>
+                        <p>Third-party insurance provider integration for rental deposit coverage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Analysis Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('marketAnalysis')">
+                <h2>📈 Market Analysis & Competitive Landscape</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="marketAnalysis">
+                <h3>Market Size & Growth</h3>
+                <div class="chart-container">
+                    <canvas id="marketGrowthChart"></canvas>
+                </div>
+
+                <h3>SWOT Analysis</h3>
+                <div class="swot-grid">
+                    <div class="swot-item strengths">
+                        <h4>💪 Strengths</h4>
+                        <ul>
+                            <li>Clear market need and trust vacuum</li>
+                            <li>Strong tech differentiator (IGR API)</li>
+                            <li>Regulatory alignment with DPDP Act</li>
+                            <li>High-margin revenue potential</li>
+                        </ul>
+                    </div>
+                    <div class="swot-item weaknesses">
+                        <h4>⚠️ Weaknesses</h4>
+                        <ul>
+                            <li>Single point of failure (IGR API)</li>
+                            <li>Complex UX (hardware requirements)</li>
+                            <li>Costly user onboarding (KYC)</li>
+                            <li>Limited geographic coverage initially</li>
+                        </ul>
+                    </div>
+                    <div class="swot-item opportunities">
+                        <h4>🚀 Opportunities</h4>
+                        <ul>
+                            <li>Large addressable market (₹16B)</li>
+                            <li>First-mover on "true trust"</li>
+                            <li>Ecosystem expansion potential</li>
+                            <li>Government digitization support</li>
+                        </ul>
+                    </div>
+                    <div class="swot-item threats">
+                        <h4>⚡ Threats</h4>
+                        <ul>
+                            <li>Incumbent retaliation (NoBroker)</li>
+                            <li>Regulatory changes</li>
+                            <li>New well-funded entrants</li>
+                            <li>API dependency risks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Competitive Positioning</h3>
+                <div class="chart-container">
+                    <canvas id="competitiveChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Model Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('financialModel')">
+                <h2>💰 Financial Model & Unit Economics</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="financialModel">
+                <h3>Revenue Streams</h3>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+
+                <h3>Cost Breakdown (Monthly)</h3>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <div class="cost-amount">₹5L</div>
+                        <div>Development Team</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-amount">₹2L</div>
+                        <div>Marketing & Acquisition</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-amount">₹1L</div>
+                        <div>KYC & Verification</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-amount">₹50K</div>
+                        <div>Infrastructure & APIs</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-amount">₹30K</div>
+                        <div>Legal & Compliance</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-amount">₹20K</div>
+                        <div>Operations</div>
+                    </div>
+                </div>
+
+                <h3>Unit Economics Model</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Customer Acquisition Cost (CAC)</h4>
+                        <p><strong>₹800-1200</strong> including marketing and KYC verification costs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Customer Lifetime Value (LTV)</h4>
+                        <p><strong>₹2500-4000</strong> across multiple transactions and ancillary services</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>LTV/CAC Ratio</h4>
+                        <p><strong>3.1:1</strong> target ratio for sustainable growth</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Gross Margin</h4>
+                        <p><strong>65-75%</strong> on core services, 85%+ on insurance products</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline & Roadmap Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('timeline')">
+                <h2>📅 Development Timeline & Roadmap</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="timeline">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Phase 1: Foundation (Months 1-3)</h4>
+                        <ul>
+                            <li>Core platform development (React + Node.js)</li>
+                            <li>User authentication and KYC integration</li>
+                            <li>Basic listing and search functionality</li>
+                            <li>IGR API integration and testing</li>
+                            <li>DPDP Act compliance implementation</li>
+                        </ul>
+                        <strong>Budget: ₹25L | Team: 6 developers</strong>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Phase 2: MVP Launch (Months 4-6)</h4>
+                        <ul>
+                            <li>Automated agreement generation</li>
+                            <li>Payment gateway integration</li>
+                            <li>Secure messaging system</li>
+                            <li>Mobile app development</li>
+                            <li>Beta launch in Pune market</li>
+                        </ul>
+                        <strong>Budget: ₹35L | Team: 10 members</strong>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Phase 3: Scale & Optimize (Months 7-12)</h4>
+                        <ul>
+                            <li>Insurance product integration</li>
+                            <li>Advanced analytics and reporting</li>
+                            <li>Multi-city expansion (Mumbai, Bangalore)</li>
+                            <li>API optimization and performance tuning</li>
+                            <li>Series A fundraising preparation</li>
+                        </ul>
+                        <strong>Budget: ₹50L | Team: 15 members</strong>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Phase 4: Market Leadership (Year 2)</h4>
+                        <ul>
+                            <li>Pan-India expansion to 10+ cities</li>
+                            <li>Advanced ML for property recommendations</li>
+                            <li>Ecosystem partnerships (movers, services)</li>
+                            <li>White-label insurance product launch</li>
+                            <li>IPO readiness and exit strategy</li>
+                        </ul>
+                        <strong>Budget: ₹100L | Team: 25+ members</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance & Legal Section -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('compliance')">
+                <h2>⚖️ Legal Compliance & Regulatory Framework</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="compliance">
+                <h3>DPDP Act 2023 Compliance Blueprint</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>🔒 Consent Management</h4>
+                        <p>Granular, opt-in consent for each data processing purpose with user dashboard</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📋 Notice Provision</h4>
+                        <p>Clear, multilingual notices explaining data use and user rights</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔐 Security Safeguards</h4>
+                        <p>End-to-end encryption, RBAC, and regular security audits</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌍 Data Localization</h4>
+                        <p>RBI compliance for payment data, flexible architecture for other data</p>
+                    </div>
+                </div>
+
+                <h3>Insurance Partnership Models</h3>
+                <div class="chart-container">
+                    <canvas id="partnershipChart"></canvas>
+                </div>
+
+                <h3>Regulatory Risk Mitigation</h3>
+                <ul style="margin: 20px 0; padding-left: 20px;">
+                    <li><strong>API Dependency:</strong> Backup legal processes and manual workflows</li>
+                    <li><strong>Data Protection:</strong> Privacy-by-design architecture and compliance automation</li>
+                    <li><strong>Insurance Regulation:</strong> Partner with IRDAI-licensed entities for all products</li>
+                    <li><strong>State Variations:</strong> Modular agreement templates for different states</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Go/No-Go Decision Framework -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection('decision')">
+                <h2>🎯 Go/No-Go Decision Framework</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="decision">
+                <h3>Critical Success Questions</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>1. Technical Risk Tolerance</h4>
+                        <p>Are we comfortable building on government API with no guaranteed uptime?</p>
+                        <div style="margin-top: 10px; color: #38a169; font-weight: bold;">✅ YES - Mitigation strategies in place</div>
+                    </div>
+                    <div class="feature-item">
+                        <h4>2. Market Differentiation</h4>
+                        <p>Can we execute a trust-focused strategy to win from incumbent?</p>
+                        <div style="margin-top: 10px; color: #38a169; font-weight: bold;">✅ YES - Clear competitive advantage</div>
+                    </div>
+                    <div class="feature-item">
+                        <h4>3. Compliance Commitment</h4>
+                        <p>Will we treat data privacy as core feature, not afterthought?</p>
+                        <div style="margin-top: 10px; color: #38a169; font-weight: bold;">✅ YES - Compliance-first approach</div>
+                    </div>
+                    <div class="feature-item">
+                        <h4>4. Financial Viability</h4>
+                        <p>Does our model demonstrate healthy LTV/CAC ratio (>3:1)?</p>
+                        <div style="margin-top: 10px; color: #38a169; font-weight: bold;">✅ YES - 3.1:1 target ratio</div>
+                    </div>
+                    <div class="feature-item">
+                        <h4>5. Team Alignment</h4>
+                        <p>Do we have the skills and passion for this specific challenge?</p>
+                        <div style="margin-top: 10px; color: #38a169; font-weight: bold;">✅ YES - Validated team capabilities</div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 30px; border-radius: 15px; text-align: center; margin: 30px 0;">
+                    <h2>🚀 RECOMMENDATION: GO</h2>
+                    <p style="font-size: 1.2em; margin-top: 10px;">All critical success factors validated. Proceed with MVP development and seed funding preparation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Mission & Vision Modal -->
+    <div id="missionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🎯 Mission & Vision</h2>
+            
+            <h3>Mission Statement</h3>
+            <p style="font-size: 1.1em; font-style: italic; color: #4299e1; margin: 20px 0;">
+                "To restore trust in the rental marketplace by creating a transparent, technology-driven platform that eliminates intermediaries while ensuring legal compliance and user safety."
+            </p>
+
+            <h3>Vision Statement</h3>
+            <p style="font-size: 1.1em; font-style: italic; color: #4299e1; margin: 20px 0;">
+                "To become India's most trusted rental platform, where landlords and tenants connect directly through verified profiles and automated legal processes, setting the gold standard for PropTech transparency."
+            </p>
+
+            <h3>Core Values</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>🔍 Transparency</h4>
+                    <p>No hidden fees, clear pricing, open communication</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🛡️ Trust</h4>
+                    <p>KYC-verified users, secure transactions, verified listings</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚖️ Legal Integrity</h4>
+                    <p>Government-compliant agreements, DPDP Act adherence</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🚀 Innovation</h4>
+                    <p>Automated processes, cutting-edge technology</p>
+                </div>
+            </div>
+
+            <h3>Strategic Objectives</h3>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li>Capture 15% market share from NoBroker within 24 months</li>
+                <li>Achieve 100,000+ verified users by end of Year 1</li>
+                <li>Expand to 10+ major Indian cities by Year 2</li>
+                <li>Maintain 90%+ user satisfaction rating</li>
+                <li>Generate ₹50Cr+ ARR by Year 3</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Market Analysis Modal -->
+    <div id="marketModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📊 Market Analysis Deep Dive</h2>
+            
+            <h3>Market Opportunity</h3>
+            <div class="dashboard">
+                <div class="card metric">
+                    <div class="metric-value">₹6B</div>
+                    <div class="metric-label">Current Market Size (2023)</div>
+                </div>
+                <div class="card metric">
+                    <div class="metric-value">₹16B</div>
+                    <div class="metric-label">Projected Size (2030)</div>
+                </div>
+                <div class="card metric">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Annual Growth Rate</div>
+                </div>
+            </div>
+
+            <h3>NoBroker Pain Points Analysis</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>🎭 "Digital Broker" Trap</h4>
+                    <p>Users forced to interact with RMs, hidden service charges up to 1 month's rent</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📞 Aggressive Sales</h4>
+                    <p>Incessant calls, deceptive promises, poor post-payment service</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📋 Poor Listing Quality</h4>
+                    <p>Outdated listings, fake properties, illegal constructions</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔧 Failed Ancillary Services</h4>
+                    <p>Poor execution in packers, movers, agreements, home services</p>
+                </div>
+            </div>
+
+            <h3>Competitive Landscape</h3>
+            <p><strong>Primary Competitors:</strong></p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>NoBroker:</strong> ₹368M funded, 50M+ users, trust deficit opportunity</li>
+                <li><strong>99acres:</strong> Traditional broker model, limited C2C focus</li>
+                <li><strong>Housing.com:</strong> Developer-focused, limited rental marketplace</li>
+                <li><strong>Nestaway:</strong> Managed rentals, operational complexity challenges</li>
+            </ul>
+
+            <h3>Target Market Segmentation</h3>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="marketSegmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Architecture Modal -->
+    <div id="techModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>⚙️ Technical Architecture Details</h2>
+            
+            <h3>System Architecture Overview</h3>
+            <div class="flowchart-container">
+                <div class="mermaid">
+                    graph LR
+                        A[Frontend React.js] --> B[API Gateway]
+                        B --> C[Auth Service]
+                        B --> D[User Service]
+                        B --> E[Property Service]
+                        B --> F[Agreement Service]
+                        C --> G[KYC APIs]
+                        F --> H[IGR Maharashtra API]
+                        E --> I[MongoDB Database]
+                        D --> I
+                        F --> J[Payment Gateway]
+                        F --> K[Insurance APIs]
+                </div>
+            </div>
+
+            <h3>Core Components</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>🖥️ Frontend Architecture</h4>
+                    <p>React.js with responsive design, PWA capabilities, offline support</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚙️ Backend Services</h4>
+                    <p>Node.js microservices, RESTful APIs, event-driven architecture</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🗄️ Database Design</h4>
+                    <p>MongoDB for flexibility, Redis for caching, Elasticsearch for search</p>
+                </div>
+                <div class="feature-item">
+                    <h4>☁️ Cloud Infrastructure</h4>
+                    <p>AWS with auto-scaling, CDN, monitoring, and disaster recovery</p>
+                </div>
+            </div>
+
+            <h3>API Integration Strategy</h3>
+            <div class="cost-breakdown">
+                <div class="cost-item">
+                    <h4>IGR Maharashtra API</h4>
+                    <p>Automated agreement generation</p>
+                    <div class="cost-amount">Core Feature</div>
+                </div>
+                <div class="cost-item">
+                    <h4>Digio/Signzy KYC</h4>
+                    <p>User verification & document validation</p>
+                    <div class="cost-amount">₹50-100/verification</div>
+                </div>
+                <div class="cost-item">
+                    <h4>Razorpay Payments</h4>
+                    <p>Secure payment processing</p>
+                    <div class="cost-amount">2% transaction fee</div>
+                </div>
+                <div class="cost-item">
+                    <h4>Insurance APIs</h4>
+                    <p>Rental deposit insurance</p>
+                    <div class="cost-amount">Revenue share</div>
+                </div>
+            </div>
+
+            <h3>Security & Compliance</h3>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li><strong>Data Encryption:</strong> AES-256 at rest, TLS 1.3 in transit</li>
+                <li><strong>Authentication:</strong> JWT tokens with refresh mechanism</li>
+                <li><strong>Authorization:</strong> Role-based access control (RBAC)</li>
+                <li><strong>Monitoring:</strong> Real-time logging, alerting, performance metrics</li>
+                <li><strong>Backup:</strong> Automated daily backups with point-in-time recovery</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Financial Model Modal -->
+    <div id="financialModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>💰 Financial Model Deep Dive</h2>
+            
+            <h3>Revenue Model</h3>
+            <div class="chart-container">
+                <canvas id="revenueBreakdownChart"></canvas>
+            </div>
+
+            <h3>Unit Economics</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Customer Acquisition Cost (CAC)</h4>
+                    <p>Marketing: ₹600 + KYC: ₹200 = <strong>₹800 total</strong></p>
+                </div>
+                <div class="feature-item">
+                    <h4>Customer Lifetime Value (LTV)</h4>
+                    <p>Transaction fees + Insurance + Subscriptions = <strong>₹2,500</strong></p>
+                </div>
+                <div class="feature-item">
+                    <h4>LTV/CAC Ratio</h4>
+                    <p>Target ratio of <strong>3.1:1</strong> for sustainable growth</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Payback Period</h4>
+                    <p>Customer acquisition cost recovered in <strong>4-6 months</strong></p>
+                </div>
+            </div>
+
+            <h3>5-Year Financial Projections</h3>
+            <div class="chart-container">
+                <canvas id="projectionChart"></canvas>
+            </div>
+
+            <h3>Funding Requirements</h3>
+            <div class="cost-breakdown">
+                <div class="cost-item">
+                    <div class="cost-amount">₹2Cr</div>
+                    <div>Seed Round</div>
+                    <small>MVP Development & Initial Launch</small>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-amount">₹10Cr</div>
+                    <div>Series A</div>
+                    <small>Multi-city Expansion</small>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-amount">₹50Cr</div>
+                    <div>Series B</div>
+                    <small>Pan-India Scale</small>
+                </div>
+            </div>
+
+            <h3>Key Financial Metrics</h3>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li><strong>Gross Margin:</strong> 65-75% on core services</li>
+                <li><strong>Monthly Churn:</strong> Target <5% for premium users</li>
+                <li><strong>Transaction Value:</strong> ₹25,000 average rental agreement</li>
+                <li><strong>Take Rate:</strong> 2-3% of transaction value</li>
+                <li><strong>Break-even:</strong> Month 18 at 10,000 monthly transactions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid with better configuration
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Close button functionality
+        document.querySelectorAll('.close').forEach(button => {
+            button.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        // Section toggle functionality
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = content.previousElementSibling.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.classList.remove('rotated');
+            } else {
+                content.classList.add('active');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // Chart configurations
+        const chartColors = {
+            primary: '#4299e1',
+            secondary: '#667eea',
+            success: '#48bb78',
+            warning: '#ed8936',
+            danger: '#f56565'
+        };
+
+        // Market Growth Chart
+        const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+        new Chart(marketGrowthCtx, {
+            type: 'line',
+            data: {
+                labels: ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: 'PropTech Market Size (₹ Billions)',
+                    data: [6, 7.2, 8.3, 9.5, 10.9, 12.5, 14.4, 16.0],
+                    borderColor: chartColors.primary,
+                    backgroundColor: chartColors.primary + '20',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Indian PropTech Market Growth Projection'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Market Size (₹ Billions)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Competitive Analysis Chart
+        const competitiveCtx = document.getElementById('competitiveChart').getContext('2d');
+        new Chart(competitiveCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Our Platform',
+                    data: [{x: 90, y: 85}],
+                    backgroundColor: chartColors.success,
+                    pointRadius: 15
+                }, {
+                    label: 'NoBroker',
+                    data: [{x: 70, y: 40}],
+                    backgroundColor: chartColors.danger,
+                    pointRadius: 12
+                }, {
+                    label: '99acres',
+                    data: [{x: 60, y: 60}],
+                    backgroundColor: chartColors.warning,
+                    pointRadius: 10
+                }, {
+                    label: 'Housing.com',
+                    data: [{x: 55, y: 65}],
+                    backgroundColor: chartColors.secondary,
+                    pointRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Trust vs. User Experience Positioning'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'User Experience Score'
+                        },
+                        min: 0,
+                        max: 100
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Trust Score'
+                        },
+                        min: 0,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Revenue Streams Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Transaction Fees', 'Insurance Commissions', 'Premium Subscriptions', 'Ancillary Services'],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: [
+                        chartColors.primary,
+                        chartColors.success,
+                        chartColors.warning,
+                        chartColors.secondary
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Revenue Stream Distribution (% of Total Revenue)'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Partnership Model Chart
+        const partnershipCtx = document.getElementById('partnershipChart').getContext('2d');
+        new Chart(partnershipCtx, {
+            type: 'bar',
+            data: {
+                labels: ['White-Label', 'Co-Brand', 'Affinity'],
+                datasets: [{
+                    label: 'Revenue Share (%)',
+                    data: [60, 40, 25],
+                    backgroundColor: [chartColors.success, chartColors.warning, chartColors.danger]
+                }, {
+                    label: 'Complexity Score',
+                    data: [90, 60, 30],
+                    backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.success]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Insurance Partnership Models Comparison'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Market Segment Chart (for modal)
+        setTimeout(() => {
+            if (document.getElementById('marketSegmentChart')) {
+                const segmentCtx = document.getElementById('marketSegmentChart').getContext('2d');
+                new Chart(segmentCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Young Professionals', 'Students', 'Families', 'Senior Citizens'],
+                        datasets: [{
+                            data: [40, 25, 25, 10],
+                            backgroundColor: [
+                                chartColors.primary,
+                                chartColors.secondary,
+                                chartColors.success,
+                                chartColors.warning
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Target Market Segmentation'
+                            }
+                        }
+                    }
+                });
+            }
+        }, 1000);
+
+        // Revenue Breakdown Chart (for modal)
+        setTimeout(() => {
+            if (document.getElementById('revenueBreakdownChart')) {
+                const breakdownCtx = document.getElementById('revenueBreakdownChart').getContext('2d');
+                new Chart(breakdownCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                        datasets: [{
+                            label: 'Transaction Fees',
+                            data: [45, 52, 61, 73],
+                            backgroundColor: chartColors.primary
+                        }, {
+                            label: 'Insurance Revenue',
+                            data: [12, 18, 26, 35],
+                            backgroundColor: chartColors.success
+                        }, {
+                            label: 'Subscriptions',
+                            data: [8, 12, 15, 20],
+                            backgroundColor: chartColors.warning
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Quarterly Revenue Breakdown (₹ Lakhs)'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }, 1000);
+
+        // 5-Year Projection Chart (for modal)
+        setTimeout(() => {
+            if (document.getElementById('projectionChart')) {
+                const projCtx = document.getElementById('projectionChart').getContext('2d');
+                new Chart(projCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                        datasets: [{
+                            label: 'Revenue (₹ Crores)',
+                            data: [2, 12, 45, 120, 280],
+                            borderColor: chartColors.success,
+                            backgroundColor: chartColors.success + '20',
+                            fill: true
+                        }, {
+                            label: 'Users (Thousands)',
+                            data: [10, 50, 200, 500, 1000],
+                            borderColor: chartColors.primary,
+                            backgroundColor: chartColors.primary + '20',
+                            fill: true,
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '5-Year Growth Projections'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Revenue (₹ Crores)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Users (Thousands)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }, 1000);
+
+        // Initialize first section as open
+        document.getElementById('executiveSummary').classList.add('active');
+        document.querySelector('#executiveSummary').previousElementSibling.querySelector('.toggle-icon').classList.add('rotated');
+    </script>
+</body>
+</html>
