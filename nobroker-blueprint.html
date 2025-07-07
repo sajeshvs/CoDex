@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No-Broker Rental Platform - Complete Architecture Plan</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script src="https://unpkg.com/mermaid@8.13.10/dist/mermaid.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -241,6 +241,506 @@
             justify-content: center;
             align-items: center;
             min-height: 300px;
+        }
+
+        /* Custom CSS Flowchart Styles */
+        .css-flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-node {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #2d3748;
+            min-width: 140px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        .flow-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .flow-node.decision {
+            background: #fff3cd;
+            border-color: #ffc107;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .flow-node.process {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .flow-node.endpoint {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        /* Dynamic Connection Lines */
+        .flow-connection {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1;
+        }
+
+        .flow-connection.horizontal {
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .flow-connection.vertical {
+            width: 3px;
+            border-radius: 2px;
+        }
+
+        .flow-connection.diagonal {
+            height: 3px;
+            border-radius: 2px;
+            transform-origin: left center;
+        }
+
+        /* Connection arrows */
+        .flow-connection::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid rgba(255, 255, 255, 0.8);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .flow-connection.vertical::after {
+            right: 50%;
+            top: -8px;
+            transform: translateX(50%);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 8px solid rgba(255, 255, 255, 0.8);
+            border-bottom: none;
+        }
+
+        /* Advanced Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .arch-layer {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 5px solid #4299e1;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .arch-layer:hover {
+            transform: translateY(-3px);
+        }
+
+        .arch-layer h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .arch-connections {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .connection-item {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #48bb78;
+            font-size: 0.9em;
+            position: relative;
+        }
+
+        /* Multi-directional Flow Container */
+        .multi-flow-container {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            overflow: visible;
+            min-height: 600px;
+        }
+
+        .multi-flow-container h4 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .flow-layer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+            gap: 60px;
+        }
+
+        .flow-node-advanced {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            z-index: 10;
+            min-width: 160px;
+            max-width: 200px;
+        }
+
+        .flow-node-advanced.decision {
+            background: #fff3cd;
+            border-color: #ffc107;
+            border-radius: 15px;
+        }
+
+        .flow-node-advanced.process {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .flow-node-advanced.endpoint {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        /* SVG Connection Lines */
+        .svg-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection-line {
+            stroke: rgba(255, 255, 255, 0.9);
+            stroke-width: 3;
+            fill: none;
+            marker-end: url(#arrowhead);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            stroke-dasharray: none;
+            opacity: 0.9;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .connection-line.highlight {
+            stroke: #ffd700;
+            stroke-width: 4;
+            opacity: 1;
+        }
+
+        .connection-line.branch {
+            stroke: rgba(255, 200, 100, 0.9);
+            stroke-width: 2.5;
+        }
+
+        .connection-line.merge {
+            stroke: rgba(100, 255, 200, 0.9);
+            stroke-width: 2.5;
+        }
+
+        .connection-line.standard {
+            stroke: rgba(255, 255, 255, 0.9);
+            stroke-width: 3;
+        }
+
+        /* Enhanced Connection Points */
+        .connection-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(66, 153, 225, 0.8);
+            border-radius: 50%;
+            z-index: 15;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .connection-point.input {
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connection-point.output {
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connection-point.left {
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .connection-point.right {
+        .connection-point.right {
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Enhanced Flow Node Positioning */
+        .flow-node-advanced {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            z-index: 10;
+            min-width: 160px;
+            max-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-node-advanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .flow-node-advanced.decision {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-color: #ffc107;
+            border-radius: 15px;
+            border-width: 3px;
+        }
+
+        .flow-node-advanced.process {
+            background: linear-gradient(135deg, #d1ecf1, #74b9ff);
+            border-color: #17a2b8;
+            color: white;
+            font-weight: 700;
+        }
+
+        .flow-node-advanced.endpoint {
+            background: linear-gradient(135deg, #d4edda, #00b894);
+            border-color: #28a745;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Improved Flow Layer Spacing */
+        .flow-layer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 60px 0;
+            position: relative;
+            gap: 100px;
+            min-height: 80px;
+            padding: 0 20px;
+        }
+
+        /* Specific spacing for different numbers of nodes */
+        .flow-layer:has(.flow-node-advanced:nth-child(4)) {
+            gap: 80px;
+        }
+
+        .flow-layer:has(.flow-node-advanced:nth-child(3)) {
+            gap: 120px;
+        }
+
+        .flow-layer:has(.flow-node-advanced:nth-child(2)) {
+            gap: 200px;
+        }
+
+        .flow-layer:has(.flow-node-advanced:only-child) {
+            gap: 0;
+        }
+
+        /* Responsive adjustments for better alignment */
+        @media (max-width: 1024px) {
+            .flow-layer {
+                gap: 60px;
+                margin: 40px 0;
+            }
+            
+            .flow-node-advanced {
+                min-width: 140px;
+                font-size: 0.9em;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .flow-layer {
+                flex-direction: column;
+                gap: 25px;
+                margin: 25px 0;
+            }
+            
+            .flow-node-advanced {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Enhanced Flow Layers */
+        .flow-layer.single {
+            justify-content: center;
+        }
+
+        .flow-layer.double {
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .flow-layer.triple {
+            justify-content: space-between;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .flow-layer.quad {
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .sequence-diagram {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .sequence-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            margin: 10px 0;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .sequence-step::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: -10px;
+            width: 2px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .sequence-step:first-child::before {
+            display: none;
+        }
+
+        .sequence-step .step-number {
+            background: #4299e1;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .sequence-step .step-content {
+            flex: 1;
+            margin: 0 15px;
+            text-align: left;
+        }
+
+        .sequence-step .step-actors {
+            display: flex;
+            gap: 10px;
+            font-size: 0.8em;
+        }
+
+        .actor {
+            background: #e2e8f0;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* Responsive Flow */
+        @media (max-width: 768px) {
+            .flow-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .flow-layer {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .flow-node-advanced {
+                min-width: 200px;
+            }
         }
 
         .feature-grid {
@@ -596,23 +1096,74 @@
                 </div>
 
                 <h3>System Architecture Flow</h3>
-                <div class="flowchart-container">
-                    <div class="mermaid">
-                        graph TD
-                            A[User Registration] --> B[KYC Verification]
-                            B --> C[Profile Creation]
-                            C --> D{User Type?}
-                            D -->|Landlord| E[Property Listing]
-                            D -->|Tenant| F[Property Search]
-                            E --> G[Listing Verification]
-                            F --> H[Property Interest]
-                            G --> I[Secure Chat]
-                            H --> I
-                            I --> J[Agreement Terms]
-                            J --> K[IGR API Integration]
-                            K --> L[Digital Agreement]
-                            L --> M[Payment Processing]
-                            M --> N[Insurance Options]
+                <div class="multi-flow-container">
+                    <!-- SVG for dynamic connection lines -->
+                    <svg class="svg-connections" viewBox="0 0 1000 900">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="14" markerHeight="10" 
+                                    refX="13" refY="5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0, 14 5, 0 10" fill="rgba(255, 255, 255, 0.95)" 
+                                         stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.5"/>
+                            </marker>
+                        </defs>
+                        <!-- Dynamic connections will be added here by JavaScript -->
+                    </svg>
+                    
+                    <!-- Flow layers with precise positioning -->
+                    <div class="flow-layer" style="margin-top: 80px;">
+                        <div class="flow-node-advanced">User Registration</div>
+                        <div class="flow-node-advanced">KYC Verification</div>
+                        <div class="flow-node-advanced">Profile Creation</div>
+                        <div class="flow-node-advanced">Document Upload</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced decision">User Type Selection</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced process">
+                            Property Listing<br><small>(Landlords)</small>
+                        </div>
+                        <div class="flow-node-advanced process">
+                            Property Search<br><small>(Tenants)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced">Listing Verification</div>
+                        <div class="flow-node-advanced">Property Interest</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced">Secure Chat & Communication</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced process">Agreement Terms Negotiation</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced process">IGR API Integration</div>
+                        <div class="flow-node-advanced">Digital Agreement</div>
+                        <div class="flow-node-advanced process">Document Validation</div>
+                    </div>
+                    
+                    <div class="flow-layer">
+                        <div class="flow-node-advanced endpoint">Payment Processing</div>
+                        <div class="flow-node-advanced endpoint">Insurance Setup</div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #4299e1;">
+                    <h4 style="color: #2d3748; margin-bottom: 15px;">📋 Complete System Flow:</h4>
+                    <div style="line-height: 1.8; color: #4a5568;">
+                        <strong>1. User Onboarding:</strong> Registration → KYC Verification → Profile Creation → User Type Selection<br>
+                        <strong>2. Property Operations:</strong> Property Listing (Landlords) / Property Search (Tenants)<br>
+                        <strong>3. Verification:</strong> Listing Verification → Property Interest Expression<br>
+                        <strong>4. Communication:</strong> Secure Chat → Agreement Terms Negotiation<br>
+                        <strong>5. Legal Process:</strong> IGR API Integration → Digital Agreement Generation<br>
+                        <strong>6. Financial:</strong> Payment Processing → Insurance Options Setup
                     </div>
                 </div>
 
@@ -1088,15 +1639,15 @@
             
             <h3>Market Opportunity</h3>
             <div class="dashboard">
-                <div class="card metric">
+                <div class="card metric metric-primary">
                     <div class="metric-value">₹6B</div>
                     <div class="metric-label">Current Market Size (2023)</div>
                 </div>
-                <div class="card metric">
+                <div class="card metric metric-success">
                     <div class="metric-value">₹16B</div>
                     <div class="metric-label">Projected Size (2030)</div>
                 </div>
-                <div class="card metric">
+                <div class="card metric metric-warning">
                     <div class="metric-value">15%</div>
                     <div class="metric-label">Annual Growth Rate</div>
                 </div>
@@ -1256,40 +1807,119 @@
 
     <!-- Technical Architecture Modal -->
     <div id="techModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 95%; max-width: 1400px;">
             <span class="close">&times;</span>
             <h2>⚙️ Technical Architecture Details</h2>
             
             <h3>System Architecture Overview</h3>
-            <div class="flowchart-container">
-                <div class="mermaid">
-                    graph TD
-                        A[User Interface] --> B[API Gateway]
-                        B --> C[Authentication Service]
-                        B --> D[User Management Service]
-                        B --> E[Property Service]
-                        B --> F[Agreement Service]
-                        B --> G[Payment Service]
-                        
-                        C --> H[KYC/Verification APIs]
-                        F --> I[IGR Maharashtra API]
-                        G --> J[Razorpay Payment Gateway]
-                        F --> K[Insurance Partners]
-                        
-                        D --> L[MongoDB Users DB]
-                        E --> M[MongoDB Properties DB]
-                        F --> N[MongoDB Agreements DB]
-                        G --> O[MongoDB Transactions DB]
-                        
-                        E --> P[Elasticsearch Search]
-                        E --> Q[AWS S3 File Storage]
-                        
-                        style A fill:#e1f5fe
-                        style B fill:#f3e5f5
-                        style L fill:#e8f5e8
-                        style M fill:#e8f5e8
-                        style N fill:#e8f5e8
-                        style O fill:#e8f5e8
+            <div class="architecture-grid">
+                <div class="arch-layer" style="border-left-color: #4299e1;">
+                    <h4>🖥️ Frontend Layer</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">User Interface (React.js)</div>
+                        <div class="connection-item">Mobile App (React Native)</div>
+                        <div class="connection-item">PWA Capabilities</div>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" style="border-left-color: #48bb78;">
+                    <h4>🚪 API Gateway</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">Load Balancer</div>
+                        <div class="connection-item">Authentication Service</div>
+                        <div class="connection-item">Rate Limiting</div>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" style="border-left-color: #ed8936;">
+                    <h4>⚙️ Microservices</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">User Management Service</div>
+                        <div class="connection-item">Property Service</div>
+                        <div class="connection-item">Agreement Service</div>
+                        <div class="connection-item">Payment Service</div>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" style="border-left-color: #9f7aea;">
+                    <h4>🔌 External APIs</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">IGR Maharashtra API</div>
+                        <div class="connection-item">KYC/Verification APIs</div>
+                        <div class="connection-item">Razorpay Payment Gateway</div>
+                        <div class="connection-item">Insurance Partners</div>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" style="border-left-color: #38b2ac;">
+                    <h4>🗄️ Database Layer</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">MongoDB (Primary DB)</div>
+                        <div class="connection-item">Redis Cache</div>
+                        <div class="connection-item">Elasticsearch (Search)</div>
+                        <div class="connection-item">AWS S3 (File Storage)</div>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" style="border-left-color: #f56565;">
+                    <h4>☁️ Cloud Infrastructure</h4>
+                    <div class="arch-connections">
+                        <div class="connection-item">AWS ECS (Containers)</div>
+                        <div class="connection-item">Lambda Functions</div>
+                        <div class="connection-item">CloudFront CDN</div>
+                        <div class="connection-item">Route 53 DNS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Flow Visualization -->
+            <div class="multi-flow-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 700px; padding: 40px;">
+                <h4 style="color: white; margin-bottom: 30px; text-align: center; font-size: 1.5em;">📊 Data Flow Architecture</h4>
+                
+                <!-- SVG for dynamic connections -->
+                <svg class="svg-connections" viewBox="0 0 1400 800">
+                    <defs>
+                        <marker id="arrowheadTech" markerWidth="14" markerHeight="10" 
+                                refX="13" refY="5" orient="auto" markerUnits="strokeWidth">
+                            <polygon points="0 0, 14 5, 0 10" fill="rgba(255, 255, 255, 0.95)" 
+                                     stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.5"/>
+                        </marker>
+                    </defs>
+                    <!-- Dynamic connections will be added here by JavaScript -->
+                </svg>
+                
+                <!-- Frontend Layer -->
+                <div class="flow-layer" style="margin-top: 60px; gap: 60px;">
+                    <div class="flow-node-advanced" style="min-width: 180px;">User Interface<br><small>(React.js)</small></div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">API Gateway<br><small>(Express.js)</small></div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">Load Balancer<br><small>(Nginx)</small></div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">Security Layer<br><small>(JWT/OAuth)</small></div>
+                </div>
+                
+                <!-- Service Layer -->
+                <div class="flow-layer" style="gap: 50px;">
+                    <div class="flow-node-advanced process" style="min-width: 160px;">Auth Service</div>
+                    <div class="flow-node-advanced process" style="min-width: 160px;">User Service</div>
+                    <div class="flow-node-advanced process" style="min-width: 160px;">Property Service</div>
+                    <div class="flow-node-advanced process" style="min-width: 160px;">Agreement Service</div>
+                    <div class="flow-node-advanced process" style="min-width: 160px;">Payment Service</div>
+                </div>
+                
+                <!-- External APIs Layer -->
+                <div class="flow-layer" style="gap: 50px;">
+                    <div class="flow-node-advanced" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); min-width: 160px;">KYC APIs<br><small>(Digio/Signzy)</small></div>
+                    <div class="flow-node-advanced" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); min-width: 160px;">IGR Maharashtra<br><small>(Govt API)</small></div>
+                    <div class="flow-node-advanced" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); min-width: 160px;">Razorpay Gateway<br><small>(Payments)</small></div>
+                    <div class="flow-node-advanced" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); min-width: 160px;">Insurance APIs<br><small>(Third-party)</small></div>
+                    <div class="flow-node-advanced" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); min-width: 160px;">SMS/Email APIs<br><small>(Notifications)</small></div>
+                </div>
+                
+                <!-- Database Layer -->
+                <div class="flow-layer" style="gap: 80px;">
+                    <div class="flow-node-advanced endpoint" style="min-width: 180px;">MongoDB Cluster<br><small>(Primary Database)</small></div>
+                    <div class="flow-node-advanced endpoint" style="min-width: 180px;">Redis Cache<br><small>(Session Store)</small></div>
+                    <div class="flow-node-advanced endpoint" style="min-width: 180px;">Elasticsearch<br><small>(Search Engine)</small></div>
+                    <div class="flow-node-advanced endpoint" style="min-width: 180px;">AWS S3<br><small>(File Storage)</small></div>
                 </div>
             </div>
 
@@ -1510,49 +2140,115 @@
 
     <!-- App Flow Diagram Modal -->
     <div id="appFlowModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 95%; max-width: 1400px;">
             <span class="close">&times;</span>
             <h2>📱 Complete App Flow Diagram</h2>
             
             <h3>User Journey & System Architecture</h3>
-            <div class="flowchart-container">
-                <div class="mermaid">
-                    graph TD
-                        A[User Registration] --> B[KYC Verification]
-                        B --> C[Profile Setup]
-                        C --> D{User Type?}
-                        
-                        D -->|Landlord| E[Property Listing]
-                        D -->|Tenant| F[Property Search]
-                        
-                        E --> G[Listing Verification]
-                        F --> H[Browse Properties]
-                        
-                        G --> I[Property Live]
-                        H --> J[Express Interest]
-                        
-                        I --> J
-                        J --> K[Connect Landlord-Tenant]
-                        
-                        K --> L[Negotiate Terms]
-                        L --> M[Finalize Agreement]
-                        
-                        M --> N[IGR API Integration]
-                        N --> O[Generate Legal Agreement]
-                        
-                        O --> P[Digital Signatures]
-                        P --> Q[Payment Processing]
-                        
-                        Q --> R[Security Deposit]
-                        R --> S[Insurance Setup]
-                        
-                        S --> T[Agreement Complete]
-                        T --> U[Move-in Process]
-                        
-                        style A fill:#e3f2fd
-                        style D fill:#fff3e0
-                        style M fill:#e8f5e8
-                        style T fill:#e8f5e8
+            
+            <!-- User Journey Flowchart with Dynamic Connections -->
+            <div class="multi-flow-container" style="min-height: 800px; padding: 40px;">
+                <h4 style="color: white; margin-bottom: 30px; text-align: center; font-size: 1.5em;">👤 Complete User Journey</h4>
+                
+                <!-- SVG for dynamic user journey connections -->
+                <svg class="svg-connections" viewBox="0 0 1400 1000">
+                    <defs>
+                        <marker id="arrowheadModal" markerWidth="14" markerHeight="10" 
+                                refX="13" refY="5" orient="auto" markerUnits="strokeWidth">
+                            <polygon points="0 0, 14 5, 0 10" fill="rgba(255, 255, 255, 0.95)" 
+                                     stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.5"/>
+                        </marker>
+                    </defs>
+                    <!-- Dynamic connections will be added here by JavaScript -->
+                </svg>
+                
+                <!-- Registration Layer -->
+                <div class="flow-layer" style="margin-top: 60px; gap: 60px;">
+                    <div class="flow-node-advanced" style="min-width: 180px;">User Registration</div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">KYC Verification</div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">Profile Setup</div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">Document Upload</div>
+                </div>
+                
+                <!-- Decision Point -->
+                <div class="flow-layer" style="gap: 0;">
+                    <div class="flow-node-advanced decision" style="min-width: 200px;">User Type Selection</div>
+                </div>
+                
+                <!-- Property Operations -->
+                <div class="flow-layer" style="gap: 200px;">
+                    <div class="flow-node-advanced process" style="min-width: 200px;">
+                        Property Listing<br><small>(Landlords)</small>
+                    </div>
+                    <div class="flow-node-advanced process" style="min-width: 200px;">
+                        Property Search<br><small>(Tenants)</small>
+                    </div>
+                </div>
+                
+                <!-- Verification & Interest -->
+                <div class="flow-layer" style="gap: 200px;">
+                    <div class="flow-node-advanced" style="min-width: 180px;">Listing Verification</div>
+                    <div class="flow-node-advanced" style="min-width: 180px;">Express Interest</div>
+                </div>
+                
+                <!-- Communication -->
+                <div class="flow-layer" style="gap: 0;">
+                    <div class="flow-node-advanced" style="min-width: 200px;">Connect Landlord-Tenant</div>
+                </div>
+                
+                <!-- Negotiation -->
+                <div class="flow-layer" style="gap: 0;">
+                    <div class="flow-node-advanced" style="min-width: 250px;">Negotiate Terms & Finalize Agreement</div>
+                </div>
+                
+                <!-- Legal Process -->
+                <div class="flow-layer" style="gap: 50px;">
+                    <div class="flow-node-advanced process" style="min-width: 160px;">IGR API Integration</div>
+                    <div class="flow-node-advanced process" style="min-width: 160px;">Generate Legal Agreement</div>
+                    <div class="flow-node-advanced" style="min-width: 160px;">Digital Signatures</div>
+                </div>
+                
+                <!-- Final Processing -->
+                <div class="flow-layer" style="gap: 0;">
+                    <div class="flow-node-advanced endpoint" style="min-width: 200px;">Complete Legal Process</div>
+                </div>
+                
+                <!-- Completion -->
+                <div class="flow-layer" style="gap: 60px;">
+                    <div class="flow-node-advanced endpoint" style="min-width: 160px;">Security Deposit</div>
+                    <div class="flow-node-advanced endpoint" style="min-width: 160px;">Insurance Setup</div>
+                    <div class="flow-node-advanced endpoint" style="min-width: 160px;">Move-in Complete</div>
+                </div>
+            </div>
+            
+            <!-- Process Timeline -->
+            <div style="background: #edf2f7; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                <h4 style="color: #2d3748; margin-bottom: 15px;">⏱️ Process Timeline:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #4299e1;">
+                        <strong>1. Registration</strong><br>
+                        <small>5 minutes - Sign up & KYC</small>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #48bb78;">
+                        <strong>2. Property Discovery</strong><br>
+                        <small>15 minutes - List or Search</small>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #ed8936;">
+                        <strong>3. Connection</strong><br>
+                        <small>2-3 days - Interest & Chat</small>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #9f7aea;">
+                        <strong>4. Agreement</strong><br>
+                        <small>30 minutes - Legal Process</small>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #f56565;">
+                        <strong>5. Payment</strong><br>
+                        <small>10 minutes - Secure Transaction</small>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 6px; text-align: center; border-top: 3px solid #38b2ac;">
+                        <strong>6. Move-in</strong><br>
+                        <small>Ongoing - Complete Process</small>
+                    </div>
                 </div>
             </div>
 
@@ -1659,30 +2355,152 @@
             </div>
 
             <h3>Real-time Data Flow</h3>
-            <div class="flowchart-container">
-                <div class="mermaid">
-                    sequenceDiagram
-                        participant T as Tenant
-                        participant L as Landlord
-                        participant P as Platform
-                        participant IGR as IGR API
-                        participant PAY as Payment Gateway
-                        
-                        T->>P: Search Properties
-                        P->>T: Return Verified Listings
-                        T->>P: Express Interest
-                        P->>L: Notify Landlord
-                        L->>P: Review Profile & Accept
-                        P->>T: Enable Direct Communication
-                        T->>L: Negotiate Terms
-                        L->>P: Finalize Agreement Terms
-                        P->>IGR: Generate Legal Agreement
-                        IGR->>P: Return Signed Document
-                        P->>T: Request Security Deposit
-                        T->>PAY: Make Payment
-                        PAY->>P: Confirm Transaction
-                        P->>L: Transfer Funds
-                        P->>T: Confirm Booking
+            
+            <!-- Transaction Sequence Diagram -->
+            <div class="sequence-diagram">
+                <h4 style="color: white; text-align: center; margin-bottom: 25px;">🔄 Transaction Sequence Flow</h4>
+                
+                <div class="sequence-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Property Search</strong><br>
+                        <small>Tenant searches for properties with filters</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Tenant</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Platform</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Return Verified Listings</strong><br>
+                        <small>Platform shows KYC-verified property listings</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Platform</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Tenant</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>Express Interest</strong><br>
+                        <small>Tenant shows interest in specific property</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Tenant</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Platform</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>Notify Landlord</strong><br>
+                        <small>Platform sends notification with tenant profile</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Platform</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Landlord</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <strong>Review & Accept</strong><br>
+                        <small>Landlord reviews tenant profile and accepts</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Landlord</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Platform</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <strong>Enable Communication</strong><br>
+                        <small>Platform enables direct chat between parties</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Platform</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Both Parties</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <strong>Negotiate Terms</strong><br>
+                        <small>Direct negotiation of rental terms and conditions</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Tenant</span>
+                        <span style="color: #666;">↔</span>
+                        <span class="actor">Landlord</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">8</div>
+                    <div class="step-content">
+                        <strong>Finalize Agreement</strong><br>
+                        <small>Both parties agree on final terms</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Landlord</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Platform</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">9</div>
+                    <div class="step-content">
+                        <strong>Generate Legal Agreement</strong><br>
+                        <small>IGR API creates legally compliant agreement</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Platform</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">IGR API</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">10</div>
+                    <div class="step-content">
+                        <strong>Process Payment</strong><br>
+                        <small>Secure deposit and fee processing</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Tenant</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Payment Gateway</span>
+                    </div>
+                </div>
+                
+                <div class="sequence-step">
+                    <div class="step-number">11</div>
+                    <div class="step-content">
+                        <strong>Confirm Booking</strong><br>
+                        <small>Final confirmation sent to both parties</small>
+                    </div>
+                    <div class="step-actors">
+                        <span class="actor">Platform</span>
+                        <span style="color: #666;">→</span>
+                        <span class="actor">Both Parties</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1807,21 +2625,54 @@
     </div>
 
     <script>
-        // Initialize Mermaid with better configuration
-        mermaid.initialize({ 
-            startOnLoad: true, 
-            theme: 'default',
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true,
-                curve: 'basis'
-            },
-            securityLevel: 'loose'
+        // Initialize Mermaid with robust error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                if (typeof mermaid !== 'undefined') {
+                    mermaid.initialize({ 
+                        startOnLoad: true,
+                        theme: 'default',
+                        securityLevel: 'loose'
+                    });
+                    
+                    // Force render after a short delay
+                    setTimeout(() => {
+                        try {
+                            mermaid.init();
+                        } catch (e) {
+                            console.log('Mermaid render attempt completed');
+                        }
+                    }, 1000);
+                } else {
+                    console.warn('Mermaid library not loaded');
+                }
+            } catch (error) {
+                console.warn('Mermaid initialization failed:', error);
+            }
         });
 
         // Modal functionality
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
+            
+            // Try to reinitialize charts for better display
+            setTimeout(() => {
+                const modal = document.getElementById(modalId);
+                const canvasElements = modal.querySelectorAll('canvas');
+                canvasElements.forEach(canvas => {
+                    const chart = Chart.getChart(canvas);
+                    if (chart) {
+                        chart.resize();
+                    }
+                });
+                
+                // Trigger dynamic arrow connections for ALL modals with flow diagrams
+                if (modal.querySelector('.multi-flow-container')) {
+                    setTimeout(() => {
+                        adjustSVGConnections();
+                    }, 300);
+                }
+            }, 100);
         }
 
         function closeModal(modalId) {
@@ -2204,6 +3055,372 @@
         // Initialize first section as open
         document.getElementById('executiveSummary').classList.add('active');
         document.querySelector('#executiveSummary').previousElementSibling.querySelector('.toggle-icon').classList.add('rotated');
+
+        // Enhanced SVG Connection Management
+        function enhanceConnections() {
+            // Add hover effects to flow nodes
+            const flowNodes = document.querySelectorAll('.flow-node-advanced');
+            flowNodes.forEach(node => {
+                node.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                    this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.2)';
+                });
+                
+                node.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+                });
+            });
+
+            // Add interactive connection highlighting
+            const connectionLines = document.querySelectorAll('.connection-line');
+            connectionLines.forEach((line, index) => {
+                line.style.opacity = '0.9';
+                line.style.strokeWidth = '3';
+                
+                setTimeout(() => {
+                    line.style.strokeDasharray = '8,4';
+                    line.style.animation = 'dashFlow 3s linear infinite';
+                }, index * 150);
+            });
+
+            // Add connection point animations
+            const connectionPoints = document.querySelectorAll('.connection-point');
+            connectionPoints.forEach((point, index) => {
+                setTimeout(() => {
+                    point.style.animation = 'pulse 2s ease-in-out infinite';
+                }, index * 100);
+            });
+        }
+
+        // Dynamic SVG Connection Adjustment
+        function adjustSVGConnections() {
+            const containers = document.querySelectorAll('.multi-flow-container');
+            
+            containers.forEach(container => {
+                // Check if container is visible (considering modals)
+                const containerRect = container.getBoundingClientRect();
+                const modal = container.closest('.modal');
+                
+                // Skip if container is in a hidden modal
+                if (modal && modal.style.display === 'none') {
+                    return;
+                }
+                
+                // Skip if container has no dimensions but allow small delays for modal animations
+                if (containerRect.width === 0 || containerRect.height === 0) {
+                    return;
+                }
+                
+                const svg = container.querySelector('.svg-connections');
+                const layers = container.querySelectorAll('.flow-layer');
+                
+                if (!svg || !layers.length) return;
+                
+                // Clear existing paths
+                const existingPaths = svg.querySelectorAll('.connection-line');
+                existingPaths.forEach(path => path.remove());
+                
+                // Calculate container bounds relative to the document
+                const containerOffset = container.getBoundingClientRect();
+                const containerLeft = containerOffset.left + window.pageXOffset;
+                const containerTop = containerOffset.top + window.pageYOffset;
+                
+                // Update SVG dimensions to match container
+                svg.setAttribute('width', containerRect.width);
+                svg.setAttribute('height', containerRect.height);
+                svg.setAttribute('viewBox', `0 0 ${containerRect.width} ${containerRect.height}`);
+                
+                // Calculate node positions and create connections
+                const nodePositions = [];
+                layers.forEach((layer, layerIndex) => {
+                    const nodes = layer.querySelectorAll('.flow-node-advanced');
+                    const layerNodes = [];
+                    
+                    nodes.forEach((node, nodeIndex) => {
+                        const nodeRect = node.getBoundingClientRect();
+                        if (nodeRect.width === 0 || nodeRect.height === 0) return; // Skip hidden nodes
+                        
+                        const position = {
+                            x: nodeRect.left - containerOffset.left + nodeRect.width / 2,
+                            y: nodeRect.top - containerOffset.top + nodeRect.height / 2,
+                            element: node,
+                            layerIndex,
+                            nodeIndex,
+                            width: nodeRect.width,
+                            height: nodeRect.height
+                        };
+                        layerNodes.push(position);
+                    });
+                    
+                    if (layerNodes.length > 0) {
+                        nodePositions.push(layerNodes);
+                    }
+                });
+                
+                // Create connections between layers
+                for (let i = 0; i < nodePositions.length - 1; i++) {
+                    const currentLayer = nodePositions[i];
+                    const nextLayer = nodePositions[i + 1];
+                    
+                    if (currentLayer.length === 1 && nextLayer.length === 1) {
+                        // Single to single connection
+                        createConnection(svg, currentLayer[0], nextLayer[0], 'standard');
+                    } else if (currentLayer.length === 1 && nextLayer.length > 1) {
+                        // Single to multiple (branching)
+                        nextLayer.forEach(nextNode => {
+                            createConnection(svg, currentLayer[0], nextNode, 'branch');
+                        });
+                    } else if (currentLayer.length > 1 && nextLayer.length === 1) {
+                        // Multiple to single (merging)
+                        currentLayer.forEach(currentNode => {
+                            createConnection(svg, currentNode, nextLayer[0], 'merge');
+                        });
+                    } else if (currentLayer.length === nextLayer.length) {
+                        // One-to-one connections
+                        currentLayer.forEach((currentNode, index) => {
+                            if (nextLayer[index]) {
+                                createConnection(svg, currentNode, nextLayer[index], 'standard');
+                            }
+                        });
+                    } else {
+                        // Complex connections - connect each to nearest
+                        currentLayer.forEach(currentNode => {
+                            const nearest = findNearestNode(currentNode, nextLayer);
+                            createConnection(svg, currentNode, nearest, 'standard');
+                        });
+                    }
+                }
+            });
+        }
+        
+        function createConnection(svg, fromNode, toNode, type) {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            // Calculate connection points with proper edge positioning
+            const startX = fromNode.x;
+            const startY = fromNode.y + (fromNode.height || 40) / 2; // Bottom edge of node
+            const endX = toNode.x;
+            const endY = toNode.y - (toNode.height || 40) / 2; // Top edge of node
+            
+            // Create smooth curved path for better visual appeal
+            const midY = startY + (endY - startY) / 2;
+            const controlOffset = Math.abs(endY - startY) * 0.4;
+            
+            let pathData;
+            if (Math.abs(endX - startX) < 50) {
+                // Straight vertical line for aligned nodes
+                pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
+            } else {
+                // Curved path for offset nodes
+                pathData = `M ${startX} ${startY} Q ${startX} ${startY + controlOffset} ${endX} ${endY}`;
+            }
+            
+            path.setAttribute('d', pathData);
+            path.setAttribute('class', `connection-line ${type}`);
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke-linecap', 'round');
+            
+            // Set marker - find the correct marker for this SVG
+            const markers = svg.querySelectorAll('marker');
+            if (markers.length > 0) {
+                const markerId = markers[0].id;
+                path.setAttribute('marker-end', `url(#${markerId})`);
+            } else {
+                path.setAttribute('marker-end', 'url(#arrowhead)');
+            }
+            
+            // Set colors and animations based on type
+            if (type === 'branch') {
+                path.style.stroke = 'rgba(255, 200, 100, 0.9)';
+                path.style.strokeDasharray = '8,4';
+                path.style.animation = 'dashFlow 3s linear infinite';
+            } else if (type === 'merge') {
+                path.style.stroke = 'rgba(100, 255, 200, 0.9)';
+                path.style.strokeDasharray = '6,3';
+                path.style.animation = 'dashFlow 2s linear infinite reverse';
+            } else {
+                path.style.stroke = 'rgba(255, 255, 255, 0.9)';
+                path.style.strokeDasharray = '10,5';
+                path.style.animation = 'dashFlow 4s linear infinite';
+            }
+            
+            // Add hover effect
+            path.addEventListener('mouseenter', () => {
+                path.style.strokeWidth = '5';
+                path.style.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.8))';
+            });
+            
+            path.addEventListener('mouseleave', () => {
+                path.style.strokeWidth = '3';
+                path.style.filter = 'none';
+            });
+            
+            svg.appendChild(path);
+        }
+        
+        function findNearestNode(sourceNode, targetNodes) {
+            let nearest = targetNodes[0];
+            let minDistance = Math.abs(sourceNode.x - nearest.x);
+            
+            targetNodes.forEach(node => {
+                const distance = Math.abs(sourceNode.x - node.x);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearest = node;
+                }
+            });
+            
+            return nearest;
+        }
+
+        // Add CSS animations dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes dashFlow {
+                0% { stroke-dashoffset: 0; }
+                100% { stroke-dashoffset: -24; }
+            }
+            
+            @keyframes pulse {
+                0%, 100% { 
+                    opacity: 0.8; 
+                    transform: scale(1); 
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: scale(1.3); 
+                    box-shadow: 0 0 15px rgba(66, 153, 225, 0.8);
+                }
+            }
+            
+            .flow-node-advanced {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .connection-line {
+                transition: all 0.3s ease;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            
+            .connection-line:hover {
+                stroke-width: 5 !important;
+                opacity: 1 !important;
+                filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+            }
+            
+            .connection-point {
+                transition: all 0.3s ease;
+            }
+            
+            /* Enhanced responsive behavior */
+            @media (max-width: 768px) {
+                .svg-connections {
+                    display: none;
+                }
+                
+                .flow-layer {
+                    position: relative;
+                }
+                
+                .flow-layer::after {
+                    content: '↓';
+                    position: absolute;
+                    bottom: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 28px;
+                    color: rgba(255, 255, 255, 0.8);
+                    font-weight: bold;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                    animation: bounce 2s ease-in-out infinite;
+                }
+                
+                .flow-layer:last-child::after {
+                    display: none;
+                }
+                
+                @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+                    40% { transform: translateX(-50%) translateY(-5px); }
+                    60% { transform: translateX(-50%) translateY(-3px); }
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize enhanced connections after a delay
+        setTimeout(() => {
+            enhanceConnections();
+            adjustSVGConnections();
+        }, 2000);
+
+        // Modal visibility handler for arrow generation
+        function handleModalArrows() {
+            const visibleModals = document.querySelectorAll('.modal[style*="block"]');
+            visibleModals.forEach(modal => {
+                const flowContainers = modal.querySelectorAll('.multi-flow-container');
+                if (flowContainers.length > 0) {
+                    setTimeout(() => {
+                        adjustSVGConnections();
+                    }, 100);
+                }
+            });
+        }
+
+        // Responsive connection adjustment
+        function adjustConnections() {
+            const isMobile = window.innerWidth <= 768;
+            const svgElements = document.querySelectorAll('.svg-connections');
+            
+            svgElements.forEach(svg => {
+                if (isMobile) {
+                    svg.style.display = 'none';
+                } else {
+                    svg.style.display = 'block';
+                }
+            });
+            
+            // Recalculate connections on resize
+            if (!isMobile) {
+                setTimeout(() => {
+                    adjustSVGConnections();
+                    handleModalArrows();
+                }, 300);
+            }
+        }
+
+        // Listen for window resize and modal changes
+        window.addEventListener('resize', adjustConnections);
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                adjustSVGConnections();
+                handleModalArrows();
+            }, 1000);
+        });
+        
+        // Observe modal display changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    const modal = mutation.target;
+                    if (modal.classList.contains('modal') && modal.style.display === 'block') {
+                        setTimeout(() => {
+                            adjustSVGConnections();
+                        }, 200);
+                    }
+                }
+            });
+        });
+        
+        // Start observing modal changes
+        document.querySelectorAll('.modal').forEach(modal => {
+            observer.observe(modal, { attributes: true, attributeFilter: ['style'] });
+        });
+        
+        adjustConnections(); // Initial call
     </script>
 </body>
 </html>
