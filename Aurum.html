@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurum Real Estate Business Companion - Dubai 2025</title>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --navy-blue: #1B263B;
+            --cream: #F5F1E8;
+            --white: #FFFFFF;
+            --gray: #666666;
+            --light-gray: #f8f9fa;
+            --success: #28a745;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--navy-blue);
+            background-color: var(--white);
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--navy-blue) 0%, #2c3e50 100%);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--navy-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy-blue);
+            font-weight: bold;
+        }
+        
+        .btn-secondary {
+            background: var(--navy-blue);
+            color: var(--white);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            flex: 0 0 280px;
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar h3 {
+            color: var(--navy-blue);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            color: var(--gray);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--white);
+            color: var(--navy-blue);
+            padding-left: 1rem;
+        }
+        
+        /* Content Area */
+        .content {
+            flex: 1;
+        }
+        
+        .section {
+            background: var(--white);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section h2 {
+            color: var(--navy-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--gold);
+        }
+        
+        .section h3 {
+            color: var(--navy-blue);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .section h4 {
+            color: var(--gold);
+            margin: 1rem 0 0.5rem;
+        }
+        
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .card h4 {
+            color: var(--navy-blue);
+            margin: 0;
+        }
+        
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+        
+        th {
+            background: var(--navy-blue);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:nth-child(even) {
+            background: var(--cream);
+        }
+        
+        tr:hover {
+            background: var(--light-gray);
+        }
+        
+        /* Do's and Don'ts */
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .dos, .donts {
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+        
+        .dos {
+            background: #e8f5e9;
+            border: 2px solid var(--success);
+        }
+        
+        .donts {
+            background: #ffebee;
+            border: 2px solid var(--danger);
+        }
+        
+        .dos h4 {
+            color: var(--success);
+        }
+        
+        .donts h4 {
+            color: var(--danger);
+        }
+        
+        .dos ul, .donts ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .dos li, .donts li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .dos li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-left: -1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .donts li:before {
+            content: "✗";
+            color: var(--danger);
+            font-weight: bold;
+            margin-left: -1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        /* Interactive Tools */
+        .calculator {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .calculator h4 {
+            color: var(--navy-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--navy-blue);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        .result-box {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 2px solid var(--gold);
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--navy-blue) 0%, #2c3e50 100%);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+        
+        .stat-label {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+        
+        .timeline-content {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-content h4 {
+            color: var(--navy-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            top: 20px;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -55px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -55px;
+        }
+        
+        /* Accordion */
+        .accordion {
+            margin: 2rem 0;
+        }
+        
+        .accordion-item {
+            background: var(--white);
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background: var(--cream);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background: #e8e4dc;
+        }
+        
+        .accordion-header h4 {
+            margin: 0;
+            color: var(--navy-blue);
+        }
+        
+        .accordion-arrow {
+            transition: transform 0.3s;
+        }
+        
+        .accordion-item.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-item.active .accordion-content {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--navy-blue);
+            color: var(--white);
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-section a:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: static;
+                flex: 1;
+            }
+            
+            .timeline:before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                margin-left: 60px !important;
+            }
+            
+            .timeline-dot {
+                left: 21px !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: var(--navy-blue);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .loader {
+            border: 3px solid var(--cream);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+        
+        .badge-new {
+            background: var(--success);
+            color: var(--white);
+        }
+        
+        .badge-update {
+            background: var(--info);
+            color: var(--white);
+        }
+        
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            border: 2px solid var(--gold);
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--gold);
+            color: var(--navy-blue);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        
+        /* Tabs */
+        .tabs {
+            margin: 2rem 0;
+        }
+        
+        .tab-nav {
+            display: flex;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: var(--navy-blue);
+            background: var(--cream);
+            border-bottom: 3px solid var(--gold);
+            margin-bottom: -2px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Aurum Asset Homes</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="nav-link" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('foundation')">Foundation</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('compliance')">Compliance</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('business')">Business</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('investment')">Investment</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('tools')">Tools</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('resources')">Resources</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Real Estate Business Companion</h1>
+            <p class="hero-subtitle">Dubai Edition 2025 - Your Complete Professional Guide</p>
+            <p class="hero-description">Master Dubai's dynamic real estate market with comprehensive guidance on regulations, business development, and investment strategies.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" onclick="showSection('foundation')">Get Started</a>
+                <a href="#" class="btn btn-secondary" onclick="showSection('tools')">Access Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Quick Navigation</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('home')" class="active">Dashboard</a></li>
+                <li><a href="#" onclick="showSection('foundation')">Legal Framework</a></li>
+                <li><a href="#" onclick="showSection('compliance')">RERA Compliance</a></li>
+                <li><a href="#" onclick="showSection('business')">Business Development</a></li>
+                <li><a href="#" onclick="showSection('investment')">Investment Guide</a></li>
+                <li><a href="#" onclick="showSection('tools')">Calculators & Tools</a></li>
+                <li><a href="#" onclick="showSection('resources')">Resources</a></li>
+                <li><a href="#" onclick="showSection('career')">Career Path</a></li>
+                <li><a href="#" onclick="showSection('market')">Market Insights</a></li>
+                <li><a href="#" onclick="showSection('faq')">FAQs</a></li>
+            </ul>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <!-- Home/Dashboard Section -->
+            <div id="home" class="section active">
+                <h2>Welcome to Your Real Estate Success Hub</h2>
+                
+                <!-- Market Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3.6M</div>
+                        <div class="stat-label">Dubai Population 2025</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7%</div>
+                        <div class="stat-label">Real Estate GDP Share</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5-8%</div>
+                        <div class="stat-label">Average Rental Yield</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40,000</div>
+                        <div class="stat-label">New Units in 2025</div>
+                    </div>
+                </div>
+
+                <!-- Quick Access Cards -->
+                <h3>Quick Access</h3>
+                <div class="cards-grid">
+                    <div class="card" onclick="showSection('foundation')">
+                        <div class="card-header">
+                            <div class="card-icon">📋</div>
+                            <h4>Legal Framework</h4>
+                        </div>
+                        <p>Understanding Dubai's real estate laws, RERA regulations, and professional standards.</p>
+                    </div>
+                    <div class="card" onclick="showSection('compliance')">
+                        <div class="card-header">
+                            <div class="card-icon">✅</div>
+                            <h4>Licensing & Compliance</h4>
+                        </div>
+                        <p>Step-by-step guide to obtaining your RERA license and maintaining compliance.</p>
+                    </div>
+                    <div class="card" onclick="showSection('business')">
+                        <div class="card-header">
+                            <div class="card-icon">🚀</div>
+                            <h4>Business Development</h4>
+                        </div>
+                        <p>Proven strategies for client acquisition, networking, and building your portfolio.</p>
+                    </div>
+                    <div class="card" onclick="showSection('investment')">
+                        <div class="card-header">
+                            <div class="card-icon">💰</div>
+                            <h4>Investment Strategies</h4>
+                        </div>
+                        <p>Market insights, area analysis, and investment opportunities for your clients.</p>
+                    </div>
+                </div>
+
+                <!-- Recent Updates -->
+                <h3>Latest Updates <span class="badge badge-new">NEW</span></h3>
+                <div class="calculator">
+                    <ul>
+                        <li>✦ <strong>Smart Rental Index Calculator</strong> - Launched January 2025 with AI-powered rental norms</li>
+                        <li>✦ <strong>Enhanced Golden Visa Rules</strong> - AED 2M investment now includes mortgage properties</li>
+                        <li>✦ <strong>Three-Broker Rule</strong> - Maximum 3 brokers per property listing enforced</li>
+                        <li>✦ <strong>Digital Trakheesi System</strong> - QR codes mandatory on all advertisements</li>
+                        <li>✦ <strong>RERA Exam Updates</strong> - New 100-question format with 75% passing score</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Foundation Section -->
+            <div id="foundation" class="section">
+                <h2>Legal Framework & Professional Standards</h2>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="Search regulations, laws, or guidelines...">
+                    <button>Search</button>
+                </div>
+
+                <h3>The DO's and DON'Ts of Dubai Real Estate</h3>
+                <div class="dos-donts">
+                    <div class="dos">
+                        <h4>✓ The DO's - Your Path to Trust</h4>
+                        <ul>
+                            <li>Obtain your RERA Broker Card through proper channels</li>
+                            <li>Sign Form A (Seller Agreement) before listing properties</li>
+                            <li>Sign Form B (Buyer Agreement) with all buyer clients</li>
+                            <li>Get Trakheesi Permits for every advertisement</li>
+                            <li>Include RERA QR codes on all marketing materials</li>
+                            <li>Verify property title deeds before listing</li>
+                            <li>Maintain detailed transaction records for 5 years</li>
+                            <li>Ensure 100% transparency about all fees and charges</li>
+                            <li>Use official DLD Trustee offices for all transactions</li>
+                            <li>Follow the three-broker rule (max 3 brokers per property)</li>
+                        </ul>
+                    </div>
+                    <div class="donts">
+                        <h4>✗ The DON'Ts - Costly Mistakes</h4>
+                        <ul>
+                            <li>Never operate as a "freelance" agent (fines up to AED 100,000)</li>
+                            <li>Don't advertise without Form A and Trakheesi (fines up to AED 50,000)</li>
+                            <li>Never work without proper RERA registration</li>
+                            <li>Don't make verbal promises about "guaranteed ROI"</li>
+                            <li>Never quote rental returns without official data</li>
+                            <li>Don't misrepresent property features or conditions</li>
+                            <li>Never handle large cash payments directly</li>
+                            <li>Don't spam clients with excessive messages</li>
+                            <li>Never bypass official channels for transactions</li>
+                            <li>Don't facilitate transactions violating Dubai laws</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Key Regulatory Bodies</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Authority</th>
+                                <th>Role</th>
+                                <th>Key Responsibilities</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>DLD</strong></td>
+                                <td>Primary Regulator</td>
+                                <td>Property registration, title deeds, transaction oversight</td>
+                                <td>800-4488</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RERA</strong></td>
+                                <td>Market Regulation</td>
+                                <td>Broker licensing, developer regulation, escrow management</td>
+                                <td>04-2230000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DREI</strong></td>
+                                <td>Training & Education</td>
+                                <td>Professional certification, continuous education programs</td>
+                                <td>04-3766666</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RDC</strong></td>
+                                <td>Dispute Resolution</td>
+                                <td>Tenant-landlord conflicts, rental increase disputes</td>
+                                <td>04-3347777</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Essential Laws Every Agent Must Know</h3>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Law No. 7 of 2006 - Freehold Ownership Rights</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>This landmark law allows foreign ownership in designated freehold areas of Dubai. Key provisions include:</p>
+                            <ul>
+                                <li>• Establishes freehold vs. leasehold zones</li>
+                                <li>• Defines ownership rights and restrictions for non-UAE nationals</li>
+                                <li>• Lists designated areas where foreigners can own property</li>
+                                <li>• Provides framework for property registration and transfer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Bylaw No. 85 of 2006 - Broker Registration</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Regulates all real estate brokers operating in Dubai:</p>
+                            <ul>
+                                <li>• Mandatory RERA certification requirements</li>
+                                <li>• Code of professional ethics and conduct</li>
+                                <li>• Penalty framework for violations</li>
+                                <li>• Annual renewal requirements</li>
+                                <li>• Record-keeping obligations</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Law No. 8 of 2007 - Escrow Account Law</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Protects off-plan buyer investments through mandatory escrow accounts:</p>
+                            <ul>
+                                <li>• All developer funds must be held in RERA-approved escrow accounts</li>
+                                <li>• Milestone-based payment release system</li>
+                                <li>• Project registration requirements</li>
+                                <li>• Penalties for non-compliance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Section -->
+            <div id="compliance" class="section">
+                <h2>RERA Licensing & Compliance</h2>
+                
+                <h3>Your Path to RERA Certification</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 1: Meet Prerequisites</h4>
+                            <p>• Minimum 21 years old<br>
+                               • Valid UAE residence visa<br>
+                               • Employment with registered brokerage<br>
+                               • Clean criminal record</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 2: DREI Training (4 days)</h4>
+                            <p>• Cost: AED 3,200<br>
+                               • Format: Online or in-person<br>
+                               • Topics: Dubai property laws, RERA compliance, ethics</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 3: Pass RERA Exam</h4>
+                            <p>• 100 multiple choice questions<br>
+                               • 75% passing score required<br>
+                               • Cost: AED 500<br>
+                               • Retake after 30 days if failed</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 4: Get Good Conduct Certificate</h4>
+                            <p>• From Dubai Police or home country<br>
+                               • Valid for 3 months<br>
+                               • Cost: AED 220<br>
+                               • Processing: 3-5 days</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 5: Submit Application</h4>
+                            <p>• Via Trakheesi or Dubai REST app<br>
+                               • All documents required<br>
+                               • Cost: AED 1,320<br>
+                               • Processing: 2-3 days</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Step 6: Receive Broker Card</h4>
+                            <p>• Unique BRN assigned<br>
+                               • Valid for 1 year<br>
+                               • Total investment: AED 5,240<br>
+                               • Renew 60 days before expiry</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Transaction Process Guide</h3>
+                <div class="tabs">
+                    <div class="tab-nav">
+                        <button class="tab-btn active" onclick="showTab('listing')">Property Listing</button>
+                        <button class="tab-btn" onclick="showTab('negotiation')">Negotiation</button>
+                        <button class="tab-btn" onclick="showTab('duediligence')">Due Diligence</button>
+                        <button class="tab-btn" onclick="showTab('transfer')">Transfer</button>
+                    </div>
+                    <div id="listing" class="tab-content active">
+                        <h4>Phase 1: Property Listing</h4>
+                        <ol>
+                            <li><strong>Sign Form A</strong> with property owner</li>
+                            <li><strong>Verify title deed</strong> at DLD portal</li>
+                            <li><strong>Obtain Trakheesi permit</strong> for advertising</li>
+                            <li><strong>Create marketing materials</strong> with QR code</li>
+                            <li><strong>List on approved portals</strong> (Bayut, Property Finder)</li>
+                            <li><strong>Follow three-broker rule</strong> (maximum 3 brokers)</li>
+                        </ol>
+                    </div>
+                    <div id="negotiation" class="tab-content">
+                        <h4>Phase 2: Negotiation & Contract</h4>
+                        <ol>
+                            <li><strong>Present offers</strong> formally in writing</li>
+                            <li><strong>Document all negotiations</strong> for transparency</li>
+                            <li><strong>Prepare Form F (MoU)</strong> once price agreed</li>
+                            <li><strong>Review terms</strong> with both parties</li>
+                            <li><strong>Collect signatures</strong> from buyer and seller</li>
+                            <li><strong>Secure deposit</strong> (typically 10% of purchase price)</li>
+                        </ol>
+                    </div>
+                    <div id="duediligence" class="tab-content">
+                        <h4>Phase 3: Due Diligence</h4>
+                        <ol>
+                            <li><strong>Request NOC</strong> from developer</li>
+                            <li><strong>Verify service charge clearance</strong></li>
+                            <li><strong>Check mortgage status</strong> if applicable</li>
+                            <li><strong>Review all documentation</strong></li>
+                            <li><strong>Confirm community rules</strong> and regulations</li>
+                            <li><strong>Processing time:</strong> 3-7 working days</li>
+                        </ol>
+                    </div>
+                    <div id="transfer" class="tab-content">
+                        <h4>Phase 4: Transfer & Completion</h4>
+                        <ol>
+                            <li><strong>Meet at DLD Trustee Office</strong> (all parties present)</li>
+                            <li><strong>Submit required documents</strong> (title deed, NOCs, IDs)</li>
+                            <li><strong>Buyer pays 4% DLD fee</strong> plus admin charges</li>
+                            <li><strong>Process manager's cheques</strong></li>
+                            <li><strong>New title deed issued</strong> to buyer</li>
+                            <li><strong>Commission released</strong> to agents</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Development Section -->
+            <div id="business" class="section">
+                <h2>Business Development & Client Acquisition</h2>
+                
+                <h3>Proven Client Acquisition Strategies</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🏢</div>
+                            <h4>Developer Partnerships</h4>
+                        </div>
+                        <p><strong>Weekly Actions:</strong></p>
+                        <ul>
+                            <li>• Visit 2-3 developer sales centers</li>
+                            <li>• Target: DAMAC, Sobha, Emaar, Azizi</li>
+                            <li>• Collect latest brochures and price lists</li>
+                            <li>• Build relationships with sales managers</li>
+                            <li>• Learn about upcoming launches</li>
+                        </ul>
+                        <p><strong>Commission:</strong> 4-7% on new projects</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🤝</div>
+                            <h4>Community Networking</h4>
+                        </div>
+                        <p><strong>Target Groups:</strong></p>
+                        <ul>
+                            <li>• Building residents & neighbors</li>
+                            <li>• Professional associations</li>
+                            <li>• Social and sports clubs</li>
+                            <li>• Cultural organizations</li>
+                            <li>• Business networking events</li>
+                        </ul>
+                        <p><strong>Tools:</strong> Business cards with RERA number</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📱</div>
+                            <h4>Digital Marketing</h4>
+                        </div>
+                        <p><strong>Platforms & Strategy:</strong></p>
+                        <ul>
+                            <li>• WhatsApp broadcast lists (not groups)</li>
+                            <li>• Instagram property showcases</li>
+                            <li>• LinkedIn professional network</li>
+                            <li>• Weekly property highlights</li>
+                            <li>• 60% educational, 40% listings</li>
+                        </ul>
+                        <p><strong>Frequency:</strong> 3-4 posts weekly</p>
+                    </div>
+                </div>
+
+                <h3>Lead Management System</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lead Type</th>
+                                <th>Characteristics</th>
+                                <th>Response Time</th>
+                                <th>Follow-up Frequency</th>
+                                <th>Conversion Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Hot</strong></td>
+                                <td>Ready to buy within 30 days</td>
+                                <td>Within 5 minutes</td>
+                                <td>Daily for 1 week</td>
+                                <td>25-30%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Warm</strong></td>
+                                <td>Actively researching options</td>
+                                <td>Within 1 hour</td>
+                                <td>2x weekly</td>
+                                <td>10-15%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cool</strong></td>
+                                <td>Future interest (3-6 months)</td>
+                                <td>Within 24 hours</td>
+                                <td>Weekly</td>
+                                <td>5-8%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cold</strong></td>
+                                <td>Long-term prospects</td>
+                                <td>Within 48 hours</td>
+                                <td>Monthly</td>
+                                <td>2-3%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>WhatsApp Marketing Template</h3>
+                <div class="calculator">
+                    <h4>Professional Property Message Template</h4>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-top: 1rem;">
+                        <p style="font-family: monospace; white-space: pre-line;">
+🏠 Exclusive Opportunity in [Location]
+
+✨ [Bedrooms]BR+[Features] | [Size] sq.ft
+💰 AED [Price] | [Payment Plan]
+🎯 Handover [Date]
+🏊 [Amenities]
+
+Perfect for [Target Audience].
+Reply for floor plans or schedule viewing.
+
+[Your Name]
+Aurum Asset Homes - RERA #[Number]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Section -->
+            <div id="investment" class="section">
+                <h2>Investment Strategies & Market Insights</h2>
+                
+                <h3>Dubai Investment Advantages</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">0%</div>
+                        <div class="stat-label">Income Tax on Rentals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0%</div>
+                        <div class="stat-label">Capital Gains Tax</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5-8%</div>
+                        <div class="stat-label">Average ROI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3.67</div>
+                        <div class="stat-label">AED to USD (Fixed)</div>
+                    </div>
+                </div>
+
+                <h3>Visa Benefits - Your Primary Selling Tool</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Investment Level</th>
+                                <th>Visa Type</th>
+                                <th>Duration</th>
+                                <th>Key Benefits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>AED 750,000+</strong></td>
+                                <td>2-Year Investor Visa</td>
+                                <td>2 years (renewable)</td>
+                                <td>• Family sponsorship<br>• No minimum stay<br>• Multiple entry</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AED 2,000,000+</strong></td>
+                                <td>10-Year Golden Visa</td>
+                                <td>10 years (renewable)</td>
+                                <td>• Family sponsorship<br>• No employment required<br>• 6-month grace period<br>• Works with mortgage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AED 5,000,000+</strong></td>
+                                <td>Enhanced Golden Visa</td>
+                                <td>10 years (renewable)</td>
+                                <td>• Extended family sponsorship<br>• Business ownership rights<br>• Priority services</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Prime Investment Areas 2025</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h4>Downtown Dubai</h4>
+                        <p><strong>Avg Price:</strong> AED 2,200/sqft</p>
+                        <p><strong>Rental Yield:</strong> 5-6%</p>
+                        <p><strong>Best For:</strong> Capital appreciation, luxury market</p>
+                        <p><strong>Key Projects:</strong> Burj Khalifa District, Opera District</p>
+                    </div>
+                    <div class="card">
+                        <h4>Dubai Marina</h4>
+                        <p><strong>Avg Price:</strong> AED 1,800/sqft</p>
+                        <p><strong>Rental Yield:</strong> 6-7%</p>
+                        <p><strong>Best For:</strong> Rental income, waterfront living</p>
+                        <p><strong>Key Projects:</strong> Marina Gate, LIV Marina</p>
+                    </div>
+                    <div class="card">
+                        <h4>DAMAC Hills 2</h4>
+                        <p><strong>Avg Price:</strong> AED 750/sqft</p>
+                        <p><strong>Rental Yield:</strong> 7-8%</p>
+                        <p><strong>Best For:</strong> Families, affordable luxury</p>
+                        <p><strong>Key Projects:</strong> Camelia, Violet</p>
+                    </div>
+                    <div class="card">
+                        <h4>Dubai South</h4>
+                        <p><strong>Avg Price:</strong> AED 700/sqft</p>
+                        <p><strong>Rental Yield:</strong> 8-9%</p>
+                        <p><strong>Best For:</strong> Investment growth, Expo legacy</p>
+                        <p><strong>Key Projects:</strong> The Pulse, Emaar South</p>
+                    </div>
+                    <div class="card">
+                        <h4>Business Bay</h4>
+                        <p><strong>Avg Price:</strong> AED 1,600/sqft</p>
+                        <p><strong>Rental Yield:</strong> 6-7%</p>
+                        <p><strong>Best For:</strong> Mixed-use investment</p>
+                        <p><strong>Key Projects:</strong> One Za'abeel, Marasi Drive</p>
+                    </div>
+                    <div class="card">
+                        <h4>JVC</h4>
+                        <p><strong>Avg Price:</strong> AED 950/sqft</p>
+                        <p><strong>Rental Yield:</strong> 7-8%</p>
+                        <p><strong>Best For:</strong> First-time buyers</p>
+                        <p><strong>Key Projects:</strong> Bloom Towers, Belgravia</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Section -->
+            <div id="tools" class="section">
+                <h2>Calculators & Interactive Tools</h2>
+                
+                <!-- ROI Calculator -->
+                <div class="calculator">
+                    <h4>Investment ROI Calculator</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Property Price (AED)</label>
+                            <input type="number" id="propertyPrice" placeholder="e.g., 1500000">
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Monthly Rent (AED)</label>
+                            <input type="number" id="monthlyRent" placeholder="e.g., 8000">
+                        </div>
+                        <div class="form-group">
+                            <label>Service Charges/Year (AED)</label>
+                            <input type="number" id="serviceCharges" placeholder="e.g., 15000">
+                        </div>
+                        <div class="form-group">
+                            <label>Maintenance/Year (AED)</label>
+                            <input type="number" id="maintenance" placeholder="e.g., 5000">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateROI()">Calculate ROI</button>
+                    <div id="roiResult" class="result-box" style="display: none;">
+                        <h4>Investment Analysis</h4>
+                        <p><strong>Annual Rental Income:</strong> <span id="annualIncome"></span></p>
+                        <p><strong>Annual Expenses:</strong> <span id="annualExpenses"></span></p>
+                        <p><strong>Net Annual Income:</strong> <span id="netIncome"></span></p>
+                        <p><strong>ROI Percentage:</strong> <span id="roiPercentage" style="color: var(--gold); font-size: 1.5rem;"></span></p>
+                        <p><strong>Visa Eligibility:</strong> <span id="visaEligibility"></span></p>
+                    </div>
+                </div>
+
+                <!-- Commission Calculator -->
+                <div class="calculator" style="margin-top: 2rem;">
+                    <h4>Commission Calculator</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Transaction Type</label>
+                            <select id="transactionType" onchange="updateCommissionRate()">
+                                <option value="sale-ready">Sale (Ready Property)</option>
+                                <option value="sale-offplan">Sale (Off-Plan)</option>
+                                <option value="rental">Rental</option>
+                                <option value="commercial">Commercial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction Value (AED)</label>
+                            <input type="number" id="transactionValue" placeholder="e.g., 1500000">
+                        </div>
+                        <div class="form-group">
+                            <label>Commission Rate (%)</label>
+                            <input type="number" id="commissionRate" value="2" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Split (%)</label>
+                            <input type="number" id="agentSplit" value="50" step="5">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateCommission()">Calculate Commission</button>
+                    <div id="commissionResult" class="result-box" style="display: none;">
+                        <h4>Commission Breakdown</h4>
+                        <p><strong>Total Commission:</strong> <span id="totalCommission"></span></p>
+                        <p><strong>Your Share:</strong> <span id="agentCommission" style="color: var(--gold); font-size: 1.5rem;"></span></p>
+                        <p><strong>Company Share:</strong> <span id="companyCommission"></span></p>
+                    </div>
+                </div>
+
+                <!-- DLD Fee Calculator -->
+                <div class="calculator" style="margin-top: 2rem;">
+                    <h4>DLD Transfer Fee Calculator</h4>
+                    <div class="form-group">
+                        <label>Property Sale Price (AED)</label>
+                        <input type="number" id="salePrice" placeholder="e.g., 2000000">
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateDLDFees()">Calculate Fees</button>
+                    <div id="dldResult" class="result-box" style="display: none;">
+                        <h4>Transaction Fees Breakdown</h4>
+                        <p><strong>DLD Transfer Fee (4%):</strong> <span id="dldFee"></span></p>
+                        <p><strong>Admin Fee:</strong> AED 4,000</p>
+                        <p><strong>Trustee Fee:</strong> AED 2,000</p>
+                        <p><strong>Total Fees:</strong> <span id="totalDLDFees" style="color: var(--gold); font-size: 1.5rem;"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div id="resources" class="section">
+                <h2>Resources & Templates</h2>
+                
+                <h3>Email Templates</h3>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Initial Client Inquiry Response</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div style="background: white; padding: 1rem; border-radius: 5px;">
+                                <pre style="white-space: pre-wrap;">Subject: Your Property Inquiry - Aurum Asset Homes
+
+Dear [Client Name],
+
+Thank you for your interest in Dubai real estate. I'm [Your Name], a RERA-certified agent with Aurum Asset Homes (BRN: [Number]).
+
+Based on your requirements for [brief description], I've identified several excellent options that match your criteria and budget.
+
+I'd love to discuss your property goals and share:
+- Detailed property information
+- Market analysis for your preferred areas
+- Investment return projections
+- Visa eligibility options
+
+When would be convenient for a brief call or meeting?
+
+Best regards,
+[Your Name]
+[Phone] | [Email]
+Aurum Asset Homes | RERA #[Number]</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Property Viewing Confirmation</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div style="background: white; padding: 1rem; border-radius: 5px;">
+                                <pre style="white-space: pre-wrap;">Subject: Viewing Confirmation - [Property Address]
+
+Dear [Client Name],
+
+This confirms your property viewing:
+
+Property: [Full address]
+Date: [Day, Date]
+Time: [Time]
+Meeting Point: [Location]
+
+What to Bring:
+- Emirates ID
+- Proof of income (if planning to make offer)
+
+The viewing will take approximately 45 minutes. I'll provide:
+- Detailed property information
+- Area amenities overview
+- Investment analysis
+- Q&A session
+
+See you soon!
+
+[Your Name]
+Aurum Asset Homes</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Offer Presentation</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div style="background: white; padding: 1rem; border-radius: 5px;">
+                                <pre style="white-space: pre-wrap;">Subject: Offer Received - [Property Address]
+
+Dear [Seller Name],
+
+I'm pleased to inform you that we've received an offer for your property.
+
+Offer Details:
+- Offered Price: AED [Amount]
+- Buyer Profile: [Brief description]
+- Payment Method: [Cash/Mortgage]
+- Proposed Completion: [Date]
+- Special Conditions: [If any]
+
+The buyer is pre-approved and ready to proceed immediately.
+
+I recommend we discuss this offer at your earliest convenience. 
+Please let me know your availability for a call or meeting.
+
+Best regards,
+[Your Name]
+Aurum Asset Homes | RERA #[Number]</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Document Checklist</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="calculator">
+                        <h4>For Sellers</h4>
+                        <ul style="list-style: none;">
+                            <li>☐ Original title deed</li>
+                            <li>☐ Emirates ID</li>
+                            <li>☐ Passport copy</li>
+                            <li>☐ NOC from developer</li>
+                            <li>☐ Service charge clearance</li>
+                            <li>☐ Mortgage clearance letter (if applicable)</li>
+                            <li>☐ Power of Attorney (if applicable)</li>
+                            <li>☐ Form A (Seller-Broker Agreement)</li>
+                        </ul>
+                    </div>
+                    <div class="calculator">
+                        <h4>For Buyers</h4>
+                        <ul style="list-style: none;">
+                            <li>☐ Emirates ID</li>
+                            <li>☐ Passport copy & visa</li>
+                            <li>☐ Proof of income</li>
+                            <li>☐ Bank statements (3 months)</li>
+                            <li>☐ Pre-approval letter (if financing)</li>
+                            <li>☐ Manager's cheques</li>
+                            <li>☐ Form B (Buyer-Broker Agreement)</li>
+                            <li>☐ Form F (MoU) signed copy</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Useful Contacts</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Organization</th>
+                                <th>Contact</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DLD Help Desk</td>
+                                <td>Dubai Land Department</td>
+                                <td>800-4488</td>
+                                <td>Title deeds, transactions</td>
+                            </tr>
+                            <tr>
+                                <td>RERA Support</td>
+                                <td>Real Estate Regulatory Agency</td>
+                                <td>04-2230000</td>
+                                <td>Licensing, compliance</td>
+                            </tr>
+                            <tr>
+                                <td>DREI Training</td>
+                                <td>Dubai Real Estate Institute</td>
+                                <td>04-3766666</td>
+                                <td>Courses, certification</td>
+                            </tr>
+                            <tr>
+                                <td>Ejari</td>
+                                <td>Rental Registration</td>
+                                <td>800-4488</td>
+                                <td>Rental contracts</td>
+                            </tr>
+                            <tr>
+                                <td>RDC</td>
+                                <td>Rental Disputes Center</td>
+                                <td>04-3347777</td>
+                                <td>Dispute resolution</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Career Section -->
+            <div id="career" class="section">
+                <h2>Career Development Roadmap</h2>
+                
+                <h3>Your Professional Journey</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Year 1: Foundation Building</h4>
+                            <p><strong>Goals:</strong><br>
+                            • Complete 12+ transactions<br>
+                            • Build database of 200+ contacts<br>
+                            • Achieve AED 500K in commissions<br>
+                            • Master one specialized area</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Year 2-3: Growth Phase</h4>
+                            <p><strong>Goals:</strong><br>
+                            • 30+ annual transactions<br>
+                            • Develop team/assistant<br>
+                            • Achieve AED 1M+ in commissions<br>
+                            • Obtain additional certifications</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Year 4-5: Leadership Level</h4>
+                            <p><strong>Goals:</strong><br>
+                            • Team leader/branch manager role<br>
+                            • AED 2M+ revenue generation<br>
+                            • Industry recognition<br>
+                            • Speaking engagements</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Performance Metrics (KPIs)</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Beginner</th>
+                                <th>Intermediate</th>
+                                <th>Advanced</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monthly Leads</td>
+                                <td>20-30</td>
+                                <td>50-75</td>
+                                <td>100+</td>
+                            </tr>
+                            <tr>
+                                <td>Conversion Rate</td>
+                                <td>3-5%</td>
+                                <td>7-10%</td>
+                                <td>15%+</td>
+                            </tr>
+                            <tr>
+                                <td>Avg. Transaction Value</td>
+                                <td>AED 1M</td>
+                                <td>AED 2M</td>
+                                <td>AED 5M+</td>
+                            </tr>
+                            <tr>
+                                <td>Client Retention</td>
+                                <td>20%</td>
+                                <td>40%</td>
+                                <td>60%+</td>
+                            </tr>
+                            <tr>
+                                <td>Referral Rate</td>
+                                <td>10%</td>
+                                <td>30%</td>
+                                <td>50%+</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Recommended Certifications</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h4>CIPS</h4>
+                        <p>Certified International Property Specialist</p>
+                        <p><strong>Duration:</strong> 5 courses</p>
+                        <p><strong>Cost:</strong> AED 5,000</p>
+                        <p><strong>Benefit:</strong> Global network access</p>
+                    </div>
+                    <div class="card">
+                        <h4>CCIM</h4>
+                        <p>Certified Commercial Investment Member</p>
+                        <p><strong>Duration:</strong> 4 core courses</p>
+                        <p><strong>Cost:</strong> AED 8,000</p>
+                        <p><strong>Benefit:</strong> Commercial expertise</p>
+                    </div>
+                    <div class="card">
+                        <h4>Advanced RERA</h4>
+                        <p>Advanced Broker License</p>
+                        <p><strong>Duration:</strong> 2 weeks</p>
+                        <p><strong>Cost:</strong> AED 4,500</p>
+                        <p><strong>Benefit:</strong> Senior broker status</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Insights Section -->
+            <div id="market" class="section">
+                <h2>Market Insights & Trends 2025</h2>
+                
+                <h3>Market Performance Dashboard</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">+15%</div>
+                        <div class="stat-label">YoY Transaction Growth</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8-12%</div>
+                        <div class="stat-label">Price Appreciation</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.5-6.5%</div>
+                        <div class="stat-label">Mortgage Rates</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10-15%</div>
+                        <div class="stat-label">Rental Increase</div>
+                    </div>
+                </div>
+
+                <h3>Emerging Opportunities</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🌱</div>
+                            <h4>Sustainable Developments</h4>
+                        </div>
+                        <p>LEED-certified projects commanding 10% premium</p>
+                        <p><strong>Key Projects:</strong> The Sustainable City, Dubai South</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🏠</div>
+                            <h4>Smart Homes</h4>
+                        </div>
+                        <p>IoT-enabled properties seeing 15% faster sales</p>
+                        <p><strong>Features:</strong> Automated systems, energy efficiency</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🏢</div>
+                            <h4>Co-Living Spaces</h4>
+                        </div>
+                        <p>20% yield premium for furnished units</p>
+                        <p><strong>Target:</strong> Young professionals, digital nomads</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🏖️</div>
+                            <h4>Short-Term Rentals</h4>
+                        </div>
+                        <p>Airbnb-friendly buildings yielding 12-15%</p>
+                        <p><strong>Hot Areas:</strong> JBR, Downtown, Marina</p>
+                    </div>
+                </div>
+
+                <h3>Market Forecast 2025-2026</h3>
+                <div class="calculator">
+                    <h4>Expert Predictions</h4>
+                    <ul>
+                        <li><strong>Q1 2025:</strong> Continued price growth of 2-3% per quarter</li>
+                        <li><strong>Q2 2025:</strong> New project launches expected to add 15,000 units</li>
+                        <li><strong>Q3 2025:</strong> Peak rental season with 5-7% increase in rates</li>
+                        <li><strong>Q4 2025:</strong> Year-end surge in transactions, especially off-plan</li>
+                        <li><strong>2026 Outlook:</strong> Market stabilization with 5-8% annual growth</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div id="faq" class="section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>How long does it take to get a RERA license?</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>The complete process typically takes 2-3 weeks:</p>
+                            <ul>
+                                <li>• DREI Training: 4 days</li>
+                                <li>• RERA Exam: 1 day (schedule dependent)</li>
+                                <li>• Good Conduct Certificate: 3-5 days</li>
+                                <li>• Application Processing: 2-3 days</li>
+                            </ul>
+                            <p>Total investment: AED 5,240</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Can I work as a freelance agent in Dubai?</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>No, freelance real estate agency is illegal in Dubai. All agents must:</p>
+                            <ul>
+                                <li>• Be employed by a registered brokerage</li>
+                                <li>• Have their visa sponsored by the brokerage</li>
+                                <li>• Work under the brokerage's trade license</li>
+                            </ul>
+                            <p>Penalties for freelance work can reach AED 100,000.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>What's the average commission for agents?</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Commission rates vary by transaction type:</p>
+                            <ul>
+                                <li>• Ready property sales: 2% (agent gets 50-70%)</li>
+                                <li>• Off-plan sales: 4-7% from developer (agent gets 50-60%)</li>
+                                <li>• Rentals: 5% of annual rent (agent gets 50%)</li>
+                                <li>• Commercial: 2-3% sales, 5-10% leases</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>Which areas offer the best investment returns?</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Top areas by rental yield in 2025:</p>
+                            <ul>
+                                <li>• Dubai South: 8-9% yield</li>
+                                <li>• DAMAC Hills 2: 7-8% yield</li>
+                                <li>• JVC: 7-8% yield</li>
+                                <li>• Dubai Marina: 6-7% yield</li>
+                                <li>• Downtown Dubai: 5-6% yield (best for capital appreciation)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h4>How does the Golden Visa work with property investment?</h4>
+                            <span class="accordion-arrow">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Golden Visa eligibility through property:</p>
+                            <ul>
+                                <li>• Minimum investment: AED 2 million</li>
+                                <li>• Can include mortgage (not just cash)</li>
+                                <li>• Valid for 10 years, renewable</li>
+                                <li>• Includes family sponsorship</li>
+                                <li>• No employment requirement</li>
+                                <li>• Application through ICP/GDRFA</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Aurum Asset Homes</h4>
+                <p>Your trusted partner in Dubai real estate, providing professional guidance and exceptional service since establishment.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="showSection('foundation')">Legal Framework</a></li>
+                    <li><a href="#" onclick="showSection('compliance')">RERA Compliance</a></li>
+                    <li><a href="#" onclick="showSection('business')">Business Development</a></li>
+                    <li><a href="#" onclick="showSection('tools')">Calculators</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Download Templates</a></li>
+                    <li><a href="#">Market Reports</a></li>
+                    <li><a href="#">Training Materials</a></li>
+                    <li><a href="#">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: info@aurumassethomes.ae</li>
+                    <li>Phone: +971 4 XXX XXXX</li>
+                    <li>Office: Business Bay, Dubai</li>
+                    <li>RERA: #XXXXX</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aurum Asset Homes. All rights reserved. | Building Your Future, Securing Your Assets</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation Functions
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Update sidebar active state
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Close mobile menu if open
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Accordion Function
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+        }
+
+        // Tab Function
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // ROI Calculator
+        function calculateROI() {
+            const propertyPrice = parseFloat(document.getElementById('propertyPrice').value) || 0;
+            const monthlyRent = parseFloat(document.getElementById('monthlyRent').value) || 0;
+            const serviceCharges = parseFloat(document.getElementById('serviceCharges').value) || 0;
+            const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
+            
+            if (propertyPrice === 0) {
+                alert('Please enter a property price');
+                return;
+            }
+            
+            const annualIncome = monthlyRent * 12;
+            const annualExpenses = serviceCharges + maintenance;
+            const netIncome = annualIncome - annualExpenses;
+            const roi = (netIncome / propertyPrice) * 100;
+            
+            // Determine visa eligibility
+            let visaEligibility = '';
+            if (propertyPrice >= 5000000) {
+                visaEligibility = 'Eligible for Enhanced Golden Visa (10 years)';
+            } else if (propertyPrice >= 2000000) {
+                visaEligibility = 'Eligible for Golden Visa (10 years)';
+            } else if (propertyPrice >= 750000) {
+                visaEligibility = 'Eligible for 2-Year Investor Visa';
+            } else {
+                visaEligibility = 'Below minimum for visa eligibility (AED 750,000 required)';
+            }
+            
+            document.getElementById('annualIncome').textContent = `AED ${annualIncome.toLocaleString()}`;
+            document.getElementById('annualExpenses').textContent = `AED ${annualExpenses.toLocaleString()}`;
+            document.getElementById('netIncome').textContent = `AED ${netIncome.toLocaleString()}`;
+            document.getElementById('roiPercentage').textContent = `${roi.toFixed(2)}%`;
+            document.getElementById('visaEligibility').textContent = visaEligibility;
+            
+            document.getElementById('roiResult').style.display = 'block';
+        }
+
+        // Commission Calculator
+        function updateCommissionRate() {
+            const type = document.getElementById('transactionType').value;
+            const rateInput = document.getElementById('commissionRate');
+            
+            switch(type) {
+                case 'sale-ready':
+                    rateInput.value = 2;
+                    break;
+                case 'sale-offplan':
+                    rateInput.value = 5;
+                    break;
+                case 'rental':
+                    rateInput.value = 5;
+                    break;
+                case 'commercial':
+                    rateInput.value = 2.5;
+                    break;
+            }
+        }
+
+        function calculateCommission() {
+            const transactionValue = parseFloat(document.getElementById('transactionValue').value) || 0;
+            const commissionRate = parseFloat(document.getElementById('commissionRate').value) || 0;
+            const agentSplit = parseFloat(document.getElementById('agentSplit').value) || 0;
+            
+            if (transactionValue === 0) {
+                alert('Please enter a transaction value');
+                return;
+            }
+            
+            const totalCommission = (transactionValue * commissionRate) / 100;
+            const agentCommission = (totalCommission * agentSplit) / 100;
+            const companyCommission = totalCommission - agentCommission;
+            
+            document.getElementById('totalCommission').textContent = `AED ${totalCommission.toLocaleString()}`;
+            document.getElementById('agentCommission').textContent = `AED ${agentCommission.toLocaleString()}`;
+            document.getElementById('companyCommission').textContent = `AED ${companyCommission.toLocaleString()}`;
+            
+            document.getElementById('commissionResult').style.display = 'block';
+        }
+
+        // DLD Fee Calculator
+        function calculateDLDFees() {
+            const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
+            
+            if (salePrice === 0) {
+                alert('Please enter a sale price');
+                return;
+            }
+            
+            const dldFee = salePrice * 0.04;
+            const adminFee = 4000;
+            const trusteeFee = 2000;
+            const totalFees = dldFee + adminFee + trusteeFee;
+            
+            document.getElementById('dldFee').textContent = `AED ${dldFee.toLocaleString()}`;
+            document.getElementById('totalDLDFees').textContent = `AED ${totalFees.toLocaleString()}`;
+            
+            document.getElementById('dldResult').style.display = 'block';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set home section as active by default
+            document.getElementById('home').classList.add('active');
+        });
+    </script>
+</body>
+</html>
