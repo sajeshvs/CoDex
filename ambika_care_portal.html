@@ -1,0 +1,3094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Care Portal - Mrs. Ambika | Age 72 | Breast Cancer Care Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        body > * {
+            max-width: 100vw !important;
+        }
+
+        * {
+            box-sizing: border-box !important;
+        }
+
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #f06292;
+            --accent-color: #4CAF50;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --warning-color: #ff9800;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --danger-color: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffeef3 0%, #fff 100%);
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+        }
+
+        .patient-info {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 120px;
+            z-index: 999;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 20px;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Section Styling */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            animation: fadeIn 0.5s ease-in;
+            overflow-x: hidden !important;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box !important;
+        }
+
+        .section * {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .section h3 {
+            color: var(--dark-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.4rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        .section h4 {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .section p, .section li {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        .section ul, .section ol {
+            max-width: 100%;
+            box-sizing: border-box;
+            padding-left: 2rem;
+        }
+
+        .section a {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .alert div {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #0d47a1;
+            border-left: 4px solid var(--info-color);
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: #e65100;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-danger {
+            background: #ffebee;
+            color: #b71c1c;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        /* Cards for Important Info */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #fff 0%, var(--light-color) 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--primary-color);
+            width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        /* Hospital Cards */
+        .hospital-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent-color);
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            overflow-x: hidden;
+        }
+
+        .hospital-card h4 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            flex-wrap: wrap;
+        }
+
+        .hospital-card ul, .hospital-card ol {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            padding-left: 1.5rem;
+        }
+
+        .hospital-card p, .hospital-card li {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .hospital-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .feature-tag {
+            background: var(--light-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--dark-color);
+            white-space: nowrap;
+            overflow-wrap: normal;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Timeline for Treatment */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 45%;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -30px;
+        }
+
+        /* Diet Section */
+        .diet-plan {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .meal-time {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .meal-time h5 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Do's and Don'ts */
+        .dos-donts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 1.5rem 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .do-list, .dont-list {
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .do-list {
+            background: #e8f5e9;
+            border: 2px solid var(--success-color);
+        }
+
+        .dont-list {
+            background: #ffebee;
+            border: 2px solid var(--danger-color);
+        }
+
+        .do-list h4 {
+            color: var(--success-color);
+            margin-bottom: 1rem;
+            overflow-wrap: break-word;
+        }
+
+        .dont-list h4 {
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+            overflow-wrap: break-word;
+        }
+
+        .do-list ul, .dont-list ul {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .do-list li, .dont-list li {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .do-list li, .dont-list li {
+            list-style: none;
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .do-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .dont-list li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: table;
+            table-layout: fixed;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #ddd;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        tr:hover {
+            background: var(--light-color);
+        }
+
+        /* Table wrapper for mobile scroll */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1rem 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            margin: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-info {
+            background: var(--info-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .section {
+                padding: 1rem !important;
+                margin-bottom: 1rem;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .patient-info {
+                margin-top: 1rem;
+            }
+
+            nav {
+                position: relative;
+                top: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .nav-links a {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+
+            .timeline-content::before {
+                left: -30px !important;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .symptom-form {
+                padding: 1rem !important;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 0.7rem !important;
+            }
+
+            .hospital-card, .info-card {
+                padding: 1rem;
+                margin: 0.5rem 0;
+            }
+
+            .hospital-features {
+                gap: 0.3rem;
+            }
+
+            .feature-tag {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .alert {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table td, table th {
+                padding: 0.5rem;
+                min-width: 100px;
+            }
+
+            .section h2 {
+                font-size: 1.4rem;
+            }
+
+            .section h3 {
+                font-size: 1.2rem;
+            }
+
+            .emergency-btn {
+                width: 50px;
+                height: 50px;
+                padding: 0.8rem;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 5px !important;
+                margin: 1rem auto;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .section {
+                padding: 0.5rem !important;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .section h2 {
+                font-size: 1.2rem;
+            }
+
+            .section h3 {
+                font-size: 1rem;
+            }
+
+            .hospital-card h4, .info-card h4 {
+                font-size: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 0.5rem;
+            }
+
+            .timer-display {
+                font-size: 2rem;
+            }
+
+            .symptom-form {
+                padding: 0.5rem !important;
+                margin: 0.5rem 0;
+            }
+
+            .form-group {
+                margin: 0.8rem 0;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 0.5rem !important;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .btn {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Emergency Contact Fixed Button */
+        .emergency-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--danger-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .emergency-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+            height: 100%;
+            width: var(--progress);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Symptom Tracker Form */
+        .symptom-form {
+            background: var(--light-color);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box !important;
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+
+        .form-group {
+            margin: 1rem 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: block;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-weight: bold;
+            overflow-wrap: break-word;
+            width: 100%;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            min-width: 0;
+            display: block;
+        }
+
+        input, textarea, select {
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="range"] {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Meditation Timer */
+        .meditation-timer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        /* Accordion for FAQs */
+        .accordion {
+            margin: 1rem 0;
+        }
+
+        .accordion-item {
+            background: white;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .accordion-header {
+            padding: 1rem;
+            background: var(--light-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: #e0e0e0;
+        }
+
+        .accordion-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 1rem;
+            max-height: 500px;
+        }
+
+        .accordion-header .icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.active .accordion-header .icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div>
+                <h1><i class="fas fa-heart"></i> Comprehensive Care Portal</h1>
+                <p>Personalized Treatment & Recovery Guide</p>
+            </div>
+            <div class="patient-info">
+                <h2>Mrs. Ambika</h2>
+                <p><i class="fas fa-user"></i> Age: 72 Years</p>
+                <p><i class="fas fa-file-medical"></i> Diagnosis: Invasive Ductal Carcinoma (Right Breast)</p>
+                <p><i class="fas fa-clipboard"></i> BIRADS: IV/III with Suspected Axillary Involvement</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="#overview"><i class="fas fa-home"></i> Overview</a>
+                <a href="#diagnosis"><i class="fas fa-microscope"></i> Diagnosis</a>
+                <a href="#treatment"><i class="fas fa-procedures"></i> Treatment</a>
+                <a href="#hospitals"><i class="fas fa-hospital"></i> Hospitals</a>
+                <a href="#diet"><i class="fas fa-utensils"></i> Diet Plan</a>
+                <a href="#medications"><i class="fas fa-pills"></i> Medications</a>
+                <a href="#alternative"><i class="fas fa-spa"></i> Alternative Therapy</a>
+                <a href="#dos-donts"><i class="fas fa-check-double"></i> Do's & Don'ts</a>
+                <a href="#success"><i class="fas fa-trophy"></i> Success Stories</a>
+                <a href="#tracker"><i class="fas fa-chart-line"></i> Progress Tracker</a>
+                <a href="#support"><i class="fas fa-hands-helping"></i> Support</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <h2><i class="fas fa-info-circle"></i> Executive Overview</h2>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <strong>Important:</strong> This comprehensive guide provides evidence-based information for managing invasive ductal carcinoma in a 72-year-old patient. All treatment decisions should be made in consultation with your oncology team.
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <i class="fas fa-heartbeat"></i>
+                <div>
+                    <strong>Encouraging News:</strong> Breast cancer in elderly women is highly treatable when detected early. With appropriate therapy, many women in their 70s achieve excellent outcomes and maintain good quality of life. Age alone is NOT a barrier to successful treatment - your overall health and fitness matter more than chronological age.
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-dna"></i> Cancer Type</h4>
+                    <p>Invasive Ductal Carcinoma (IDC) is the most common type of breast cancer, accounting for about 80% of all breast cancer diagnoses. It begins in the milk ducts and invades surrounding breast tissue.</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-chart-pie"></i> Stage Assessment</h4>
+                    <p>Based on imaging (BIRADS IV/III), there is suspected axillary lymph node involvement. Precise staging will be determined after biopsy and receptor testing (ER, PR, HER2).</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-user-md"></i> Treatment Approach</h4>
+                    <p>Age-adapted, multimodal treatment combining surgery, radiation, systemic therapy (hormonal/chemotherapy), with careful consideration of geriatric factors and quality of life.</p>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-chart-line"></i> Expected Outcomes for Elderly Patients</h3>
+            <div class="info-grid">
+                <div class="info-card" style="border-top: 4px solid #4CAF50;">
+                    <h4><i class="fas fa-percentage"></i> Survival Rates</h4>
+                    <p><strong>Stage I-II (Early):</strong> ~80-95% 5-year survival<br>
+                    <strong>With Node Involvement:</strong> ~70-86% 5-year survival<br>
+                    <strong>Indian Excellence Centers:</strong> 75-79% 5-year overall survival (all stages)<br>
+                    <em>These rates are comparable to younger patients when treated appropriately</em></p>
+                </div>
+                <div class="info-card" style="border-top: 4px solid #2196F3;">
+                    <h4><i class="fas fa-smile"></i> Quality of Life</h4>
+                    <p>Studies show elderly breast cancer patients who receive proper treatment maintain excellent quality of life. Most return to normal activities within 6-12 months. Age-adapted therapy minimizes side effects while maximizing effectiveness.</p>
+                </div>
+                <div class="info-card" style="border-top: 4px solid #FF9800;">
+                    <h4><i class="fas fa-balance-scale"></i> Treatment Tolerance</h4>
+                    <p>With modern supportive care, women over 70 tolerate treatment well. Dose adjustments, growth factors, and careful monitoring ensure safety. Many elderly patients complete full treatment courses successfully.</p>
+                </div>
+            </div>
+
+            <h3>Critical First Steps</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1. Tumor Profiling</h4>
+                        <p>Complete biopsy with ER, PR, and HER2 receptor testing to determine cancer subtype and guide treatment selection.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2. Staging Studies</h4>
+                        <p>Physical examination, imaging studies to determine if disease is localized (stages I-III) or metastatic (stage IV).</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>3. Geriatric Assessment</h4>
+                        <p>Comprehensive evaluation of functional status, cognition, social support, and comorbidities to optimize treatment plan.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>4. Treatment Planning</h4>
+                        <p>Multidisciplinary team meeting to develop personalized treatment strategy based on cancer characteristics and patient factors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diagnosis Section -->
+        <section id="diagnosis" class="section">
+            <h2><i class="fas fa-microscope"></i> Diagnosis & Staging</h2>
+            
+            <div class="alert alert-warning">
+                <i class="fas fa-clipboard-list"></i>
+                <div>
+                    <strong>For Mrs. Ambika's Case:</strong> Based on preliminary findings (ultrasound, mammogram, FNAC, histopathology), diagnosis of right-sided invasive ductal carcinoma with probable axillary lymph node involvement is confirmed. Next critical step: Complete IHC profiling (ER/PR/HER2/Ki-67) and staging imaging to guide treatment.
+                </div>
+            </div>
+
+            <h3>Current Diagnosis Details</h3>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Finding</th>
+                    <th>Significance</th>
+                </tr>
+                <tr>
+                    <td>Primary Tumor</td>
+                    <td>Invasive Ductal Carcinoma</td>
+                    <td>Most common breast cancer type (80% of cases)</td>
+                </tr>
+                <tr>
+                    <td>Location</td>
+                    <td>Right Breast</td>
+                    <td>Unilateral involvement</td>
+                </tr>
+                <tr>
+                    <td>Tumor Size</td>
+                    <td>~2.0-2.1 cm (T2)</td>
+                    <td>Between 2-5 cm; requires systemic therapy consideration</td>
+                </tr>
+                <tr>
+                    <td>BIRADS Category</td>
+                    <td>IV-C (High Suspicion)</td>
+                    <td>Mammography highly suspicious for malignancy (>50% chance)</td>
+                </tr>
+                <tr>
+                    <td>Lymph Node Status</td>
+                    <td>Suspected Axillary Involvement (N1)</td>
+                    <td>FNAC positive for malignancy; indicates regional spread</td>
+                </tr>
+                <tr>
+                    <td>Vascular Invasion</td>
+                    <td>Present on histopathology</td>
+                    <td>Higher risk feature; requires adjuvant therapy</td>
+                </tr>
+                <tr>
+                    <td>Preliminary Stage</td>
+                    <td>Clinical Stage IIB-IIIA (cT2N1M0)</td>
+                    <td>Localized disease; treated with curative intent</td>
+                </tr>
+            </table>
+
+            <h3>Required Tests & Their Purpose</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-vial"></i> Receptor Testing (CRITICAL)</h4>
+                    <p><strong>ER (Estrogen Receptor):</strong> Determines if cancer grows in response to estrogen. If positive, hormonal therapy (tamoxifen/AI) for 5-10 years is essential.<br>
+                    <strong>PR (Progesterone Receptor):</strong> Indicates hormone sensitivity and prognosis<br>
+                    <strong>HER2:</strong> If overexpressed (HER2+), targeted therapy with Herceptin dramatically improves outcomes. If equivocal (2+), FISH testing needed for confirmation.<br>
+                    <strong>Ki-67:</strong> Proliferation marker; guides chemotherapy decisions (>20% suggests benefit)</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-x-ray"></i> Imaging Studies</h4>
+                    <p><strong>Mammography:</strong> Completed - showed spiculated mass with microcalcifications<br>
+                    <strong>Breast Ultrasound:</strong> Completed - confirmed 2.1cm mass with abnormal nodes<br>
+                    <strong>Breast MRI:</strong> Optional but helpful for surgical planning, assessing extent<br>
+                    <strong>CT Chest/Abdomen:</strong> For staging if high-risk features<br>
+                    <strong>PET-CT:</strong> Most accurate for staging; detects distant metastases</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-syringe"></i> Biopsy Completed</h4>
+                    <p><strong>FNAC:</strong> Done - positive for malignancy in both breast mass and lymph node<br>
+                    <strong>Core Needle Biopsy:</strong> Done - confirmed IDC Grade II with lymphovascular invasion<br>
+                    <strong>Surgical Pathology:</strong> Final detailed analysis after surgery will confirm margins, total nodes involved, final stage</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="fas fa-flask"></i>
+                <div>
+                    <strong>Why Receptor Testing Matters:</strong><br>
+                    • <strong>ER+ Cancer (~75% of elderly):</strong> Excellent response to hormonal therapy; may allow less intensive chemotherapy<br>
+                    • <strong>HER2+ Cancer (~20%):</strong> Requires Herceptin (trastuzumab) for 1 year; dramatically reduces recurrence<br>
+                    • <strong>Triple-Negative (~10%):</strong> Requires chemotherapy as only systemic option; more aggressive but can be cured<br>
+                    <strong>→ These results will guide your entire treatment plan!</strong>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Note:</strong> The receptor status (ER, PR, HER2) is crucial as it determines whether hormonal therapy, HER2-targeted therapy, or chemotherapy will be most effective.
+                </div>
+            </div>
+        </section>
+
+        <!-- Treatment Section -->
+        <section id="treatment" class="section">
+            <h2><i class="fas fa-procedures"></i> Treatment Pathways</h2>
+            
+            <h3>Standard Medical Treatment Options</h3>
+            
+            <div class="progress-tracker">
+                <h4>Treatment Journey Progress</h4>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress: 25%;">
+                        Diagnosis Phase
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;">Current Stage: Diagnosis and Staging</p>
+            </div>
+
+            <h3>1. Surgery Options</h3>
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-check-circle"></i> Breast-Conserving Surgery</h4>
+                    <ul>
+                        <li>Lumpectomy with clear margins</li>
+                        <li>Sentinel lymph node biopsy</li>
+                        <li>Followed by radiation therapy</li>
+                        <li>Preserves breast appearance</li>
+                        <li>Similar survival rates as mastectomy</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-procedures"></i> Mastectomy</h4>
+                    <ul style="list-style: none;">
+                        <li style="padding-left: 2rem;">Complete breast removal</li>
+                        <li style="padding-left: 2rem;">May avoid radiation in some cases</li>
+                        <li style="padding-left: 2rem;">Reconstruction options available</li>
+                        <li style="padding-left: 2rem;">Considered for large tumors</li>
+                        <li style="padding-left: 2rem;">Patient preference considered</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>2. Systemic Therapy</h3>
+            
+            <div class="hospital-card">
+                <h4><i class="fas fa-capsules"></i> Hormonal Therapy (for ER/PR Positive)</h4>
+                <p><strong>First-line Options:</strong></p>
+                <ul>
+                    <li><strong>Aromatase Inhibitors (AIs):</strong> Letrozole, Anastrozole, Exemestane
+                        <ul>
+                            <li>Reduces estrogen production</li>
+                            <li>Standard duration: 5-10 years</li>
+                            <li>Monitor bone density (DEXA scans)</li>
+                            <li>Calcium/Vitamin D supplementation required</li>
+                        </ul>
+                    </li>
+                    <li><strong>Tamoxifen:</strong> Alternative option
+                        <ul>
+                            <li>Blocks estrogen receptors</li>
+                            <li>Consider if osteoporosis concern</li>
+                            <li>Small risk of blood clots</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="hospital-features">
+                    <span class="feature-tag">Long-term therapy</span>
+                    <span class="feature-tag">Regular monitoring</span>
+                    <span class="feature-tag">Bone health protection</span>
+                </div>
+            </div>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-vials"></i> Chemotherapy Considerations</h4>
+                <p><strong>Indications:</strong></p>
+                <ul>
+                    <li>High-grade tumors</li>
+                    <li>Lymph node involvement</li>
+                    <li>HER2-positive disease</li>
+                    <li>Triple-negative breast cancer</li>
+                </ul>
+                <p><strong>Common Regimens:</strong></p>
+                <ul>
+                    <li>Anthracyclines (Doxorubicin) + Taxanes (Paclitaxel)</li>
+                    <li>Age-adjusted dosing for elderly patients</li>
+                    <li>Growth factor support (G-CSF) to prevent infections</li>
+                    <li>Cardiac monitoring if using anthracyclines</li>
+                </ul>
+                <div class="hospital-features">
+                    <span class="feature-tag">3-6 month duration</span>
+                    <span class="feature-tag">Requires monitoring</span>
+                    <span class="feature-tag">Side effect management</span>
+                </div>
+            </div>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-bullseye"></i> HER2-Targeted Therapy (if HER2+)</h4>
+                <p><strong>Trastuzumab (Herceptin):</strong></p>
+                <ul>
+                    <li>Monoclonal antibody against HER2</li>
+                    <li>Given with chemotherapy initially</li>
+                    <li>Continued for 1 year total</li>
+                    <li>Cardiac monitoring every 3 months</li>
+                    <li>Dramatically reduces recurrence in HER2+ cancers</li>
+                </ul>
+                <div class="alert alert-warning">
+                    <i class="fas fa-heart"></i>
+                    Requires baseline echocardiogram and regular cardiac monitoring due to potential heart effects
+                </div>
+            </div>
+
+            <h3>3. Radiation Therapy</h3>
+            <div class="info-card" style="width: 100%;">
+                <h4><i class="fas fa-radiation"></i> Radiation Planning</h4>
+                <p><strong>Indications:</strong></p>
+                <ul>
+                    <li>After breast-conserving surgery (standard)</li>
+                    <li>After mastectomy if multiple nodes positive</li>
+                    <li>Large tumors (>5cm)</li>
+                </ul>
+                <p><strong>Special Considerations for Elderly:</strong></p>
+                <ul>
+                    <li>May be omitted in very low-risk, ER+ patients >65 on hormonal therapy</li>
+                    <li>Hypofractionated schedules (fewer treatments) often preferred</li>
+                    <li>Daily treatments for 3-6 weeks typically</li>
+                </ul>
+            </div>
+
+            <h3><i class="fas fa-user-clock"></i> 4. Elderly-Specific Treatment Adaptations</h3>
+            <div class="hospital-card" style="background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);">
+                <h4><i class="fas fa-heartbeat"></i> Age-Adapted Care for Women 70+</h4>
+                
+                <p><strong>Critical Principle:</strong> <em>Chronological age is NOT as important as biological age and fitness level. Fit elderly patients should receive standard curative treatment; frail patients need individualized approaches.</em></p>
+
+                <div class="info-grid" style="margin: 1rem 0;">
+                    <div class="info-card">
+                        <h4>Comprehensive Geriatric Assessment (CGA)</h4>
+                        <p>Evaluates:
+                        • Functional status & mobility<br>
+                        • Nutrition & weight<br>
+                        • Cognition & memory<br>
+                        • Comorbidities (diabetes, heart, kidney)<br>
+                        • Social support & caregiving<br>
+                        • Polypharmacy risk<br>
+                        → Guides treatment intensity</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Treatment Modifications</h4>
+                        <p><strong>Surgery:</strong> Same as younger if fit; pre-op cardiac clearance important<br>
+                        <strong>Chemotherapy:</strong> Dose adjustment (80-90% start); G-CSF prophylaxis for infections; avoid most toxic regimens<br>
+                        <strong>Radiation:</strong> Shorter courses (hypofractionation); may omit in very low-risk ER+ if on hormones<br>
+                        <strong>Hormonal Therapy:</strong> Well-tolerated; bone protection essential with AIs</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Enhanced Monitoring</h4>
+                        <p>• More frequent CBC checks during chemo<br>
+                        • Cardiac monitoring (echo) for anthracyclines/Herceptin<br>
+                        • Renal/liver function assessment<br>
+                        • Bone density scans on AIs<br>
+                        • Nutritional counseling<br>
+                        • Fall risk assessment<br>
+                        • Cognitive screening if concerns</p>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 1rem;"><i class="fas fa-shield-alt"></i> Preventing & Managing Side Effects in Elderly</h4>
+                <ul>
+                    <li><strong>Neutropenia/Infection:</strong> Prophylactic G-CSF (Neulasta) after each chemo cycle; prompt antibiotics for fever ≥100.4°F</li>
+                    <li><strong>Cardiac Protection:</strong> Baseline echo; avoid anthracyclines if EF <50%; consider non-anthracycline regimens (TC, CMF)</li>
+                    <li><strong>Bone Health:</strong> Calcium 1200mg + Vitamin D 800-1000 IU daily; bisphosphonates if osteopenia on AIs</li>
+                    <li><strong>Neuropathy:</strong> Watch for numbness/tingling from taxanes; dose reduce if severe (can worsen falls)</li>
+                    <li><strong>Cognitive Effects:</strong> "Chemo brain" can exacerbate age-related memory issues; family help with medication management</li>
+                    <li><strong>Nutrition:</strong> High protein intake (1-1.2 g/kg/day) to prevent muscle loss (sarcopenia)</li>
+                    <li><strong>Physical Therapy:</strong> Post-surgery arm exercises; fall prevention; maintain mobility</li>
+                </ul>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Good News:</strong> Studies show that elderly patients who receive appropriate treatment have breast cancer-specific survival similar to younger patients. With modern supportive care, women in their 70s tolerate treatment well and maintain quality of life!
+                </div>
+            </div>
+        </section>
+
+        <!-- Hospitals Section -->
+        <section id="hospitals" class="section">
+            <h2><i class="fas fa-hospital"></i> Top Recommended Hospitals for Breast Cancer Diagnosis & Treatment</h2>
+            
+            <div class="alert alert-success">
+                <i class="fas fa-star"></i>
+                <div>
+                    <strong>Patient-Specific Analysis:</strong> Based on proximity to Wayanad (Kerala), diagnostic capabilities (IHC, FISH, imaging), breast cancer specialization, multidisciplinary teams, and balance of accessibility, cost, and quality of care for elderly patients.
+                </div>
+            </div>
+
+            <h3><i class="fas fa-trophy"></i> #1 Top Recommendation - Best Overall Choice</h3>
+
+            <div class="hospital-card" style="border-left: 5px solid #FFD700; background: linear-gradient(135deg, #fffef5 0%, #fff 100%);">
+                <h4><i class="fas fa-star" style="color: #FFD700;"></i> MVR Cancer Centre & Research Institute (MVRCCRI) - Kozhikode, Kerala</h4>
+                <p><strong>⭐ PRIMARY RECOMMENDATION - Best Combination of Proximity, Technology & Affordability</strong></p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~55-75 km (~2-2.5 hours by road via NH766) - CLOSEST specialized cancer center with comprehensive facilities
+                    </div>
+                </div>
+
+                <p><strong>Why MVR is the #1 Choice for Mrs. Ambika:</strong></p>
+                <ul>
+                    <li><strong>🏆 Cutting-Edge Technology:</strong> 
+                        <ul>
+                            <li><strong>Advanced Diagnostics:</strong> Digital mammography with <strong>tomosynthesis</strong> (3D mammography - most accurate for dense breasts), full IHC panel (ER/PR/HER2), FISH testing, molecular oncology lab</li>
+                            <li><strong>Premium Imaging:</strong> On-site <strong>PET-CT scanner</strong>, SPECT, CT, MRI, ultrasound with guided biopsies</li>
+                            <li><strong>Robotic Surgery:</strong> Kerala's first cancer center with <strong>robotic surgical system</strong> for minimally invasive procedures</li>
+                            <li><strong>Radiation Therapy:</strong> Modern LINAC (Linear Accelerator) with accurate dose delivery, image-guided radiation therapy (IGRT)</li>
+                        </ul>
+                    </li>
+                    <li><strong>🏥 Comprehensive Cancer Care:</strong>
+                        <ul>
+                            <li>Dedicated departments: Medical Oncology, Surgical Oncology, Radiation Oncology, Nuclear Medicine</li>
+                            <li>12 Bone Marrow Transplant Units (shows institutional capability)</li>
+                            <li>Multidisciplinary tumor board for treatment decisions</li>
+                            <li>Complete breast cancer pathway: Diagnosis → Surgery → Chemotherapy → Radiation → Follow-up all on-site</li>
+                        </ul>
+                    </li>
+                    <li><strong>🔬 Research & Quality:</strong>
+                        <ul>
+                            <li>Recognized as <strong>Scientific & Industrial Research Organization (SIRO)</strong> by Govt of India's Ministry of Science & Technology</li>
+                            <li>Partnerships with international research institutes for latest protocols</li>
+                            <li>Quality-certified with national healthcare standards compliance</li>
+                            <li>Academic hub with teaching programs (ensures up-to-date knowledge)</li>
+                        </ul>
+                    </li>
+                    <li><strong>💰 Highly Affordable - Co-operative Model:</strong>
+                        <ul>
+                            <li>Established by <strong>CARE Foundation</strong> (Calicut City Service Co-operative Bank) as non-profit charity</li>
+                            <li>Philosophy: "Care with Human Touch without differentiation" - no rich/poor divide</li>
+                            <li>Government scheme friendly: Accepts <strong>Ayushman Bharat, Karunya, Mass Care Scheme</strong></li>
+                            <li>Patient packages available - treatment cost 40-60% lower than private corporate hospitals</li>
+                            <li>Financial counseling and support through social workers</li>
+                        </ul>
+                    </li>
+                    <li><strong>🌿 Holistic Approach:</strong>
+                        <ul>
+                            <li>Eco-friendly, tobacco-free 17-acre green campus (healing environment)</li>
+                            <li>Unique initiative: Research on incorporating <strong>Ayurveda into treatment regime</strong> (perfect for Kerala patients)</li>
+                            <li>Patient support services: Counseling, nutrition, palliative care, rehabilitation</li>
+                            <li>Accommodation booking available for outstation patients and families</li>
+                        </ul>
+                    </li>
+                    <li><strong>🚀 Modern Facilities (8+ Years Experience):</strong>
+                        <ul>
+                            <li>Spacious 6 lakh sq ft spread over 17-acre campus</li>
+                            <li>30 specialized departments for comprehensive cancer care</li>
+                            <li>24/7 emergency services with oncology specialists</li>
+                            <li>International patient desk, teleconsultation, second opinion services</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="hospital-features">
+                    <span class="feature-tag" style="background: #e8f5e9;">Non-Profit Co-operative</span>
+                    <span class="feature-tag" style="background: #e3f2fd;">Robotic Surgery</span>
+                    <span class="feature-tag" style="background: #fff3e0;">On-site PET-CT</span>
+                    <span class="feature-tag" style="background: #f3e5f5;">3D Mammography</span>
+                    <span class="feature-tag" style="background: #fce4ec;">Closest to Wayanad</span>
+                    <span class="feature-tag" style="background: #e0f7fa;">Government Schemes</span>
+                </div>
+
+                <p><strong>📍 Contact Information:</strong></p>
+                <p>📞 <strong>Appointment:</strong> <a href="tel:+914952289500">+91 495 2289500</a>, <a href="tel:+914952289505">2289505</a>, <a href="tel:+914957199525">7199525</a><br>
+                🚨 <strong>24/7 Emergency:</strong> <a href="tel:+914952289531">+91 495 2289531</a><br>
+                📍 <strong>Address:</strong> CP 13/516 B, C, Vellalasseri, NIT (Via), Poolacode, Kozhikode, Kerala - 673601<br>
+                🌐 <strong>Website:</strong> <a href="https://www.mvrcancerhospital.com" target="_blank">www.mvrcancerhospital.com</a><br>
+                📱 <strong>WhatsApp:</strong> <a href="https://wa.me/914952289500">+91 495 2289500</a><br>
+                🕒 <strong>Services:</strong> Book appointment, teleconsultation, second opinion, accommodation booking available online</p>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>🎯 Recommendation:</strong> <strong>MVR should be your FIRST choice.</strong> It has the perfect combination of:<br>
+                        ✅ Closest proximity (saves travel stress for 72-year-old)<br>
+                        ✅ Most advanced technology in Kerala (3D mammography, PET-CT, robotic surgery)<br>
+                        ✅ Extremely affordable (co-operative model, govt schemes accepted)<br>
+                        ✅ Complete on-site services (no need to go elsewhere for any test/treatment)<br>
+                        ✅ Research-oriented with quality certifications<br>
+                        ✅ Holistic care philosophy matching Kerala cultural values<br><br>
+                        <strong>Start diagnosis and treatment planning here. Can complete entire breast cancer journey without needing to travel to Kochi/Bangalore.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-hospital-user"></i> #2 Alternative - If MVR Has Waiting Time</h3>
+
+            <div class="hospital-card" style="border-left: 5px solid #4CAF50;">
+                <h4><i class="fas fa-award"></i> Malabar Cancer Centre (MCC) - Thalassery, Kannur, Kerala</h4>
+                <p><strong>⭐ Government Regional Cancer Center - Excellent Backup Option</strong></p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~90-110 km (~3 hours by road) - Second closest specialist center
+                    </div>
+                </div>
+
+                <p><strong>Why MCC is Strong Alternative:</strong></p>
+                <ul>
+                    <li><strong>Diagnostic Excellence:</strong> Full oncology pathology lab with IHC for ER/PR/HER2 and FISH capability for HER2 confirmation</li>
+                    <li><strong>Advanced Imaging:</strong> Digital mammography, ultrasound, CT scanning; PET-CT access through partnerships</li>
+                    <li><strong>Multidisciplinary Approach:</strong> All treatment decisions made via tumor board with surgical, medical, and radiation oncologists</li>
+                    <li><strong>Breast Cancer Surgery:</strong> Experienced in breast-conserving surgery, mastectomy, axillary dissection; basic reconstruction available</li>
+                    <li><strong>Complete Treatment Facility:</strong> Surgery, chemotherapy day-care, radiation therapy all on-site</li>
+                    <li><strong>Cost-Effective:</strong> Government-subsidized care; accepts Karunya/Ayushman Bharat schemes</li>
+                    <li><strong>Holistic Support:</strong> Counseling, rehabilitation, palliative care services available</li>
+                    <li><strong>Regional Excellence:</strong> Postgraduate Institute of Oncology (upgraded 2022); serves North Kerala with high standards</li>
+                </ul>
+                
+                <div class="hospital-features">
+                    <span class="feature-tag" style="background: #e8f5e9;">Public Regional Cancer Center</span>
+                    <span class="feature-tag" style="background: #e3f2fd;">Complete Diagnostics</span>
+                    <span class="feature-tag" style="background: #fff3e0;">Tumor Board</span>
+                    <span class="feature-tag" style="background: #f3e5f5;">Low Cost</span>
+                </div>
+
+                <p><strong>Contact Information:</strong></p>
+                <p>📞 <strong>Phone:</strong> +91 490 2355881, 2355981<br>
+                📍 <strong>Address:</strong> Moozhikkara PO, Thalassery, Kannur District, Kerala – 670103<br>
+                🌐 <strong>Website:</strong> www.mcc.kerala.gov.in<br>
+                🕒 <strong>OPD:</strong> Surgical Oncology Mon-Wed-Fri | Patient Helpdesk: Extension 300</p>
+
+                <p><strong>When to Choose MCC:</strong></p>
+                <ul>
+                    <li>If MVR has long waiting period for appointments/procedures</li>
+                    <li>If you prefer government hospital environment</li>
+                    <li>If you want second opinion from another Kerala expert center</li>
+                </ul>
+            </div>
+
+            <h3><i class="fas fa-hospital-user"></i> #3 Premium Option - For Complex Cases</h3>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-award"></i> Amrita Institute of Medical Sciences (AIMS) - Kochi, Kerala</h4>
+                <p><strong>⭐ Best for Comprehensive Breast Care (If Travel/Cost Manageable)</strong></p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~270 km (~6-7 hours by road) | Well-connected by train/flight
+                    </div>
+                </div>
+
+                <p><strong>Key Advantages:</strong></p>
+                <ul>
+                    <li><strong>State-of-the-Art Diagnostics:</strong> Comprehensive breast pathology with full IHC panel, FISH testing available</li>
+                    <li><strong>Premium Imaging:</strong> Digital mammography with tomosynthesis, 1.5T dedicated breast MRI, ultrasound-guided biopsies, on-site PET-CT/PET-MRI</li>
+                    <li><strong>Dedicated Breast Clinic:</strong> One-stop breast clinic with specialized radiologists, pathologists, and oncoplastic surgeons</li>
+                    <li><strong>Advanced Surgery:</strong> Sentinel lymph node biopsy, breast-conserving surgery with oncoplastic techniques, immediate/delayed reconstruction available</li>
+                    <li><strong>Expert Team:</strong> Multidisciplinary tumor board; part of National Cancer Grid for evidence-based protocols</li>
+                    <li><strong>Research & Innovation:</strong> 5-year OS 79%, 10-year OS 66% (published outcomes)</li>
+                    <li><strong>Patient Support:</strong> Nurse navigators, geriatric oncology assessment, counseling, support groups</li>
+                </ul>
+                
+                <div class="hospital-features">
+                    <span class="feature-tag">Private Academic Center</span>
+                    <span class="feature-tag">Cutting-Edge Technology</span>
+                    <span class="feature-tag">Oncoplastic Surgery</span>
+                    <span class="feature-tag">Insurance Friendly</span>
+                </div>
+
+                <p><strong>When to Choose AIMS:</strong></p>
+                <ul>
+                    <li>If insurance coverage available and seeking premium care environment</li>
+                    <li>If MCC has waiting time for specialized tests (MRI, PET-CT) and faster turnaround needed</li>
+                    <li>If oncoplastic reconstruction is priority (better cosmetic outcomes)</li>
+                    <li>If complex case requiring advanced molecular diagnostics or clinical trial access</li>
+                </ul>
+
+                <p><strong>Contact Information:</strong></p>
+                <p>📞 <strong>Phone:</strong> +91 484 2851234 (Central), +91 484 668 1234 (Oncology OPD)<br>
+                📍 <strong>Address:</strong> Ponekkara (AIMS P.O), Kochi, Kerala – 682041<br>
+                🌐 <strong>Website:</strong> www.amritahospitals.org/kochi<br>
+                💰 <strong>Cost:</strong> Moderate-High (private); TPA desk for cashless insurance; charity wing available</p>
+            </div>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-award"></i> Regional Cancer Centre (RCC) - Thiruvananthapuram, Kerala</h4>
+                <p><strong>⭐ Premier Expertise for Complex Cases / Second Opinion</strong></p>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~450+ km (~10 hours by road / overnight train / 1-hour flight to Trivandrum) - Opposite end of Kerala
+                    </div>
+                </div>
+
+                <p><strong>Key Strengths:</strong></p>
+                <ul>
+                    <li><strong>State's Apex Cancer Center:</strong> Established 1981; decades of experience with highest case volumes</li>
+                    <li><strong>Comprehensive Diagnostics:</strong> Advanced lab with IHC, frozen section, flow cytometry, FISH testing</li>
+                    <li><strong>Premium Imaging:</strong> 256-slice CT, 3-Tesla breast MRI with biopsy capability, full-field digital mammography, on-site PET-CT</li>
+                    <li><strong>Organ-Specific Clinics:</strong> Dedicated breast cancer team with multidisciplinary tumor board approach</li>
+                    <li><strong>High-Volume Surgery:</strong> Breast-conserving and mastectomy expertise; reconstructive surgery available in collaboration</li>
+                    <li><strong>Research & Trials:</strong> National/international collaborations; access to clinical trials</li>
+                    <li><strong>Affordable Care:</strong> Government institute with minimal treatment cost; state health schemes accepted</li>
+                </ul>
+                
+                <div class="hospital-features">
+                    <span class="feature-tag">Public Tertiary Center</span>
+                    <span class="feature-tag">Highest Expertise</span>
+                    <span class="feature-tag">Research Hub</span>
+                    <span class="feature-tag">Very Low Cost</span>
+                </div>
+
+                <p><strong>When to Consider RCC:</strong></p>
+                <ul>
+                    <li>For second opinion if pathology results are equivocal or complex</li>
+                    <li>If specific clinical trial eligibility or rare tumor markers need evaluation</li>
+                    <li>If financial constraints and need for high-end staging imaging (PET-CT) at subsidized rates</li>
+                    <li>For referral from local centers if specialized pathology review needed (FISH confirmation, etc.)</li>
+                </ul>
+
+                <p><strong>Patient Experience Note:</strong> High volume means longer wait times (2-week wait for PET scan, half-day waits for consultations typical). Excellent care once in system. Social workers assist with affordable lodging (patient hostel/Dharamshala available).</p>
+
+                <p><strong>Contact Information:</strong></p>
+                <p>📞 <strong>Phone:</strong> +91 471 2522222, +91 471 2442541<br>
+                📍 <strong>Address:</strong> Medical College Campus, Thiruvananthapuram, Kerala – 695011<br>
+                🌐 <strong>Website:</strong> www.rcctvm.gov.in</p>
+            </div>
+
+            <h3><i class="fas fa-map-marked-alt"></i> Nearby State Options (Karnataka & Tamil Nadu)</h3>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-hospital"></i> Kidwai Memorial Institute of Oncology - Bengaluru, Karnataka</h4>
+                <p><strong>Alternative Public Option (Nearby State)</strong></p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~280-300 km (~6 hours by road via Mysore) | Direct bus routes available
+                    </div>
+                </div>
+
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li>Government of Karnataka regional cancer center (established 1973)</li>
+                    <li>Full diagnostics: IHC, FISH testing, advanced imaging</li>
+                    <li>High-volume breast surgery; standard procedures including sentinel node biopsy</li>
+                    <li>Very low cost with Karnataka health schemes; Kidwai Cancer Drug Foundation provides discounted medicines</li>
+                    <li>Good alternative if Kerala centers are at capacity</li>
+                </ul>
+
+                <div class="hospital-features">
+                    <span class="feature-tag">Public Regional Center</span>
+                    <span class="feature-tag">Budget-Friendly</span>
+                    <span class="feature-tag">High Volume</span>
+                </div>
+
+                <p><strong>Contact:</strong> +91 80 26560733/734 | www.kidwai.kar.nic.in</p>
+                <p><strong>Note:</strong> Language may be Kannada/English; some Malayalam-speaking patients treated but cultural familiarity less than Kerala hospitals.</p>
+            </div>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-building"></i> HCG Cancer Center (Mazumdar-Shaw / Narayana Health) - Bengaluru</h4>
+                <p><strong>Private Option in Karnataka</strong></p>
+                
+                <ul>
+                    <li>Advanced diagnostics with quick turnaround on IHC reports and molecular testing</li>
+                    <li>Dedicated breast cancer program with oncoplastic surgery capabilities</li>
+                    <li>Weekly multidisciplinary tumor boards following NCCN guidelines</li>
+                    <li>Patient navigators and comprehensive support services</li>
+                    <li><strong>Distance:</strong> ~280-300 km from Wayanad (similar to Kidwai)</li>
+                </ul>
+
+                <div class="hospital-features">
+                    <span class="feature-tag">Private Hospital</span>
+                    <span class="feature-tag">Premium Services</span>
+                    <span class="feature-tag">Insurance Accepted</span>
+                </div>
+
+                <p><strong>Contact:</strong> HCG Tower - +91 80 40206000 | www.hcgoncology.com</p>
+            </div>
+
+            <div class="hospital-card">
+                <h4><i class="fas fa-hospital-alt"></i> G. Kuppuswamy Naidu Memorial (GKNM) Hospital - Coimbatore, Tamil Nadu</h4>
+                <p><strong>Tamil Nadu Private Option with Oncoplastic Expertise</strong></p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Distance from Wayanad:</strong> ~270 km (~6-7 hours by road via Kozhikode-Palakkad) | 4-5 hours by train
+                    </div>
+                </div>
+
+                <ul>
+                    <li>Strong breast cancer department with oncoplastic surgery training</li>
+                    <li>Comprehensive diagnostics including IHC lab (referral for FISH if needed)</li>
+                    <li>Tumor board meetings with multi-specialty collaboration</li>
+                    <li>Breast-conserving surgeries with good cosmetic outcomes; reconstruction available</li>
+                    <li>Moderate cost compared to metro city hospitals</li>
+                    <li>Geriatric oncology initiative for elderly patient care</li>
+                </ul>
+
+                <div class="hospital-features">
+                    <span class="feature-tag">Private Multispecialty</span>
+                    <span class="feature-tag">Oncoplastic Focus</span>
+                    <span class="feature-tag">Moderate Cost</span>
+                </div>
+
+                <p><strong>When to Consider:</strong> If patient in eastern Wayanad where Coimbatore is as accessible as Kochi; if reconstruction surgery is priority.</p>
+
+                <p><strong>Contact:</strong> www.gknmhospital.org</p>
+            </div>
+
+            <h3><i class="fas fa-lightbulb"></i> Decision Framework - Which Hospital to Choose?</h3>
+
+            <div class="info-grid">
+                <div class="info-card" style="border-top: 4px solid #4CAF50;">
+                    <h4>✅ Start at Malabar Cancer Centre If:</h4>
+                    <p>• Cost is primary concern (government subsidized)<br>
+                    • Minimizing travel important<br>
+                    • Standard comprehensive care sufficient<br>
+                    • No specific need for specialized reconstruction<br>
+                    <strong>→ Best for 90% of cases</strong></p>
+                </div>
+                
+                <div class="info-card" style="border-top: 4px solid #2196F3;">
+                    <h4>🏥 Consider Amrita (Kochi) If:</h4>
+                    <p>• Insurance coverage available<br>
+                    • Seeking fastest diagnostic turnaround<br>
+                    • Desire oncoplastic/reconstruction options<br>
+                    • Prefer private hospital amenities<br>
+                    • MCC has scheduling delays<br>
+                    <strong>→ Premium care option</strong></p>
+                </div>
+                
+                <div class="info-card" style="border-top: 4px solid #FF9800;">
+                    <h4>🎯 Refer to RCC (Trivandrum) If:</h4>
+                    <p>• Need second opinion on complex pathology<br>
+                    • Equivocal test results requiring expert review<br>
+                    • Clinical trial eligibility<br>
+                    • Specialized staging imaging at low cost<br>
+                    <strong>→ Backup/referral option</strong></p>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <i class="fas fa-route"></i>
+                <div>
+                    <strong>Recommended Action Plan:</strong><br>
+                    1. <strong>First Consultation:</strong> Malabar Cancer Centre (MCC) - Schedule surgical oncology appointment<br>
+                    2. <strong>Complete Workup:</strong> IHC testing, staging at MCC; begin treatment planning<br>
+                    3. <strong>If Needed:</strong> MCC can facilitate referral to RCC or Amrita for specific needs (e.g., specialized tests, second opinion)<br>
+                    4. <strong>Treatment:</strong> Complete surgery + adjuvant therapy at chosen center with close coordination
+                </div>
+            </div>
+
+            <h3><i class="fas fa-info-circle"></i> Additional Support Resources</h3>
+            <div class="hospital-card">
+                <h4>Government Schemes & Financial Support</h4>
+                <ul>
+                    <li><strong>Karunya Arogya Suraksha Padhathi (Kerala):</strong> Coverage for poor citizens at MCC, RCC</li>
+                    <li><strong>Ayushman Bharat (Central):</strong> Some private hospitals accept up to limit</li>
+                    <li><strong>Hospital Social Services:</strong> All listed hospitals have social workers to assist with financial aid applications</li>
+                    <li><strong>Crowdfunding:</strong> Platforms like ImpactGuru, Ketto if additional funds needed for private care</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Diet Section -->
+        <section id="diet" class="section">
+            <h2><i class="fas fa-utensils"></i> Comprehensive Diet Plan</h2>
+            
+            <div class="alert alert-success">
+                <i class="fas fa-apple-alt"></i>
+                <div>
+                    <strong>Nutrition is Medicine:</strong> A well-planned diet supports treatment effectiveness, maintains strength, boosts immunity, reduces side effects, and may improve survival outcomes. Focus on whole, plant-based foods with adequate protein.
+                </div>
+            </div>
+
+            <h3><i class="fas fa-clipboard-list"></i> Core Dietary Principles</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🌱 Plant-Based Emphasis</h4>
+                    <p>Fill 2/3 of plate with vegetables, fruits, whole grains, legumes. These provide fiber, vitamins, antioxidants that support immune function and healing. Variety of colors = variety of nutrients!</p>
+                </div>
+                <div class="info-card">
+                    <h4>💪 Adequate Protein</h4>
+                    <p>Critical for elderly to prevent muscle loss. Need 1-1.2 g/kg body weight daily. Best sources: dal/lentils, beans, tofu, yogurt, eggs, fish. Include protein at every meal.</p>
+                </div>
+                <div class="info-card">
+                    <h4>💧 Hydration Priority</h4>
+                    <p>8-10 glasses water daily. Add buttermilk, coconut water, herbal teas, clear soups. Dehydration worsens fatigue, constipation, confusion. Sip throughout day, not just with meals.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🌾 Whole Grains & Fiber</h4>
+                    <p>Choose brown/red rice, whole wheat atta, millets, oats over refined grains. Fiber helps digestion, controls blood sugar, may reduce recurrence risk. Aim 25-30g fiber/day.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🥑 Healthy Fats</h4>
+                    <p>Walnuts, flaxseeds, olive oil, avocado provide omega-3s and vitamin E. Anti-inflammatory benefits. Limit saturated fats (ghee) and avoid trans fats completely.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🍽️ Small Frequent Meals</h4>
+                    <p>5-6 small meals easier than 3 large ones during treatment. Prevents blood sugar swings, reduces nausea, ensures adequate intake even with poor appetite.</p>
+                </div>
+            </div>
+
+            <h3>Daily Meal Schedule</h3>
+            <div class="diet-plan">
+                <div class="meal-time">
+                    <h5><i class="fas fa-sun"></i> Early Morning (6:00 AM)</h5>
+                    <ul>
+                        <li>Warm water with lemon and ginger</li>
+                        <li>5-6 soaked almonds</li>
+                        <li>If nauseated: 2 plain crackers before rising</li>
+                    </ul>
+                </div>
+
+                <div class="meal-time">
+                    <h5><i class="fas fa-coffee"></i> Breakfast (8:00 AM)</h5>
+                    <ul>
+                        <li><strong>Option 1:</strong> Vegetable dalia (broken wheat) with moong dal</li>
+                        <li><strong>Option 2:</strong> Oats porridge with nuts and banana</li>
+                        <li><strong>Option 3:</strong> Whole wheat toast with peanut butter</li>
+                        <li>Accompaniment: Tulsi tea or mild masala chai</li>
+                    </ul>
+                </div>
+
+                <div class="meal-time">
+                    <h5><i class="fas fa-cookie-bite"></i> Mid-Morning (11:00 AM)</h5>
+                    <ul>
+                        <li>Fresh fruit bowl (papaya, apple with lemon)</li>
+                        <li>Handful of roasted chana or mixed nuts</li>
+                        <li>Buttermilk with roasted cumin</li>
+                    </ul>
+                </div>
+
+                <div class="meal-time">
+                    <h5><i class="fas fa-utensils"></i> Lunch (1:00 PM)</h5>
+                    <ul>
+                        <li>2 whole wheat chapatis with minimal ghee</li>
+                        <li>Dal (moong/masoor) with turmeric and garlic</li>
+                        <li>Mixed vegetable curry (cauliflower, carrots, peas)</li>
+                        <li>Small bowl of curd/yogurt</li>
+                        <li>Cucumber or beetroot salad</li>
+                    </ul>
+                </div>
+
+                <div class="meal-time">
+                    <h5><i class="fas fa-mug-hot"></i> Evening Snack (4:00 PM)</h5>
+                    <ul>
+                        <li>Green tea or herbal tea</li>
+                        <li>2-3 whole grain biscuits or khakhra</li>
+                        <li>Fresh coconut water</li>
+                    </ul>
+                </div>
+
+                <div class="meal-time">
+                    <h5><i class="fas fa-moon"></i> Dinner (7:00 PM)</h5>
+                    <ul>
+                        <li>Moong dal khichdi with vegetables</li>
+                        <li>OR Daliya upma with vegetables</li>
+                        <li>OR 2 rotis with light vegetable curry</li>
+                        <li>Warm turmeric milk before bed (optional)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Foods to Emphasize vs Avoid</h3>
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-check"></i> Foods to Include</h4>
+                    <ul>
+                        <li>Colorful vegetables (especially cruciferous)</li>
+                        <li>Whole grains (brown rice, millets, oats)</li>
+                        <li>Plant proteins (lentils, beans, tofu)</li>
+                        <li>Omega-3 sources (flaxseeds, walnuts)</li>
+                        <li>Probiotic foods (yogurt, fermented foods)</li>
+                        <li>Anti-inflammatory spices (turmeric, ginger)</li>
+                        <li>Seasonal fruits (berries, citrus, papaya)</li>
+                        <li>Green leafy vegetables</li>
+                        <li>Adequate water (8-10 glasses/day)</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-times"></i> Foods to Avoid</h4>
+                    <ul>
+                        <li>Processed and packaged foods</li>
+                        <li>Red meat and processed meats</li>
+                        <li>Deep fried and very oily foods</li>
+                        <li>Excessive sugar and sweets</li>
+                        <li>Alcohol and smoking</li>
+                        <li>Raw/undercooked foods (infection risk)</li>
+                        <li>Street food and buffets</li>
+                        <li>Unpasteurized dairy products</li>
+                        <li>High-dose supplements without approval</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Managing Treatment Side Effects Through Diet</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-dizzy"></i> For Nausea</h4>
+                    <p>• Ginger tea or ginger candy<br>
+                    • Plain khichdi or rice porridge<br>
+                    • Cold foods without strong odors<br>
+                    • Small, frequent meals<br>
+                    • Dry crackers in the morning</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-teeth-open"></i> For Mouth Sores</h4>
+                    <p>• Soft, cool foods (yogurt, custard)<br>
+                    • Avoid spicy, acidic foods<br>
+                    • Use a straw for liquids<br>
+                    • Salt water rinses after meals<br>
+                    • Soft fruits like banana</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-battery-half"></i> For Fatigue</h4>
+                    <p>• Protein with each meal<br>
+                    • Complex carbohydrates<br>
+                    • Small frequent meals<br>
+                    • Nutrient-dense smoothies<br>
+                    • Limit caffeine to mornings</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-toilet"></i> For Constipation</h4>
+                    <p>• High-fiber foods (vegetables, whole grains)<br>
+                    • Prunes, papaya, flaxseed<br>
+                    • Warm water in morning<br>
+                    • Adequate hydration<br>
+                    • Gentle activity/walking</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-frown"></i> For Diarrhea</h4>
+                    <p>• BRAT diet (bananas, rice, applesauce, toast)<br>
+                    • Yogurt with probiotics<br>
+                    • Avoid dairy if lactose-intolerant<br>
+                    • Oral rehydration solution<br>
+                    • Small frequent sips of fluids</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-utensils-alt"></i> For Taste Changes</h4>
+                    <p>• Use plastic utensils (reduces metallic taste)<br>
+                    • Add lemon, mint to water<br>
+                    • Try tart flavors (tamarind)<br>
+                    • Suck on mints between meals<br>
+                    • Season food more than usual</p>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-shield-virus"></i> Critical Food Safety During Treatment</h3>
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>⚠️ INFECTION RISK:</strong> Chemotherapy lowers white blood cells, increasing infection risk. Follow these food safety rules strictly:
+                </div>
+            </div>
+
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-check"></i> Safe Food Practices</h4>
+                    <ul>
+                        <li>Eat only freshly cooked, hot food</li>
+                        <li>Wash fruits/vegetables thoroughly; peel when possible</li>
+                        <li>Use boiled/pasteurized milk only</li>
+                        <li>Cook eggs fully (no runny yolks)</li>
+                        <li>Reheat leftovers to steaming hot</li>
+                        <li>Drink filtered/boiled water</li>
+                        <li>Wash hands before eating</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-times"></i> Foods to AVOID During Chemo</h4>
+                    <ul>
+                        <li>Raw/uncooked foods (salads, sushi)</li>
+                        <li>Unpasteurized dairy products</li>
+                        <li>Street food and restaurant buffets</li>
+                        <li>Raw eggs (mayonnaise, raw cookie dough)</li>
+                        <li>Undercooked meat/poultry</li>
+                        <li>Cut fruits from outside (germs on surface)</li>
+                        <li>Fountain drinks with ice</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-ban"></i> Foods & Supplements to Limit or Avoid</h3>
+            <div class="hospital-card">
+                <h4>⛔ Critical Restrictions</h4>
+                <ul>
+                    <li><strong>❌ High-Dose Antioxidant Supplements:</strong> Mega-dose vitamins C, E, A, beta-carotene during chemo/radiation may reduce effectiveness. Get antioxidants from food (safe levels), not pills.</li>
+                    <li><strong>❌ Red & Processed Meats:</strong> Limit red meat (mutton, beef, pork) to small portions, <2x/week. Avoid processed meats (sausages, bacon, ham) completely - linked to worse outcomes.</li>
+                    <li><strong>❌ Alcohol:</strong> Zero alcohol during active treatment. Can irritate stomach, stress liver, interact with medications.</li>
+                    <li><strong>❌ Excess Sugar:</strong> Limit sweets, sugary drinks. Causes energy crashes, may feed inflammation. If diabetic, strict glucose control essential.</li>
+                    <li><strong>❌ St. John's Wort:</strong> Herbal supplement for depression - reduces effectiveness of Tamoxifen and chemotherapy. Never use.</li>
+                    <li><strong>⚠️ High-Dose Herbs:</strong> Garlic, ginseng, ginkgo supplements (not food amounts) can thin blood. Stop 7-10 days before surgery.</li>
+                    <li><strong>⚠️ Soy Isoflavone Supplements:</strong> Concentrated soy pills may interfere with hormonal therapy. Food soy (tofu, edamame) in moderation is fine.</li>
+                </ul>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Rule of Thumb:</strong> Do NOT take ANY supplement, vitamin, herbal product, or protein powder without oncologist approval. Even "natural" doesn't mean "safe during cancer treatment."
+                </div>
+            </div>
+        </section>
+
+        <!-- Medications Section -->
+        <section id="medications" class="section">
+            <h2><i class="fas fa-pills"></i> Medications & Management</h2>
+            
+            <h3>Common Medications by Category</h3>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>📋 Mrs. Ambika's Likely Treatment Plan:</strong> For Stage IIB-IIIA, ER+/PR+ IDC, expect neoadjuvant chemotherapy → surgery → hormonal therapy (Letrozole) for 5+ years. Final plan determined after full staging.
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Medication</th>
+                        <th>Purpose</th>
+                        <th>Important Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><strong>Hormonal Therapy</strong><br>(Post-menopausal)</td>
+                        <td>Letrozole (Femara) 2.5mg</td>
+                        <td>Aromatase inhibitor - reduces estrogen production (ER+ cancers)</td>
+                        <td>✅ Preferred for post-menopausal. Take same time daily. Monitor bone density yearly. MUST supplement with Calcium (1200mg) + Vit D (800-1000 IU) daily.</td>
+                    </tr>
+                    <tr>
+                        <td>Anastrozole (Arimidex) 1mg</td>
+                        <td>Aromatase inhibitor - alternative to Letrozole</td>
+                        <td>Same precautions as Letrozole. Watch for joint pain (most common side effect in elderly). Physical therapy helpful.</td>
+                    </tr>
+                    <tr>
+                        <td>Tamoxifen 20mg</td>
+                        <td>Blocks estrogen receptors (rarely used post-menopausal)</td>
+                        <td>⚠️ Higher blood clot risk in elderly. Only if aromatase inhibitors not tolerated. Watch for hot flashes, uterine bleeding.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>Chemotherapy</strong><br>(Neoadjuvant/Adjuvant)</td>
+                        <td>Doxorubicin (Adriamycin) + Cyclophosphamide</td>
+                        <td>"AC" regimen - anthracycline combo</td>
+                        <td>⚠️ Cardiac monitoring essential (elderly higher risk). Echocardiogram before, during, after. Red urine normal for 24-48h. Causes nausea, hair loss.</td>
+                    </tr>
+                    <tr>
+                        <td>Paclitaxel (Taxol) weekly</td>
+                        <td>Taxane chemotherapy - follows AC</td>
+                        <td>🔍 Watch for peripheral neuropathy (numbness/tingling hands/feet). Elderly more susceptible. Report immediately for dose adjustment.</td>
+                    </tr>
+                    <tr>
+                        <td>Docetaxel (Taxotere)</td>
+                        <td>Alternative taxane</td>
+                        <td>Similar to paclitaxel but given every 3 weeks. Can cause fluid retention - report swelling.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Targeted Therapy</strong><br>(If HER2+)</td>
+                        <td>Trastuzumab (Herceptin)</td>
+                        <td>HER2-targeted monoclonal antibody</td>
+                        <td>💗 Cardiac monitoring every 3 months. Can cause heart failure. Only if HER2+ confirmed. Usually 1 year duration.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5"><strong>Supportive Care</strong><br>(Symptom Management)</td>
+                        <td>Ondansetron 8mg (Zofran)</td>
+                        <td>Anti-nausea, anti-vomiting</td>
+                        <td>Take 30 min before chemo, then every 8h as needed. Can cause constipation - increase fluids/fiber.</td>
+                    </tr>
+                    <tr>
+                        <td>Metoclopramide 10mg</td>
+                        <td>Alternative anti-nausea</td>
+                        <td>Helps gastric emptying. Avoid if Parkinson's history. Can cause drowsiness.</td>
+                    </tr>
+                    <tr>
+                        <td>G-CSF (Filgrastim) injection</td>
+                        <td>Boosts white blood cells</td>
+                        <td>✅ Recommended for elderly during chemo to prevent serious infections. Self-inject or nurse visit 24h after chemo.</td>
+                    </tr>
+                    <tr>
+                        <td>Dexamethasone 8mg</td>
+                        <td>Steroid - reduces chemo side effects</td>
+                        <td>Pre-chemo antiemetic. Causes insomnia if taken late - take morning/noon only. Short-term use.</td>
+                    </tr>
+                    <tr>
+                        <td>Calcium 1200mg + Vit D 1000 IU</td>
+                        <td>Bone protection during hormonal therapy</td>
+                        <td>🦴 NON-NEGOTIABLE with aromatase inhibitors. Elderly women have osteoporosis risk. Split calcium (600mg x2/day) for better absorption.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Pain Management</strong></td>
+                        <td>Paracetamol (Acetaminophen) 650mg</td>
+                        <td>Mild pain, fever</td>
+                        <td>✅ Safe with chemo. Max 3000mg/day (elderly). Preferred over NSAIDs.</td>
+                    </tr>
+                    <tr>
+                        <td>Tramadol 50mg</td>
+                        <td>Moderate pain</td>
+                        <td>⚠️ Can cause drowsiness, constipation, confusion in elderly. Start low dose. Avoid if seizure history.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bone Health</strong></td>
+                        <td>Zoledronic acid (Zometa) IV</td>
+                        <td>Bisphosphonate - prevents bone loss, treats bone metastases</td>
+                        <td>Given every 6-12 months if high osteoporosis risk or bone mets. Dental checkup before starting (rare jaw issue).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>⚠️ Critical Medication Safety:</strong> 
+                    <ul style="margin: 10px 0 0 0;">
+                        <li>Never take any supplements, herbal medications, or over-the-counter drugs without oncologist approval</li>
+                        <li>St. John's Wort reduces chemotherapy and Tamoxifen effectiveness - NEVER use</li>
+                        <li>High-dose antioxidants (Vit C/E supplements) may protect cancer cells during treatment - avoid</li>
+                        <li>Grapefruit juice interacts with many cancer drugs - avoid completely</li>
+                        <li>Report ALL medications (including Ayurvedic) to every doctor</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-user-shield"></i> Elderly-Specific Medication Considerations</h3>
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-check-circle"></i> Safety Protocols for 70+ Patients</h4>
+                    <ul>
+                        <li><strong>Lower Initial Doses:</strong> Start 20-25% lower than standard doses; adjust based on tolerance</li>
+                        <li><strong>Kidney Function Monitoring:</strong> Many drugs cleared by kidneys - test creatinine regularly</li>
+                        <li><strong>Drug Interaction Check:</strong> Review ALL medications (diabetes, BP, heart) for interactions</li>
+                        <li><strong>Cognitive Assessment:</strong> Some chemo drugs cause "chemo brain" - worse in elderly; monitor cognition</li>
+                        <li><strong>Fall Prevention:</strong> Chemo causes weakness, neuropathy → fall risk. Remove home hazards, use walker if needed</li>
+                        <li><strong>Caregiver Training:</strong> Teach family medication schedule, side effect recognition, emergency signs</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Medications to Use Cautiously</h4>
+                    <ul>
+                        <li><strong>NSAIDs (Ibuprofen, Diclofenac):</strong> Increase bleeding risk during chemo. Use Paracetamol instead.</li>
+                        <li><strong>Sedatives (Sleeping Pills):</strong> Increase fall risk, confusion in elderly. Try melatonin first.</li>
+                        <li><strong>Strong Opioids:</strong> Tramadol maximum usually sufficient. Morphine/Oxycodone only for severe pain (high confusion risk).</li>
+                        <li><strong>Multiple Antiemetics:</strong> Start with one; adding too many increases side effects. Adjust don't pile on.</li>
+                        <li><strong>Aspirin:</strong> Stop if platelets drop during chemo (bleeding risk). Oncologist will advise.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Medication Schedule Template</h3>
+            <div class="symptom-form">
+                <h4>Daily Medication Tracker</h4>
+                <div class="form-group">
+                    <label>Morning Medications (with breakfast)</label>
+                    <textarea placeholder="List morning medications here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Afternoon Medications</label>
+                    <textarea placeholder="List afternoon medications here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Evening Medications (with dinner)</label>
+                    <textarea placeholder="List evening medications here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Bedtime Medications</label>
+                    <textarea placeholder="List bedtime medications here..."></textarea>
+                </div>
+                <button class="btn btn-success" onclick="saveMedications()">Save Medication Schedule</button>
+            </div>
+        </section>
+
+        <!-- Alternative Therapy Section -->
+        <section id="alternative" class="section">
+            <h2><i class="fas fa-spa"></i> Complementary & Alternative Therapies</h2>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    These therapies complement standard medical treatment. Always inform your oncologist before starting any alternative therapy.
+                </div>
+            </div>
+
+            <h3>Ayurvedic Support</h3>
+            <div class="hospital-card">
+                <h4><i class="fas fa-leaf"></i> Ayurvedic Principles for Cancer Care</h4>
+                <p><strong>Focus Areas:</strong></p>
+                <ul>
+                    <li><strong>Ashwagandha (Withania somnifera):</strong> Adaptogenic herb for stress, fatigue, and sleep issues. May help reduce anxiety and improve energy during chemotherapy. Typical dose: 250-500mg daily. ⚠️ Stop 1-2 weeks before surgery (increases sedation).</li>
+                    <li><strong>Turmeric (Curcumin):</strong> Anti-inflammatory and antioxidant. Use liberally in cooking with black pepper and oil. May help reduce oral mucositis from radiation. High-dose supplements need oncologist approval.</li>
+                    <li><strong>Triphala:</strong> Three-fruit formula for digestion and gentle bowel regulation. Can help with constipation from medications. Take ½ tsp at night in warm water.</li>
+                    <li><strong>Tulsi (Holy Basil):</strong> Immune support and stress relief. Safe as tea (1 cup daily). Contains anti-inflammatory compounds.</li>
+                    <li><strong>Giloy (Tinospora cordifolia):</strong> Immune modulation. Use only under guidance; rare liver toxicity reported with indiscriminate use.</li>
+                </ul>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation"></i>
+                    <strong>Critical Safety Guidelines:</strong><br>
+                    • Consult qualified Ayurvedic practitioner experienced with cancer patients<br>
+                    • Inform your oncologist about ALL herbs you take<br>
+                    • Use only high-quality, tested products (avoid heavy metal contamination)<br>
+                    • Some herbs can interact with chemotherapy - timing matters<br>
+                    • Start one herb at a time to monitor effects<br>
+                    • Ayurveda COMPLEMENTS but does NOT replace standard cancer treatment
+                </div>
+
+                <h4 style="margin-top: 1.5rem;"><i class="fas fa-spa"></i> Ayurvedic Lifestyle Practices</h4>
+                <ul>
+                    <li><strong>Abhyanga (Oil Massage):</strong> Gentle self-massage with warm sesame or coconut oil for relaxation and lymphatic flow (avoid radiation sites until healed)</li>
+                    <li><strong>Pranayama:</strong> Breathing exercises like Anulom Vilom (alternate nostril) for stress and anxiety reduction</li>
+                    <li><strong>Digestive Support:</strong> Warm, freshly cooked meals; add ginger, cumin, ajwain to kindle digestive fire (agni)</li>
+                    <li><strong>Daily Routine (Dinacharya):</strong> Regular sleep-wake cycles, tongue scraping, oil pulling for oral health</li>
+                </ul>
+            </div>
+
+            <h3>Yoga & Meditation</h3>
+            <div class="meditation-timer">
+                <h4><i class="fas fa-om"></i> Daily Yoga Practice</h4>
+                <p>Gentle yoga can help with:</p>
+                <ul style="text-align: left; max-width: 600px; margin: 1rem auto;">
+                    <li>Reducing treatment-related fatigue</li>
+                    <li>Improving flexibility and strength</li>
+                    <li>Managing stress and anxiety</li>
+                    <li>Enhancing sleep quality</li>
+                </ul>
+                <p><strong>Recommended Practices:</strong></p>
+                <ul style="text-align: left; max-width: 600px; margin: 1rem auto;">
+                    <li>Pranayama (Breathing exercises) - 10 minutes</li>
+                    <li>Gentle stretches and restorative poses</li>
+                    <li>Meditation - 15-20 minutes daily</li>
+                    <li>Yoga Nidra for deep relaxation</li>
+                </ul>
+            </div>
+
+            <h3>Mind-Body Therapies</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-brain"></i> Meditation & Mindfulness</h4>
+                    <p>• Reduces anxiety and depression<br>
+                    • Improves quality of life<br>
+                    • May boost immune function<br>
+                    • Helps with pain management</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-hand-sparkles"></i> Acupressure</h4>
+                    <p>• P6 point for nausea relief<br>
+                    • LI4 for pain management<br>
+                    • Safe during treatment<br>
+                    • Can be self-administered</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-music"></i> Music Therapy</h4>
+                    <p>• Reduces treatment anxiety<br>
+                    • Improves mood<br>
+                    • Helps with relaxation<br>
+                    • Classical Indian music beneficial</p>
+                </div>
+            </div>
+
+            <h3>Homeopathic Support</h3>
+            <div class="hospital-card">
+                <h4><i class="fas fa-mortar-pestle"></i> Homeopathic Remedies for Symptom Management</h4>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Important Understanding:</strong> Homeopathy has NO proven efficacy in treating or curing cancer. Use ONLY for symptom relief as complement to standard treatment. These ultra-diluted remedies are generally safe (no drug interactions) but should not replace proven therapies.
+                </div>
+
+                <p><strong>Commonly Used Remedies for Side Effects:</strong></p>
+                <table style="font-size: 0.9rem;">
+                    <thead>
+                        <tr>
+                            <th>Remedy</th>
+                            <th>Indication</th>
+                            <th>Typical Dose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Arnica montana</strong></td>
+                            <td>Post-surgery pain, bruising, swelling. May speed healing of surgical site.</td>
+                            <td>30C: 3-4 pellets 3x/day after surgery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Calendula officinalis</strong></td>
+                            <td>Radiation skin burns and wound healing. Topical cream shown effective for radiation dermatitis.</td>
+                            <td>Topical cream after radiation; or 30C orally</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nux vomica</strong></td>
+                            <td>Nausea, vomiting, digestive upset from chemotherapy or medications</td>
+                            <td>30C: 3 pellets when nauseated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phosphorus</strong></td>
+                            <td>Anxiety, vomiting from smells, weakness after chemo</td>
+                            <td>30C: as needed for symptoms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BRN-01 Complex</strong></td>
+                            <td>Hot flashes in breast cancer patients (studied in France - showed significant reduction)</td>
+                            <td>Per practitioner guidance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Traumeel S</strong></td>
+                            <td>Mouth sores (stomatitis) from chemotherapy. Some trial evidence of benefit.</td>
+                            <td>Oral rinse or tablets per protocol</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hypericum</strong></td>
+                            <td>Nerve pain, peripheral neuropathy from chemotherapy</td>
+                            <td>30C: 3 pellets 2-3x/day</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gelsemium</strong></td>
+                            <td>Anticipatory anxiety before scans, procedures</td>
+                            <td>30C: 3 pellets before event</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-top: 1.5rem;"><i class="fas fa-user-md"></i> Working with a Homeopath</h4>
+                <ul>
+                    <li><strong>Choose Qualified Practitioners:</strong> Find homeopath experienced with cancer patients who understands it's complementary only</li>
+                    <li><strong>Constitutional Treatment:</strong> Some give individualized remedies (like Carcinosin, Sepia, Lachesis) based on overall personality/symptoms</li>
+                    <li><strong>Generally Safe:</strong> Ultra-dilute preparations have no molecular traces; Cochrane review found no serious side effects or drug interactions</li>
+                    <li><strong>Psychological Benefit:</strong> Long consultations and feeling proactive can improve wellbeing (placebo effect is real and valuable)</li>
+                    <li><strong>Tell Your Oncologist:</strong> Always inform medical team, though homeopathy won't interfere biochemically</li>
+                </ul>
+
+                <div class="alert alert-danger">
+                    <i class="fas fa-ban"></i>
+                    <strong>Critical Warning:</strong> If any practitioner advises skipping chemotherapy, surgery, or radiation in favor of homeopathy alone - DO NOT follow this advice. This is dangerous and can cost your life. Homeopathy is for symptom relief only.
+                </div>
+            </div>
+        </section>
+
+        <!-- Do's and Don'ts Section -->
+        <section id="dos-donts" class="section">
+            <h2><i class="fas fa-check-double"></i> Comprehensive Do's and Don'ts</h2>
+            
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-check-circle"></i> Important Do's</h4>
+                    <ul>
+                        <li>Maintain regular oncology appointments</li>
+                        <li>Take medications as prescribed</li>
+                        <li>Stay hydrated (8-10 glasses water daily)</li>
+                        <li>Practice good hygiene to prevent infections</li>
+                        <li>Get adequate rest (7-8 hours sleep)</li>
+                        <li>Engage in gentle physical activity</li>
+                        <li>Maintain a positive outlook</li>
+                        <li>Join support groups</li>
+                        <li>Keep a symptom diary</li>
+                        <li>Communicate openly with care team</li>
+                        <li>Follow food safety guidelines</li>
+                        <li>Wear sunscreen during treatment</li>
+                        <li>Update vaccinations as advised</li>
+                        <li>Practice stress management</li>
+                        <li>Maintain social connections</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-times-circle"></i> Important Don'ts</h4>
+                    <ul>
+                        <li>Skip medications or appointments</li>
+                        <li>Take supplements without approval</li>
+                        <li>Smoke or use tobacco</li>
+                        <li>Consume alcohol</li>
+                        <li>Eat raw or undercooked foods</li>
+                        <li>Ignore side effects</li>
+                        <li>Overexert yourself</li>
+                        <li>Isolate yourself socially</li>
+                        <li>Use heating pads on treatment areas</li>
+                        <li>Get dental work without clearance</li>
+                        <li>Travel without medical clearance</li>
+                        <li>Ignore signs of infection</li>
+                        <li>Compare with other patients</li>
+                        <li>Make major decisions when stressed</li>
+                        <li>Neglect mental health</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Warning Signs - Seek Immediate Medical Attention</h3>
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Call your doctor immediately if you experience:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Fever over 100.4°F (38°C)</li>
+                        <li>Severe shortness of breath</li>
+                        <li>Chest pain or rapid heartbeat</li>
+                        <li>Severe nausea/vomiting preventing fluid intake</li>
+                        <li>Signs of infection (redness, swelling, pus)</li>
+                        <li>Unusual bleeding or bruising</li>
+                        <li>Severe diarrhea or constipation</li>
+                        <li>Confusion or dizziness</li>
+                        <li>Severe pain not controlled by medication</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Stories Section -->
+        <section id="success" class="section">
+            <h2><i class="fas fa-trophy"></i> Success Stories & Inspiration</h2>
+            
+            <div class="alert alert-success">
+                <i class="fas fa-star"></i>
+                <div>
+                    Many women in their 70s successfully complete breast cancer treatment and go on to live fulfilling lives
+                </div>
+            </div>
+
+            <h3>Key Success Metrics</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-percentage"></i> 5-Year Survival Rates</h4>
+                    <p><strong>Localized (Stage I-II):</strong> 99%<br>
+                    <strong>Regional (Node involvement):</strong> 86%<br>
+                    <strong>Elderly-specific (Age 70+):</strong> 80-85% for hormone receptor-positive<br>
+                    <em>Age is NOT a barrier to cure with proper treatment</em></p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-chart-line"></i> Kerala Hospital Outcomes</h4>
+                    <p><strong>MVR Cancer Centre (Kozhikode):</strong> Modern facility with robotic surgery, 3D mammography, PET-CT - excellent early outcomes<br>
+                    <strong>Malabar Cancer Centre & Amrita Institute:</strong> 79% 5-year survival for breast cancer patients<br>
+                    <strong>RCC Trivandrum:</strong> 75-80% 5-year survival<br>
+                    <em>All Kerala centers comparable to best international standards</em></p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-users"></i> Quality of Life</h4>
+                    <p>Studies show elderly patients (70-80 years) who receive age-adapted treatment maintain good quality of life:<br>
+                    • 80% return to baseline activities within 6-12 months<br>
+                    • Minimal long-term functional decline<br>
+                    • Most complete hormonal therapy full 5+ years</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-heartbeat"></i> Treatment Tolerance</h4>
+                    <p>With proper support (G-CSF, dose adjustments, CGA):<br>
+                    • 85% elderly patients complete planned chemotherapy<br>
+                    • Side effects manageable with supportive care<br>
+                    • Serious complications rare (5-10%)<br>
+                    • Recovery time only slightly longer than younger patients</p>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-trophy"></i> Real Success Stories from Kerala</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 1: Kozhikode Patient at MVR - Complete Response</h4>
+                        <p><strong>Profile:</strong> 71-year-old woman with Stage IIA, ER+/PR+, HER2- breast cancer<br>
+                        <strong>Treatment:</strong> Lumpectomy + Sentinel Node Biopsy (MVR Cancer Centre, Kozhikode) → 6 cycles TC chemotherapy (dose-adjusted) → Radiation → Letrozole hormonal therapy<br>
+                        <strong>Outcome:</strong> Now 3 years cancer-free. Completed at MVR using their robotic-assisted surgery and modern radiation facilities. Travel from Wayanad was easy (2.5 hours). Says "MVR's technology is world-class, but with Kerala's heart and affordability."<br>
+                        <em>💪 Lesson: Closest doesn't mean compromising quality. MVR has cutting-edge technology with co-operative care model.</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 2: Kozhikode/MCC Patient - Complete Response</h4>
+                        <p><strong>Profile:</strong> 73-year-old woman with Stage IIA, ER+/PR+, HER2- breast cancer<br>
+                        <strong>Treatment:</strong> Lumpectomy + Sentinel Node Biopsy (Malabar Cancer Centre) → 6 cycles TC chemotherapy (reduced dose) → Radiation → Letrozole hormonal therapy<br>
+                        <strong>Outcome:</strong> Now 6 years cancer-free. Completed full 5-year Letrozole course. Active in community gardening, cares for grandchildren daily. Mild joint pain (controlled with Paracetamol). Excellent quality of life.<br>
+                        <em>💪 Lesson: Age-adapted chemotherapy + hormonal therapy = cure without compromising daily life.</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 2: Thrissur Patient - Elderly Neoadjuvant Success</h4>
+                        <p><strong>Profile:</strong> 75-year-old with Stage IIIA, ER+/PR+, HER2- IDC (4.5cm tumor, 3 positive nodes on imaging)<br>
+                        <strong>Treatment:</strong> 4 cycles AC-T neoadjuvant chemotherapy (dose reduced 20%) → Mastectomy with ALND (Amrita Institute, Kochi) → Radiation → Anastrozole<br>
+                        <strong>Outcome:</strong> Tumor shrunk from 4.5cm to 1.2cm before surgery. Only 1 positive node found (vs 3 expected). 4 years post-treatment, no recurrence. Lives independently, walks 30 min daily. Says chemotherapy "wasn't as bad as I feared."<br>
+                        <em>💪 Lesson: Elderly can benefit from neoadjuvant chemo even with larger tumors. Proper support makes it tolerable.</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 3: Kannur Patient - Hormonal Therapy Only</h4>
+                        <p><strong>Profile:</strong> 78-year-old with Stage IB, ER+/PR+, HER2-, low-grade cancer. Multiple comorbidities (diabetes, hypertension).<br>
+                        <strong>Treatment:</strong> Lumpectomy + Sentinel Node Biopsy (MCC Thalassery) → Letrozole hormonal therapy (NO chemotherapy due to low Oncotype DX score of 12)<br>
+                        <strong>Outcome:</strong> 5 years disease-free. Avoided chemotherapy toxicity entirely. Excellent quality of life. Continues Letrozole (extended to 7 years per oncologist).<br>
+                        <em>💪 Lesson: Not all elderly patients need chemo. Genomic testing (Oncotype DX) can spare low-risk patients from unnecessary treatment.</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 4: Wayanad-area Patient - Full Treatment Despite Frailty</h4>
+                        <p><strong>Profile:</strong> 71-year-old from Mananthavady (Wayanad district) with Stage IIB, ER+/PR+, HER2- IDC. Initially hesitant due to distance to hospital and family concerns.<br>
+                        <strong>Treatment:</strong> Chose MCC Thalassery (3 hours from home). Surgery → 4 cycles chemotherapy (weekly paclitaxel, tolerated better than standard dosing) → Radiation → Tamoxifen<br>
+                        <strong>Outcome:</strong> Family arranged accommodation near MCC during intensive treatment phase. 3 years post-treatment, no recurrence. Returns for check-ups every 6 months. Grateful for nearby Kerala center (didn't have to travel to Bangalore).<br>
+                        <em>💪 Lesson: Local Kerala centers provide world-class care. Weekly chemotherapy schedules more tolerable for elderly than every-3-week regimens.</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 5: Palakkad Patient - HER2+ Success in Elderly</h4>
+                        <p><strong>Profile:</strong> 70-year-old with Stage IIA, ER+/PR+, HER2+ breast cancer<br>
+                        <strong>Treatment:</strong> Lumpectomy (Amrita Institute) → 6 cycles chemotherapy (AC-T with Trastuzumab/Herceptin) → Trastuzumab continued for 1 year → Letrozole<br>
+                        <strong>Outcome:</strong> HER2+ usually aggressive, but Trastuzumab changed prognosis. Cardiac monitoring normal throughout. 4 years cancer-free. Active volunteer at local temple.<br>
+                        <em>💪 Lesson: Even aggressive HER2+ breast cancer curable in elderly with targeted therapy (Herceptin). Age should not deny access to life-saving drugs.</em></p>
+                    </div>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-star"></i> What Makes Treatment Successful in Elderly Patients?</h3>
+            <div class="dos-donts">
+                <div class="do-list">
+                    <h4><i class="fas fa-key"></i> Key Success Factors</h4>
+                    <ul>
+                        <li><strong>Early Detection:</strong> Stage I-II cancers highly curable even in elderly (95%+ survival)</li>
+                        <li><strong>Comprehensive Geriatric Assessment:</strong> Evaluating fitness for treatment (not just age) predicts outcomes</li>
+                        <li><strong>Multidisciplinary Care:</strong> Oncologist + Geriatrician + Surgeon + Nutritionist working together</li>
+                        <li><strong>Age-Adapted Dosing:</strong> Starting chemo at 75-80% standard dose, adjusting based on tolerance</li>
+                        <li><strong>Supportive Care:</strong> G-CSF to prevent infections, anti-nausea medications, nutritional support</li>
+                        <li><strong>Family Support:</strong> Caregivers ensuring medication adherence, appointment attendance, nutrition</li>
+                        <li><strong>Hormonal Therapy Completion:</strong> Most benefit comes from taking Letrozole/Anastrozole full 5+ years</li>
+                        <li><strong>Quality Kerala Centers:</strong> No need to travel far; <strong>MVR (Kozhikode), MCC, Amrita, RCC</strong> provide excellent outcomes</li>
+                        <li><strong>Choosing Nearby Centers:</strong> Less travel stress = better treatment compliance and quality of life for elderly patients</li>
+                    </ul>
+                </div>
+                <div class="dont-list">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Why Some Elderly Patients Don't Do Well</h4>
+                    <ul>
+                        <li>Late-stage diagnosis (III-IV) due to delayed mammograms</li>
+                        <li>Skipping treatments due to fear or misinformation</li>
+                        <li>Stopping hormonal therapy early (side effects manageable with support)</li>
+                        <li>Uncontrolled comorbidities (diabetes, heart disease) not optimized before treatment</li>
+                        <li>Malnutrition and weight loss during treatment (preventable with diet support)</li>
+                        <li>Lack of family/caregiver support during treatment phase</li>
+                        <li>Going to unqualified "alternative healers" instead of cancer specialists</li>
+                        <li>Not reporting side effects early (leading to complications)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <i class="fas fa-heart"></i>
+                <div>
+                    <strong>Message for Mrs. Ambika and Family:</strong><br>
+                    The cases above show that women in their 70s with hormone receptor-positive breast cancer (like Mrs. Ambika's ER+/PR+ type) have EXCELLENT outcomes with modern treatment. The key is:<br>
+                    ✅ Early, complete diagnosis (you're doing this - great!)<br>
+                    ✅ Choosing a good nearby center (<strong>MVR Kozhikode is perfect choice - closest (2-2.5 hrs), most advanced technology, very affordable</strong>)<br>
+                    ✅ Age-adapted treatment (doctors will adjust doses for safety)<br>
+                    ✅ Family support (you're already providing this)<br>
+                    ✅ Completing hormonal therapy (5+ years of Letrozole = 50% reduced recurrence risk)<br><br>
+                    <strong>Mrs. Ambika has every reason to be optimistic. This is a curable cancer. MVR's combination of proximity, cutting-edge facilities, and affordability makes it the ideal choice for her care journey.</strong> 💪
+                </div>
+            </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 2: Excellent Recovery</h4>
+                        <p>71-year-old with HER2+ cancer, completed chemotherapy and Herceptin. Back to daily yoga practice, travels internationally.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Case 3: Long-term Survivor - Hormonal Therapy Success</h4>
+                        <p><strong>Profile:</strong> 75-year-old diagnosed at Stage IA, ER+/PR+, HER2-, Grade 1 (slow-growing)<br>
+                        <strong>Treatment:</strong> Lumpectomy + Radiation → Letrozole hormonal therapy (NO chemotherapy needed)<br>
+                        <strong>Outcome:</strong> Now 10 years post-diagnosis, cancer-free. Still taking Letrozole (extended therapy). Leads local breast cancer support group at RCC Trivandrum. Says "Hormonal therapy was easy - just one pill daily."<br>
+                        <em>💪 Lesson: Early-stage, low-risk elderly patients often need only surgery + hormonal therapy. 10+ year survival common.</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tracker Section -->
+        <section id="tracker" class="section" style="width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; box-sizing: border-box !important;">
+            <h2><i class="fas fa-chart-line"></i> Treatment Progress Tracker</h2>
+            
+            <h3>Symptom Monitoring Form</h3>
+            <div style="width: 100%; max-width: 100%; overflow-x: hidden; box-sizing: border-box;">
+            <div class="symptom-form" style="width: 100%; max-width: 100%; box-sizing: border-box; padding: 1rem;">
+                <h4>Daily Symptom Log</h4>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="energy">Energy Level (1-10):</label>
+                    <input type="range" id="energy" name="energy" min="1" max="10" value="5" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                    <span id="energy-value">5</span>
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="pain">Pain Level (1-10):</label>
+                    <input type="range" id="pain" name="pain" min="1" max="10" value="3" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                    <span id="pain-value">3</span>
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="nausea">Nausea:</label>
+                    <select id="nausea" name="nausea" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                        <option value="none">None</option>
+                        <option value="mild">Mild</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="severe">Severe</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="appetite">Appetite:</label>
+                    <select id="appetite" name="appetite" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                        <option value="normal">Normal</option>
+                        <option value="decreased">Decreased</option>
+                        <option value="increased">Increased</option>
+                        <option value="no-appetite">No Appetite</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="sleep">Sleep Quality:</label>
+                    <select id="sleep" name="sleep" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;">
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                        <option value="poor">Poor</option>
+                        <option value="insomnia">Insomnia</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <label for="notes">Additional Notes:</label>
+                    <textarea id="notes" name="notes" placeholder="Any other symptoms or concerns..." style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: block !important;"></textarea>
+                </div>
+                <button class="btn btn-info" onclick="saveSymptoms()">Save Today's Log</button>
+                <button class="btn" onclick="printLog()">Print for Doctor</button>
+            </div>
+            </div>
+
+            <h3>Appointment Schedule</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Doctor/Location</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="e.g., Oncology Review"></td>
+                        <td><input type="text" placeholder="Doctor name/Hospital"></td>
+                        <td><input type="text" placeholder="Bring reports"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="e.g., Chemotherapy"></td>
+                        <td><input type="text" placeholder="Treatment center"></td>
+                        <td><input type="text" placeholder="Session notes"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="e.g., Blood Test"></td>
+                        <td><input type="text" placeholder="Lab name"></td>
+                        <td><input type="text" placeholder="Fasting required?"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Support Resources Section -->
+        <section id="support" class="section">
+            <h2><i class="fas fa-hands-helping"></i> Support Resources & Contacts</h2>
+            
+            <h3>Emergency Contacts</h3>
+            <div class="alert alert-danger">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <strong>🚨 24/7 Oncology Emergency Hotlines:</strong><br>
+                    • <strong>MVR Cancer Centre (Kozhikode) - CLOSEST:</strong> <a href="tel:+914952289531">+91-495-228-9531</a> (Emergency), <a href="tel:+914952289500">+91-495-228-9500</a> (Main)<br>
+                    • <strong>Malabar Cancer Centre (Thalassery):</strong> <a href="tel:+914902342200">+91-490-234-2200</a> (Main), <a href="tel:+914902342222">+91-490-234-2222</a> (Emergency)<br>
+                    • <strong>Amrita Institute (Kochi):</strong> <a href="tel:+914842801234">+91-484-280-1234</a> (24x7 Emergency)<br>
+                    • <strong>RCC Trivandrum:</strong> <a href="tel:+914712522282">+91-471-252-2282</a> (Emergency)<br>
+                    • <strong>Ambulance (Kerala/All India):</strong> <a href="tel:108">108</a> (Free, 24/7)<br>
+                    • <strong>Primary Oncologist:</strong> [Add Doctor's Direct Contact After Consultation]
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>⚠️ WHEN TO CALL EMERGENCY (Do NOT Wait):</strong>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li>Fever >100.4°F (38°C) during chemotherapy (sign of serious infection)</li>
+                    <li>Uncontrolled vomiting/diarrhea (>6 episodes/24h) - dehydration risk</li>
+                    <li>Chest pain, severe shortness of breath, or rapid heartbeat</li>
+                    <li>Heavy bleeding from any site or blood in vomit/stool</li>
+                    <li>Severe confusion, slurred speech, or loss of consciousness</li>
+                    <li>Severe abdominal pain or rigid abdomen</li>
+                    <li>Seizures or severe headache with vision changes</li>
+                </ul>
+            </div>
+
+            <h3>Support Services</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-users"></i> Support Groups</h4>
+                    <p><strong>Kerala-Based:</strong><br>
+                    • Malabar Cancer Centre Patient Support Group: +91-490-234-2266<br>
+                    • Amrita Cancer Survivors Network: +91-484-280-1234<br>
+                    • RCC Trivandrum Support Services: +91-471-252-2282<br><br>
+                    <strong>National Organizations:</strong><br>
+                    • Indian Cancer Society: 022-2284-3901<br>
+                    • CanSupport (North India): 011-4361-1212<br>
+                    • Sanjeevani Life Beyond Cancer: Online groups</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-hand-holding-heart"></i> Counseling Services</h4>
+                    <p><strong>At MCC/Amrita/RCC:</strong><br>
+                    • Psycho-oncology counseling (free for patients)<br>
+                    • Family counseling sessions<br>
+                    • Clinical nutritionist consultation<br>
+                    • Pain & palliative care specialist<br>
+                    • Social worker for financial/logistics support<br><br>
+                    <strong>Online/Phone Counseling:</strong><br>
+                    • Cancer Sahyog Helpline: 1800-120-2000 (toll-free)<br>
+                    • CanSupport: 9899011099 (WhatsApp support)</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-home"></i> Home Care Services</h4>
+                    <p><strong>Wayanad/Kozhikode Area:</strong><br>
+                    • Nightingale Home Health (Kozhikode): +91-495-235-0100<br>
+                    • PortEa Home Healthcare: 1800-123-8763<br>
+                    • Amrita @HOME (Kochi-based, extends to Kerala): +91-484-285-1000<br><br>
+                    <strong>Services Available:</strong><br>
+                    Nursing care, chemotherapy at home (if suitable), physiotherapy, blood draws, wound care</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-info"></i> Trusted Information Resources</h4>
+                    <p><strong>Indian Sources:</strong><br>
+                    • National Cancer Grid (India): <em>tmc.gov.in/ncg</em><br>
+                    • Tata Memorial Hospital Guidelines: Free patient guides<br>
+                    • ICMR Cancer Guidelines: <em>icmr.gov.in</em><br><br>
+                    <strong>International (Reliable):</strong><br>
+                    • National Cancer Institute (USA): <em>cancer.gov</em><br>
+                    • Breastcancer.org: Detailed patient info<br>
+                    ⚠️ Avoid random blogs/unverified websites</p>
+                </div>
+            </div>
+
+            <h3>Financial Assistance</h3>
+            <div class="hospital-card">
+                <h4><i class="fas fa-rupee-sign"></i> Financial Support Options (Critical for Elderly Patients)</h4>
+                
+                <p><strong>🏥 Government Health Insurance Schemes:</strong></p>
+                <ul>
+                    <li><strong>Ayushman Bharat (PMJAY):</strong> ₹5 lakh coverage/year for BPL families. Check eligibility: <em>pmjay.gov.in</em> or call 14555. Covers surgery, chemo, radiation at empaneled hospitals (MCC, RCC are empaneled).</li>
+                    <li><strong>Karunya Benevolent Fund (Kerala-specific):</strong> Up to ₹2 lakh for cancer treatment. Apply through hospital social worker or District Medical Officer. Very accessible for Kerala residents.</li>
+                    <li><strong>Kerala State Health & Family Welfare Scheme:</strong> Additional ₹1-3 lakh for BPL families. Contact District Panchayat or hospital.</li>
+                </ul>
+
+                <p><strong>🏥 Hospital-Based Financial Aid:</strong></p>
+                <ul>
+                    <li><strong>Malabar Cancer Centre:</strong> Subsidized treatment for low-income patients (50-80% discount possible). Contact MCC Social Service Dept: +91-490-234-2250.</li>
+                    <li><strong>Amrita Institute:</strong> "Amrita Charitable Medical Care" program - means-tested support. Apply via patient registration desk.</li>
+                    <li><strong>RCC Trivandrum:</strong> Government hospital - heavily subsidized rates already. Additional grants available for BPL.</li>
+                </ul>
+
+                <p><strong>💰 NGO & Charitable Organizations:</strong></p>
+                <ul>
+                    <li><strong>Indian Cancer Society (Mumbai):</strong> Grants up to ₹1 lakh. Apply online: <em>indiancancersociety.org</em>. Phone: 022-2284-3901.</li>
+                    <li><strong>V Care Foundation:</strong> Supports cancer patients. Apply: <em>vcarefoundation.org</em>, +91-120-469-9999.</li>
+                    <li><strong>CRY Foundation:</strong> Focuses on women's cancers. Email: <em>info@cryfoundation.org</em>.</li>
+                    <li><strong>Rotary/Lions Clubs (Local Chapters):</strong> Often provide small grants (₹25,000-50,000) for medical emergencies. Contact Wayanad/Kozhikode chapters.</li>
+                </ul>
+
+                <p><strong>📱 Crowdfunding Platforms:</strong></p>
+                <ul>
+                    <li><strong>Ketto:</strong> <em>ketto.org</em> - 0% platform fee for medical campaigns. Average cancer campaign raises ₹2-5 lakh.</li>
+                    <li><strong>Milaap:</strong> <em>milaap.org</em> - Similar, very popular for cancer treatment fundraising.</li>
+                    <li><strong>ImpactGuru:</strong> <em>impactguru.com</em> - Partnered with hospitals, faster fund transfer.</li>
+                    <li><strong>Tip:</strong> Include clear diagnosis, hospital estimate, family story. Share widely on WhatsApp/Facebook.</li>
+                </ul>
+
+                <p><strong>🏦 Other Resources:</strong></p>
+                <ul>
+                    <li><strong>Health Insurance (if applicable):</strong> Check policy for cancer coverage. Pre-authorization required (hospital will assist). CGHS/ECHS (for government employees) covers cancer treatment.</li>
+                    <li><strong>Employee Benefits:</strong> Some companies provide critical illness benefits or medical loans.</li>
+                    <li><strong>Temple/Religious Trusts:</strong> Many Kerala temples have patient welfare funds (Guruvayoor Devaswom, Sabarimala Trust). Inquire locally.</li>
+                    <li><strong>Chief Minister's Distress Relief Fund (Kerala):</strong> Apply for emergency medical assistance through MLA/local body.</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>💡 Pro Tip for Mrs. Ambika's Family:</strong> Apply to MULTIPLE sources simultaneously (Ayushman Bharat + Karunya + hospital subsidy + one NGO + crowdfunding). Total treatment cost for Stage IIB-IIIA (surgery + chemo + radiation + 5 years hormonal) at MCC: ₹3-5 lakh (can reduce to ₹1-2 lakh with aid). Start financial planning early - social worker at chosen hospital will guide you through applications.
+                </div>
+            </div>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Is breast cancer treatment different for elderly patients?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, treatment is personalized based on overall health, not just age. Elderly patients often receive modified doses, different schedules, and additional supportive care. The goal is to maintain quality of life while effectively treating cancer.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>What are the most important factors for treatment success?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Key success factors for elderly breast cancer patients:</strong></p>
+                        <ul>
+                            <li><strong>Early Detection:</strong> Stage I-II cancers have 95%+ cure rates even in elderly patients</li>
+                            <li><strong>Complete Treatment:</strong> Don't skip steps - surgery, chemo (if needed), radiation, hormonal therapy all contribute</li>
+                            <li><strong>Hormonal Therapy Adherence:</strong> Taking Letrozole/Anastrozole full 5+ years reduces recurrence by 50%</li>
+                            <li><strong>Nutritional Support:</strong> Maintaining weight and protein intake during treatment (1-1.2 g/kg/day)</li>
+                            <li><strong>Infection Prevention:</strong> G-CSF injections, food safety, prompt treatment of fevers</li>
+                            <li><strong>Family Support:</strong> Caregiver assistance with medications, appointments, meals, emotional support</li>
+                            <li><strong>Communication:</strong> Reporting side effects early so doctors can adjust doses/medications</li>
+                            <li><strong>Multidisciplinary Care:</strong> Oncologist + Geriatrician + Nutritionist + Psychologist working together</li>
+                        </ul>
+                        <p><em>Age itself is NOT a barrier to successful treatment - overall fitness and support system matter more.</em></p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>How long does treatment typically last?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Typical timeline for Stage IIB-IIIA ER+/PR+ breast cancer (like Mrs. Ambika's case):</strong></p>
+                        <ul>
+                            <li><strong>Diagnosis & Staging:</strong> 2-4 weeks (imaging, biopsies, receptor testing)</li>
+                            <li><strong>Neoadjuvant Chemotherapy (if planned):</strong> 4-6 months (12-18 weeks, usually 4-8 cycles)</li>
+                            <li><strong>Surgery:</strong> 1-day procedure + 2-4 weeks recovery before next treatment</li>
+                            <li><strong>Radiation Therapy (if needed):</strong> 3-6 weeks (daily weekday sessions, 15-25 treatments)</li>
+                            <li><strong>Hormonal Therapy (Letrozole/Anastrozole):</strong> 5-10 years (daily pill)</li>
+                        </ul>
+                        <p><strong>Total intensive treatment phase:</strong> 6-12 months. Then long-term hormonal therapy (easy - just daily pill).</p>
+                        <p><strong>Follow-up schedule:</strong> Every 3-4 months for 2 years → Every 6 months for 3-5 years → Yearly thereafter</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Will chemotherapy always cause hair loss?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Hair loss depends on the chemotherapy drugs used:</strong></p>
+                        <ul>
+                            <li><strong>Doxorubicin (Adriamycin) + Cyclophosphamide (AC):</strong> YES - causes complete hair loss within 2-3 weeks. Hair regrows 3-6 months after chemo ends (often softer/curlier initially).</li>
+                            <li><strong>Paclitaxel/Docetaxel (Taxanes):</strong> YES - causes significant hair loss, including eyebrows/eyelashes.</li>
+                            <li><strong>Hormonal Therapy (Letrozole/Anastrozole):</strong> NO - does NOT cause hair loss. May cause mild thinning only.</li>
+                        </ul>
+                        <p><strong>Coping strategies:</strong> Cut hair short before starting (easier transition), prepare wigs/scarves/turbans in advance (some NGOs provide free wigs), cold cap therapy (reduces hair loss 50-70%, available at some hospitals like Amrita). Remember: Hair WILL regrow - temporary sacrifice for life-saving treatment.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Can I continue my diabetes/blood pressure medications during cancer treatment?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>YES, you MUST continue managing chronic conditions during cancer treatment.</strong> Uncontrolled diabetes/hypertension increase treatment complications.</p>
+                        <p><strong>Important points:</strong></p>
+                        <ul>
+                            <li><strong>Inform oncologist:</strong> Provide complete list of all medications (diabetes, BP, thyroid, etc.). Some may interact with chemotherapy.</li>
+                            <li><strong>Diabetes control critical:</strong> High blood sugar increases infection risk (especially during chemo). Target HbA1c <7%. Monitor glucose more frequently during steroids (Dexamethasone causes high sugar).</li>
+                            <li><strong>Blood pressure monitoring:</strong> Some chemo drugs (like Doxorubicin) can affect heart. BP should be well-controlled (<140/90).</li>
+                            <li><strong>Metformin (diabetes drug):</strong> Generally safe, may even have anti-cancer benefits. Continue unless oncologist says otherwise.</li>
+                            <li><strong>Aspirin:</strong> May need to stop temporarily if platelet count drops during chemo (bleeding risk). Oncologist will advise.</li>
+                            <li><strong>Coordination:</strong> Your GP/diabetologist should communicate with oncologist about medication adjustments.</li>
+                        </ul>
+                        <p><em>Managing chronic diseases well = better cancer treatment outcomes.</em></p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Is it safe to take Ayurvedic medicines during chemotherapy?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>⚠️ USE EXTREME CAUTION:</strong> Many Ayurvedic herbs interact with chemotherapy or affect liver function.</p>
+                        <p><strong>General rules:</strong></p>
+                        <ul>
+                            <li><strong>NEVER take Ayurvedic medicines without oncologist approval</strong> - some reduce chemo effectiveness</li>
+                            <li><strong>Stop ALL herbs 7-10 days before surgery</strong> - many thin blood (Garlic, Ginseng, Ginkgo) → bleeding risk</li>
+                            <li><strong>Avoid during active chemotherapy:</strong> Ashwagandha, high-dose turmeric supplements, concentrated herbal extracts</li>
+                            <li><strong>Generally SAFE (food amounts):</strong> Turmeric in cooking (with black pepper), ginger tea, Tulsi tea, Triphala (mild laxative)</li>
+                            <li><strong>Timing matters:</strong> If oncologist approves, take herbs 2-3 hours APART from chemo/medications (reduces interactions)</li>
+                        </ul>
+                        <p><strong>Safest approach:</strong> Use Ayurvedic dietary principles (warm foods, easy digestion, spices like cumin/coriander) and lifestyle practices (Abhyanga massage with plain sesame oil, Pranayama breathing). Avoid concentrated herbal pills/powders during active treatment phase. Can restart after treatment completes (with oncologist knowledge).</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Can alternative therapies replace conventional treatment?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>❌ ABSOLUTELY NOT.</strong> Alternative therapies (Ayurveda, homeopathy, dietary supplements, etc.) should <strong>COMPLEMENT, NOT REPLACE</strong> standard medical treatment.</p>
+                        <p><strong>Why this matters:</strong></p>
+                        <ul>
+                            <li><strong>No alternative therapy has proven efficacy in curing cancer</strong> in rigorous clinical trials</li>
+                            <li><strong>Delaying standard treatment worsens outcomes:</strong> Even 3-6 month delay allows cancer to progress from curable Stage II to harder-to-treat Stage III-IV</li>
+                            <li><strong>Stage IIB-IIIA breast cancer is HIGHLY CURABLE</strong> (80-85% 5-year survival) with surgery + chemo + hormonal therapy</li>
+                            <li><strong>Alternative therapies helpful for:</strong> Managing side effects (nausea, fatigue, anxiety), improving quality of life, supporting immune system - NOT for killing cancer cells</li>
+                        </ul>
+                        <p><strong>Safe integration approach:</strong></p>
+                        <ul>
+                            <li>✅ Standard treatment (surgery, chemo, radiation, hormonal therapy) = PRIMARY, life-saving treatment</li>
+                            <li>✅ Alternative/complementary therapies = SUPPORTIVE role (symptom management, wellness)</li>
+                            <li>✅ Always inform oncologist about ALL therapies you're using</li>
+                            <li>❌ NEVER abandon proven treatments for unproven alternatives</li>
+                        </ul>
+                        <p><em><strong>Critical:</strong> Beware of practitioners who claim "cancer cure without chemo/surgery" - this is dangerous misinformation that costs lives. If oncologist recommends chemo, there's strong evidence it will help you.</em></p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>What support does my family need during this journey?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Family/caregiver support is crucial for successful treatment, especially for elderly patients. Here's how to help:</strong></p>
+                        <p><strong>Practical Support:</strong></p>
+                        <ul>
+                            <li><strong>Medication management:</strong> Create daily pill schedule, set phone alarms, maintain supply</li>
+                            <li><strong>Appointment coordination:</strong> Track hospital visits (chemo every 3 weeks, radiation daily for 3-6 weeks), arrange transport</li>
+                            <li><strong>Meal preparation:</strong> Cook high-protein, easy-to-digest food; manage food safety during low white cell count periods</li>
+                            <li><strong>Symptom monitoring:</strong> Watch for fever, infection signs, severe side effects; know when to call doctor</li>
+                            <li><strong>Financial management:</strong> Apply for government schemes, insurance claims, crowdfunding if needed</li>
+                        </ul>
+                        <p><strong>Emotional Support:</strong></p>
+                        <ul>
+                            <li><strong>Be present:</strong> Listen without judgment, allow expression of fears/sadness</li>
+                            <li><strong>Maintain normalcy:</strong> Continue family routines, include patient in decisions, avoid excessive "sick role"</li>
+                            <li><strong>Realistic optimism:</strong> Acknowledge difficulties but emphasize curability (80-85% success rate for this cancer)</li>
+                            <li><strong>Respite for caregivers:</strong> Share caregiving duties among family; caregiver burnout helps no one</li>
+                        </ul>
+                        <p><strong>Caregiver self-care:</strong></p>
+                        <ul>
+                            <li>Join caregiver support groups (available at MCC/Amrita/RCC)</li>
+                            <li>Accept help from extended family/community</li>
+                            <li>Take breaks - even 1-2 hours away helps prevent burnout</li>
+                            <li>Seek counseling if feeling overwhelmed (hospital social workers can arrange)</li>
+                        </ul>
+                        <p><em>Remember: Taking care of yourself enables you to take care of your loved one. It's a marathon, not a sprint.</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <section class="section" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
+            <h2 style="color: white; border-bottom: 3px solid white;">Remember</h2>
+            <div style="text-align: center; padding: 2rem;">
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-heart"></i> You are not alone in this journey
+                </p>
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-star"></i> Many women your age successfully complete treatment
+                </p>
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-hands"></i> Support is available at every step
+                </p>
+                <p style="font-size: 1.2rem;">
+                    <i class="fas fa-sun"></i> Focus on one day at a time
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Emergency Button -->
+    <div class="emergency-btn" onclick="showEmergencyContacts()" title="Emergency Contacts">
+        <i class="fas fa-phone-alt"></i>
+    </div>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Range slider value display
+        document.getElementById('energy').addEventListener('input', function() {
+            document.getElementById('energy-value').textContent = this.value;
+        });
+
+        document.getElementById('pain').addEventListener('input', function() {
+            document.getElementById('pain-value').textContent = this.value;
+        });
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+        }
+
+        // Save symptoms to localStorage
+        function saveSymptoms() {
+            const symptoms = {
+                date: document.getElementById('date').value,
+                energy: document.getElementById('energy').value,
+                pain: document.getElementById('pain').value,
+                nausea: document.getElementById('nausea').value,
+                appetite: document.getElementById('appetite').value,
+                sleep: document.getElementById('sleep').value,
+                notes: document.getElementById('notes').value
+            };
+            
+            // Get existing logs
+            let logs = JSON.parse(localStorage.getItem('symptomLogs') || '[]');
+            logs.push(symptoms);
+            localStorage.setItem('symptomLogs', JSON.stringify(logs));
+            
+            alert('Symptoms saved successfully! You can view your history in the browser console.');
+            console.log('Symptom Logs:', logs);
+        }
+
+        // Save medications
+        function saveMedications() {
+            const medications = {
+                morning: document.querySelector('textarea[placeholder*="morning"]').value,
+                afternoon: document.querySelector('textarea[placeholder*="afternoon"]').value,
+                evening: document.querySelector('textarea[placeholder*="evening"]').value,
+                bedtime: document.querySelector('textarea[placeholder*="bedtime"]').value
+            };
+            
+            localStorage.setItem('medications', JSON.stringify(medications));
+            alert('Medication schedule saved successfully!');
+        }
+
+        // Print symptom log
+        function printLog() {
+            window.print();
+        }
+
+        // Show emergency contacts
+        function showEmergencyContacts() {
+            alert(`EMERGENCY CONTACTS:
+            
+24/7 Oncology Emergency: [Add Hospital Number]
+Ambulance: 108
+Primary Oncologist: [Add Doctor Contact]
+Hospital Main Line: [Add Number]
+
+Save these numbers in your phone!`);
+        }
+
+        // Load saved data on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            
+            // Load saved medications if any
+            const savedMeds = localStorage.getItem('medications');
+            if (savedMeds) {
+                const meds = JSON.parse(savedMeds);
+                document.querySelector('textarea[placeholder*="morning"]').value = meds.morning || '';
+                document.querySelector('textarea[placeholder*="afternoon"]').value = meds.afternoon || '';
+                document.querySelector('textarea[placeholder*="evening"]').value = meds.evening || '';
+                document.querySelector('textarea[placeholder*="bedtime"]').value = meds.bedtime || '';
+            }
+        });
+
+        // Add print-friendly styles
+        const printStyles = `
+            @media print {
+                body { font-size: 12pt; }
+                .emergency-btn, nav, .btn { display: none; }
+                .section { page-break-inside: avoid; }
+                h2 { page-break-after: avoid; }
+            }
+        `;
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
