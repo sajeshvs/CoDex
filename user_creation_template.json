@@ -1,0 +1,36 @@
+{
+  "_comment": "Template for creating new users in Microsoft Entra ID",
+  "_admin": "sajesh.admin@mvlgroupusa.onmicrosoft.com",
+  "_instructions": "Replace the placeholder values below with actual user information",
+
+  "accountEnabled": true,
+  "displayName": "FirstName LastName",
+  "mailNickname": "firstnamelastname",
+  "userPrincipalName": "firstname.lastname@mvlgroupusa.onmicrosoft.com",
+
+  "passwordProfile": {
+    "forceChangePasswordNextSignIn": true,
+    "password": "TemporaryP@ssw0rd123!"
+  },
+
+  "givenName": "FirstName",
+  "surname": "LastName",
+  "jobTitle": "Job Title",
+  "department": "Department Name",
+  "officeLocation": "Office Location",
+
+  "businessPhones": ["+1 555-0100"],
+  "mobilePhone": "+1 555-0101",
+
+  "city": "City",
+  "state": "State",
+  "country": "US",
+  "postalCode": "12345",
+  "streetAddress": "123 Main Street",
+
+  "usageLocation": "US",
+  "employeeId": "EMP00001",
+  "employeeType": "Employee",
+  "companyName": "MVL Group USA",
+  "preferredLanguage": "en-US"
+}
