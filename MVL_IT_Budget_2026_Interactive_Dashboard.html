@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVL Group IT Budget 2026 - Excel View Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-logo {
+            height: 60px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .summary-bar {
+            background: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 0.75em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .summary-value.positive {
+            color: #10b981;
+        }
+
+        .summary-value.negative {
+            color: #ef4444;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-controls {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .filter-btn.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        thead {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #444;
+            border-bottom: 2px solid #ddd;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #e9ecef;
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.3;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr.selected {
+            background: #e3f2fd;
+        }
+
+        td {
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        .line-number {
+            font-weight: 600;
+            color: #666;
+            text-align: center;
+            width: 50px;
+        }
+
+        .description-cell {
+            max-width: 300px;
+            white-space: normal;
+            line-height: 1.4;
+        }
+
+        .amount {
+            text-align: right;
+            font-family: 'Consolas', monospace;
+            font-weight: 500;
+        }
+
+        .variance-positive {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .variance-negative {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-critical {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badge-savings {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .badge-new {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .badge-approved {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-cmmc {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            width: 95%;
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .modal-header-content h2 {
+            font-size: 1.6em;
+            margin-bottom: 8px;
+        }
+
+        .modal-header-content .line-info {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .modal-cost-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal-cost-label {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .modal-cost-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            opacity: 0.8;
+        }
+
+        .close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        .modal-section h3 {
+            color: #1e3c72;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .info-label {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .chart-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            height: 300px;
+        }
+
+        .chart-small {
+            height: 200px;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+
+        .highlight-box.success {
+            background: #d1fae5;
+            border-left-color: #10b981;
+        }
+
+        .highlight-box.danger {
+            background: #fee2e2;
+            border-left-color: #ef4444;
+        }
+
+        .highlight-box.info {
+            background: #dbeafe;
+            border-left-color: #3b82f6;
+        }
+
+        .highlight-box h4 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .tab:hover {
+            color: #1e3c72;
+            background: #f8f9fa;
+        }
+
+        .tab.active {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .justification-text {
+            line-height: 1.8;
+            color: #444;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .cmmc-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .cmmc-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid #fde68a;
+        }
+
+        @media (max-width: 1200px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .summary-bar {
+                flex-direction: column;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.75em;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 1% auto;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="data:image/png;base64,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" alt="MVL Logo" class="header-logo">
+        <div class="header-content">
+            <h1>MVL Group IT Budget 2026 - Comprehensive Dashboard</h1>
+            <p>DoD Contractor | CMMC Level 2 Compliance | 323 Users | 15 Global Offices</p>
+        </div>
+    </div>
+
+    <div class="summary-bar">
+        <div class="summary-item">
+            <div class="summary-label">Total Budget 2026</div>
+            <div class="summary-value">$1,252,180</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Budget Increase</div>
+            <div class="summary-value positive">+82%</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Cost Savings Identified</div>
+            <div class="summary-value positive">$189,089</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">New Critical Items</div>
+            <div class="summary-value negative">+$230,500</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">CMMC Readiness</div>
+            <div class="summary-value positive">98%</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Cost Per User</div>
+            <div class="summary-value">$3,877</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="table-controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search budget items..." onkeyup="filterTable()">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCategory('all')">All (44)</button>
+                <button class="filter-btn" onclick="filterCategory('critical')">Critical (10)</button>
+                <button class="filter-btn" onclick="filterCategory('savings')">Savings (18)</button>
+                <button class="filter-btn" onclick="filterCategory('cmmc')">CMMC (28)</button>
+                <button class="filter-btn" onclick="filterCategory('new')">New (12)</button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="budgetTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" onclick="sortTable(0)">Line #</th>
+                        <th class="sortable" onclick="sortTable(1)">Description</th>
+                        <th class="sortable" onclick="sortTable(2)">2024 Actual</th>
+                        <th class="sortable" onclick="sortTable(3)">2025 Budget</th>
+                        <th class="sortable" onclick="sortTable(4)">2026 Budget</th>
+                        <th class="sortable" onclick="sortTable(5)">Variance</th>
+                        <th class="sortable" onclick="sortTable(6)">Change %</th>
+                        <th>CMMC</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="budgetTableBody">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2 id="modalTitle"></h2>
+                    <div class="line-info" id="modalLineInfo"></div>
+                </div>
+                <div class="modal-cost-badge">
+                    <div class="modal-cost-label">2026 Budget</div>
+                    <div class="modal-cost-value" id="modalCost"></div>
+                </div>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Budget data - All 44 line items
+        const budgetData = [
+            { line: 1, description: "Microsoft 365 GCC G5 Licenses", actual2024: 0, budget2025: 150000, budget2026: 240768, variance: 90768, variancePercent: 60.5, cmmc: "AC, AU, IA, SC", status: "pending", category: "cmmc", justification: "Core digital identity and security platform. 323 licenses @ $62/user/month (GCC G5 premium). Required for FedRAMP-authorized CUI handling. Includes Defender for Endpoint, Purview DLP, eDiscovery, and Entra ID Premium. User count increased from 240 (2025) to 323 (2026) due to global expansion.", comments: "Per-user pricing model. Non-negotiable for DoD contractor status. GCC G5 is the ONLY authorized platform for CUI environments.", marketAnalysis: "FedRAMP-authorized cloud platform required for CUI handling. GCC G5 premium tier necessary for advanced compliance features.", optimization: "Review user licensing tiers - some users may not require full G5 capabilities.", roi: "Foundation of CMMC compliance strategy covering 47 of 110 NIST SP 800-171 controls. Protects $100M+ DoD contract portfolio." },
+            { line: 2, description: "Microsoft GCC NIST Controls Verification & Audit", actual2024: 0, budget2025: 0, budget2026: 5000, variance: 5000, variancePercent: 0, cmmc: "CA-2, CA-7, RA-5", status: "new", category: "cmmc new", justification: "Annual verification of Microsoft GCC configuration against NIST SP 800-171 Rev 2 requirements. Independent validation of cloud security controls, tenant hardening, and conditional access policies. Required for C3PAO audit evidence.", comments: "New requirement for CMMC Level 2. Third-party assessment of cloud environment configuration and compliance posture.", marketAnalysis: "Appropriate pricing for tenant security assessment. Market rate: $3K-$8K for SMB-tier cloud configuration audit.", optimization: "Bundle with CMMC consulting services for potential volume discount.", roi: "Provides independent validation of cloud security controls, reducing C3PAO audit risk. Audit findings cost $10K-$50K to remediate." },
+            { line: 3, description: "Physical Access Control Systems (All Sites)", actual2024: 0, budget2025: 0, budget2026: 30000, variance: 30000, variancePercent: 0, cmmc: "PE-2, PE-3, PE-6", status: "critical", category: "cmmc critical", justification: "CMMC Level 2 mandates physical access controls for facilities processing CUI. Includes badge readers, surveillance cameras, network video recorders, and monitoring systems across Dubai HQ and project sites. DNV compliance assessment identified this as critical gap. Estimated $2,000 per site × 15 locations.", comments: "Identified during initial DNV compliance review. Physical security is equally important as cyber security for CUI protection. Capital expense amortized over budget period.", marketAnalysis: "Physical security infrastructure required for CMMC compliance. Badge readers, cameras, and monitoring systems across 15 global offices.", optimization: "Phase deployment across priority sites. Consider cloud-based monitoring to reduce capital costs.", roi: "Prevents CMMC audit failure on PE controls. Failed audit = cannot bid DoD contracts. Mandatory for business continuity." },
+            { line: 4, description: "Dubai HQ Internet Connectivity (Dedicated)", actual2024: 5065, budget2025: 11000, budget2026: 17000, variance: 6000, variancePercent: 54.5, cmmc: "SC-7, SC-8", status: "pending", category: "cmmc", justification: "Primary operational hub expanded to full floor occupancy. Current 100Mbps insufficient for 150+ Dubai users uploading large construction drawings (AutoCAD, Revit, Procore). Upgrade to dedicated 500Mbps fiber with SLA guarantees for business continuity. Supports core IT systems, M365 sync, and Zscaler cloud gateway.", comments: "Dubai serves as central IT hub. Bandwidth bottlenecks directly impact productivity across engineering, procurement, and project teams.", marketAnalysis: "Competitive pricing for UAE business fiber. Bandwidth upgrade necessary to support 150+ users and cloud application traffic.", optimization: "Monitor utilization quarterly. Consider SD-WAN for bandwidth optimization and failover capabilities.", roi: "Eliminates productivity bottlenecks for 150 Dubai users. Improved uptime and SLA protection for mission-critical connectivity." },
+            { line: 5, description: "Acronis Cyber Protect Cloud + Remote Support", actual2024: 0, budget2025: 6800, budget2026: 10000, variance: 3200, variancePercent: 47.1, cmmc: "SI-12, CP-9, IR-4", status: "pending", category: "cmmc", justification: "Per-user endpoint backup, anti-malware, and ransomware protection. Current: 170 users @ $40/user/year. 2026: 250 users (buffer for Q2-Q3 hiring surge). Integrated remote support module enables secure troubleshooting without VPN. Session logging required for audit compliance.", comments: "User count scaling. Price per seat remains stable. Buffer included for recruitment pipeline (50 expected IT equipment deployments).", marketAnalysis: "Competitive pricing for unified endpoint protection and backup. Alternative solutions (Veeam, Datto) have similar pricing models.", optimization: "Monitor actual user count quarterly. Adjust licensing to match active endpoints. Review data retention policies to optimize cloud storage costs.", roi: "Prevents ransomware downtime and data loss. Single incident costs $50K-$500K (recovery + business interruption). Insurance requires endpoint backup." },
+            { line: 6, description: "Zscaler ZIA + ZPA (ZTNA Platform)", actual2024: 0, budget2025: 65000, budget2026: 112850, variance: 47850, variancePercent: 73.6, cmmc: "AC-3, AC-4, SC-7, IA-2", status: "critical", category: "cmmc critical", justification: "Zero Trust Network Access replacing traditional VPN model. Identity-based, device-aware secure internet gateway (ZIA) and private access (ZPA). Licensing: 323 users @ $350/user/year. Mandatory for CMMC Level 2 Zero Trust posture. No on-prem firewall dependency. Cloud-first perimeter defense.", comments: "Core Zero Trust enforcement layer. Scales with user count. FedRAMP Moderate authorized. Integrates with Entra ID for SSO. Alternative to capital-intensive on-prem firewalls.", marketAnalysis: "Zscaler is industry leader in Zero Trust Network Access. FedRAMP authorization critical for DoD contractors. Pricing aligned with 300+ user enterprise tier.", optimization: "Consider tiered licensing - not all users need full ZIA+ZPA capabilities. Review actual usage patterns quarterly.", roi: "Eliminates VPN infrastructure ($15K hardware + $8K/year support). Zero Trust architecture prevents lateral movement attacks and enables secure remote access." },
+            { line: 7, description: "Adobe Acrobat Pro DC (Enterprise)", actual2024: 0, budget2025: 50000, budget2026: 50000, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Engineering and construction teams require advanced PDF editing, redaction, and collaboration for bid documents, RFIs, submittals, and as-builts. 100 licenses @ $500/user/year. Standard tool across DoD construction contractors.", comments: "Engineering productivity tool. No CUI handling in Adobe products; CUI workflows use Bluebeam + M365.", marketAnalysis: "Adobe Acrobat Pro DC retail pricing $500/user/year. Enterprise agreements available at volume discounts (VIP Select).", optimization: "Negotiate VIP Select 3-year commitment for 15-20% discount. Hybrid approach with PDF-XChange for basic users could save $30K annually.", roi: "Engineering productivity tool enabling $500M proposal pipeline. PDF workflows save 10 hours/week per engineer." },
+            { line: 8, description: "PDF-XChange Editor (Budget Alternative)", actual2024: 0, budget2025: 0, budget2026: 740, variance: 740, variancePercent: 0, cmmc: "N/A", status: "pending", category: "new", justification: "Lightweight PDF editor for non-engineering staff (HR, admin, finance). 20 licenses @ $37/user. Cost-effective alternative to full Adobe suite for basic PDF tasks.", comments: "Cost optimization measure. Reduces Adobe license count without impacting capabilities.", marketAnalysis: "Excellent value at $37/user. Best-in-class Adobe alternative for basic PDF editing needs.", optimization: "Already optimized. Consider expanding to additional non-engineering users to maximize Adobe savings.", roi: "Enables Adobe license reduction while maintaining PDF editing capability for all staff." },
+            { line: 9, description: "AutoCAD License (Named Users)", actual2024: 0, budget2025: 20000, budget2026: 20000, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "10 named user licenses for MEP and civil engineering design. Annual subscription @ $2,000/seat. Core design tool for construction drawings and site plans.", comments: "Stable licensing cost. User count aligned to engineering headcount.", marketAnalysis: "AutoCAD annual subscription verified at $1,955/year. User's $2,000/user accurate for annual licensing.", optimization: "Already optimized. Named user licensing appropriate for dedicated CAD engineers. No flex licensing available.", roi: "Core design tool enabling $500M project pipeline. Required for 80% of DoD construction contracts." },
+            { line: 10, description: "Autodesk Revit License (Named Users)", actual2024: 0, budget2025: 0, budget2026: 28000, variance: 28000, variancePercent: 0, cmmc: "N/A", status: "new", category: "new", justification: "Building Information Modeling (BIM) software for design-build projects. 10 licenses @ $2,800/seat. New requirement for federal BIM-mandated contracts. Supports 3D coordination and clash detection.", comments: "NEW in 2026. Federal projects increasingly require BIM deliverables per VA and NAVFAC standards.", marketAnalysis: "Revit annual subscription $2,825/year verified. Federal BIM mandate driving adoption across DoD construction contractors.", optimization: "Consider mix of full licenses and Flex tokens for occasional BIM users to reduce costs by 30-40%.", roi: "Federal BIM mandate on VA/NAVFAC projects. Without Revit, cannot bid 30% of DoD construction portfolio = $150M opportunity." },
+            { line: 11, description: "Oracle Primavera P6 EPPM", actual2024: 0, budget2025: 35000, budget2026: 35000, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "10 concurrent user licenses for construction scheduling and resource management. Industry standard for DoD construction projects. Supports critical path analysis, earned value management, and multi-project portfolio tracking.", comments: "Required by many DoD contracts. Stable pricing under enterprise agreement.", marketAnalysis: "Competitive pricing at $3,500/concurrent user. Market rate: $3,000-$4,500/concurrent for P6 EPPM.", optimization: "Already optimized through enterprise agreement. Concurrent licensing most cost-effective for MVL usage pattern.", roi: "Required by 70% of DoD contracts. Earned value reporting mandatory for cost-plus projects. Critical path scheduling prevents delays." },
+            { line: 12, description: "PlanSwift Takeoff Software (Enterprise)", actual2024: 0, budget2025: 10000, budget2026: 140000, variance: 130000, variancePercent: 1300, cmmc: "N/A", status: "critical", category: "critical", justification: "Construction estimating and digital takeoff platform. 2025: 5 licenses @ $2,000. 2026: Enterprise deployment for 50 estimators/PMs @ $2,800/user. Critical for bid accuracy and cost control. ROI: Reduces estimating time by 40%, improves bid win rate.", comments: "MAJOR EXPANSION. Moving from pilot (5 users) to enterprise rollout. Supports 2026 $500M+ proposal pipeline and IDIQ task order responses.", marketAnalysis: "PlanSwift enterprise pricing appears high at $2,800/user. Market alternatives (OnCenter, Trimble) offer 50-user volume pricing $1,400-$1,800/user.", optimization: "Renegotiate enterprise pricing. Target $1,800/user = $90K total. Competitive quotes from OnCenter Stack or Trimble could drive price down 35%.", roi: "50 estimators × 20 hours/week × 40% time savings = 20,800 hours saved/year × $75/hour = $1.56M annual value. Even at $140K, ROI = 11X." },
+            { line: 13, description: "Microsoft Sentinel (Cloud-Native SIEM)", actual2024: 0, budget2025: 0, budget2026: 60000, variance: 60000, variancePercent: 0, cmmc: "AU-2, AU-3, AU-6, SI-4", status: "critical", category: "cmmc critical", justification: "Log aggregation and security event monitoring. Variable cost based on ingestion: estimated 500GB/day @ $3/GB/month = $45K + $15K analytics. CMMC Level 2 REQUIRES centralized logging of all system activity (endpoints, cloud apps, network). Consolidates M365, Zscaler, Acronis, and application logs.", comments: "NOT FIXED COST - scales with log volume. Currently not all products integrated. Full CMMC compliance requires complete log coverage. Hosts custom application workloads.", marketAnalysis: "Sentinel pricing model requires careful sizing. 500GB/day may be overestimated. Activate M365 E5 free 5MB/user/day benefit (1.6GB/day = $48K value).", optimization: "Right-size log sources. Implement retention policies. Target 27GB/day realistic ingestion = $47K vs $60K estimated. Deploy data controls to prevent runaway costs.", roi: "CMMC mandatory requirement. Centralized logging prevents $50K-$500K breach costs through early detection. Required for SOC services and incident response." },
+            { line: 14, description: "Advanced Email Security (ATP + Anti-Phishing)", actual2024: 0, budget2025: 0, budget2026: 15000, variance: 15000, variancePercent: 0, cmmc: "SC-7, SI-3, SI-8", status: "new", category: "cmmc new", justification: "Enhanced email threat protection beyond M365 Defender. URL rewriting, attachment sandboxing, impersonation detection, and BEC prevention. 323 users @ $46/user/year. Layered defense against phishing (primary attack vector).", comments: "NEW for 2026. Email remains #1 threat vector. Supplements native M365 protections with specialized anti-phishing AI.", marketAnalysis: "M365 GCC G5 includes Defender for Office 365 Plan 2. Verify whether third-party email security is redundant or adds value.", optimization: "Review M365 Defender P2 capabilities. May be redundant with GCC G5 included features. Potential $15K elimination if native protection sufficient.", roi: "Phishing prevention. Single BEC incident averages $50K-$150K loss. Email security prevents credential theft and ransomware delivery." },
+            { line: 15, description: "IT Physical Security Officer (Budget Reserve)", actual2024: 0, budget2025: 15000, budget2026: 25000, variance: 10000, variancePercent: 66.7, cmmc: "PE-2, PE-3, PS-6", status: "pending", category: "cmmc", justification: "Dedicated physical security role for CUI facilities. Responsibilities: access control administration, visitor management, badge issuance, CCTV monitoring, and compliance reporting. CMMC Level 2 requires documented physical security procedures. Allocation covers part-time or contract resource.", comments: "Buffer for multi-site requirement. May be shared resource or contracted service depending on site needs. Required for any office processing CUI.", marketAnalysis: "Reasonable allocation for part-time physical security officer or contracted service. Market rate: $50K-$70K FTE, $25K appropriate for part-time or multi-site shared resource.", optimization: "Already optimized as part-time allocation. Full-time officer unnecessary given 15-site distribution and remote monitoring capabilities.", roi: "Prevents CMMC PE control failures. Required for any facility processing CUI. Supports physical access control systems operation." },
+            { line: 16, description: "Security Operations Center (SOC) Services", actual2024: 0, budget2025: 50000, budget2026: 50000, variance: 0, variancePercent: 0, cmmc: "IR-4, IR-5, IR-6, SI-4", status: "pending", category: "cmmc", justification: "24/7/365 security monitoring and incident response. Services: real-time alert triage, threat hunting, SIEM tuning, incident investigation, and compliance reporting. CMMC Level 2 requires continuous monitoring and documented incident response. Lean IT team (5 FTE) cannot provide round-the-clock coverage internally.", comments: "MANDATORY for CMMC Level 2. Human-in-the-loop oversight of automated tools. Converts Sentinel data into actionable intelligence. Estimated $4,200/month for SMB-tier SOC.", marketAnalysis: "Competitive pricing at $4,167/month for 24/7 SOC. Market rate: $4,000-$6,000/month for full-service SOC. Co-managed model could reduce to $3,333/month.", optimization: "Consider co-managed model leveraging internal IT Security Admin for L1 triage = $40K vs $50K full-service. Savings $10K annually.", roi: "Mandatory for CMMC Level 2. Prevents breaches costing $50K-$500K. Insurance requires 24/7 monitoring. ROI = incident prevention value." },
+            { line: 17, description: "Adobe Creative Cloud (Marketing/Proposals)", actual2024: 717, budget2025: 0, budget2026: 6000, variance: 6000, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Creative suite for proposal graphics, marketing collateral, and corporate branding. 10 licenses @ $600/user/year. Supports business development and communications teams.", comments: "Moved from personal subscriptions to corporate licenses for asset control and brand consistency.", marketAnalysis: "Adobe Creative Cloud All Apps retail $600/user/year. VIP Select 3-year commitment available at $560/user (save $400 total).", optimization: "VIP Select 3-year commitment saves $40/user × 10 users = $400/year. Already reasonable pricing for creative suite.", roi: "Proposal graphics quality impacts win rates. Professional branding supports $500M bid pipeline. Difficult to quantify but essential." },
+            { line: 18, description: "Dropbox Business (Legacy Data Retention)", actual2024: 1500, budget2025: 563, budget2026: 563, variance: 0, variancePercent: 0, cmmc: "N/A", status: "savings", category: "savings", justification: "Minimal licensing to preserve historical project data not yet migrated to M365 SharePoint. 3 licenses @ $188/user/year. Data upload to M365 GCC OneDrive experiencing delays; Dropbox retained as interim bridge per CFO approval.", comments: "Cost reduction from 8 licenses (2024) to 3 (2026). Migration to M365 in progress but not CUI-compliant, so limited use.", marketAnalysis: "Dropbox not FedRAMP authorized, cannot store CUI. Migration to M365 mandatory. One-time $3K migration eliminates $563/year perpetual cost.", optimization: "Eliminate Dropbox completely. Migrate to M365 OneDrive/SharePoint. One-time $3K migration cost, $563/year perpetual savings. ROI = 5.3 years payback.", roi: "Eliminates compliance risk + perpetual cost savings. M365 already paid for in Line 1." },
+            { line: 19, description: "Website Hosting (MicroTrack - MVL Corporate)", actual2024: 735, budget2025: 1470, budget2026: 1470, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Managed hosting for public-facing mvlgroup.com corporate website. Cloud hosting with CDN, SSL, DDoS protection, and 99.9% uptime SLA.", comments: "Stable cost. External website; no CUI data.", marketAnalysis: "Reasonable pricing for managed business hosting. Market rate: $100-$200/month for managed WordPress/business hosting with CDN and DDoS protection.", optimization: "Already optimized. Could consider Azure Static Web Apps or Cloudflare Pages for lower cost, but migration effort not worth $1K/year savings.", roi: "Corporate website required for business development and client communications. Marketing tool, difficult to quantify direct ROI." },
+            { line: 20, description: "Adobe InDesign (Publications/Technical Docs)", actual2024: 483, budget2025: 966, budget2026: 966, variance: 0, variancePercent: 0, cmmc: "N/A", status: "savings", category: "savings", justification: "Desktop publishing for technical manuals, O&M documentation, and formal reports. 2 licenses @ $483/user/year.", comments: "Specialized tool for production-quality documentation required by some contracts.", marketAnalysis: "InDesign included in Adobe Creative Cloud All Apps. If users already have Creative Cloud (Line 17), standalone InDesign licenses may be redundant.", optimization: "Verify user overlap with Creative Cloud subscription (Line 17). If redundant, eliminate standalone InDesign licenses = $966 savings.", roi: "Technical documentation quality for contract deliverables. Required for formal publications and O&M manuals." },
+            { line: 21, description: "Freshworks IT Service Management (ITSM)", actual2024: 2254, budget2025: 10000, budget2026: 5000, variance: -5000, variancePercent: -50, cmmc: "CM-3, CM-7", status: "savings", category: "savings", justification: "IT ticketing, asset management, and change control. Transitioning to native M365 solutions (SharePoint service desk + Intune asset tracking) to reduce redundancy. 2026 budget covers transition period and potential integration needs.", comments: "COST REDUCTION. Consolidating ITSM functions into M365 ecosystem to reduce licensing sprawl.", marketAnalysis: "Freshworks ITSM $5K/year can be replaced with Power Apps custom build. One-time $10K investment, $5K/year perpetual savings starting 2027.", optimization: "Build Power Apps ITSM for $10K one-time cost. Eliminates $5K/year recurring from 2027. ROI = 2 years payback, then perpetual savings.", roi: "Eliminates $5K/year recurring cost while maintaining ITSM capability. Integrated with M365 for better asset tracking." },
+            { line: 22, description: "MW-OCS Website Hosting (Subsidiary Site)", actual2024: 83, budget2025: 166, budget2026: 200, variance: 34, variancePercent: 20.5, cmmc: "N/A", status: "savings", category: "savings", justification: "Small hosting plan for subsidiary or project-specific microsite. Basic shared hosting with SSL certificate.", comments: "Minimal cost. External marketing site.", marketAnalysis: "$200/year for basic shared hosting can be eliminated. Cloudflare Pages (free) or Azure Static Web Apps ($10/month = $120/year) saves $80-$200/year.", optimization: "Migrate to Cloudflare Pages (free) or Azure Static Web Apps. One-time migration effort, perpetual $200/year savings.", roi: "Small savings but demonstrates cost discipline. Free hosting reduces vendor management overhead." },
+            { line: 23, description: "IT Equipment & Network Infrastructure", actual2024: 4000, budget2025: 7000, budget2026: 15000, variance: 8000, variancePercent: 114.3, cmmc: "Various", status: "pending", category: "", justification: "Network switches, wireless access points, UPS systems, cabling, monitors, docking stations, and peripherals. Growth drivers: (1) Staff expansion across 15 offices, (2) IT server room cooling inadequacy in Dubai heat causing premature hardware failure, (3) Monitor replacement program for engineering teams (dual 27\" displays per engineer). Estimated 50 new endpoint deployments in 2026.", comments: "Capital + consumables budget. Includes emergency replacements. Dubai server room AC upgrade critical for equipment longevity.", marketAnalysis: "Infrastructure budget appears reasonable for 50 new hire deployments + Dubai cooling upgrade ($6K critical).", optimization: "Split budget clearly: $15K infrastructure (cooling, switches, UPS) + separate line for employee peripherals ($35K for 50 employees). Improve budget visibility.", roi: "Infrastructure prevents downtime. Cooling upgrade prevents premature hardware failure. Employee peripherals enable productivity from day one." },
+            { line: 24, description: "Ad-Hoc Software Purchases & Licensing", actual2024: 2000, budget2025: 5000, budget2026: 10000, variance: 5000, variancePercent: 100, cmmc: "N/A", status: "pending", category: "", justification: "Budget reserve for unanticipated software needs, trial licenses, specialized tools for specific contracts, or temporary project requirements. Examples: surveying software, structural analysis tools, specialized estimating databases.", comments: "Flexible fund for business-driven software acquisitions not predictable at budget planning stage.", marketAnalysis: "Reasonable contingency fund for 323-user organization. $31/user budget reserve for ad-hoc software needs.", optimization: "Already appropriately sized. Track spending quarterly to identify patterns for future budget planning.", roi: "Enables agility for contract-specific software requirements. Prevents project delays waiting for budget approvals." },
+            { line: 25, description: "SSL/TLS Certificates (5 Domains)", actual2024: 90, budget2025: 480, budget2026: 500, variance: 20, variancePercent: 4.2, cmmc: "SC-8, SC-13", status: "pending", category: "cmmc", justification: "Extended Validation (EV) SSL certificates for mvlgroup.com, partner sites, and internal portals. $100/certificate/year average. Required for HTTPS encryption and browser trust.", comments: "Security foundational. All websites must use HTTPS per modern standards.", marketAnalysis: "EV SSL $100-$200/year for public sites appropriate. Consider Let's Encrypt (free) for internal portals to reduce costs.", optimization: "Use Let's Encrypt (free) for internal portals, commercial EV SSL only for public-facing sites. Could reduce to $200 budget (2 EV certs only).", roi: "Security foundational. All websites must use HTTPS per modern standards and browser requirements." },
+            { line: 26, description: "Deltek Costpoint Annual Maintenance (AMC)", actual2024: 18000, budget2025: 18000, budget2026: 18000, variance: 0, variancePercent: 0, cmmc: "AU-2, AU-12", status: "pending", category: "cmmc", justification: "Enterprise Resource Planning (ERP) system for government contracting. Supports project accounting, timekeeping, labor distribution, indirect rate calculations, and DCAA compliance. AMC includes software updates, technical support, and regulatory compliance updates.", comments: "Mission-critical financial system for DoD contractor operations. Stable AMC under multi-year agreement.", marketAnalysis: "Standard Deltek AMC pricing (18-22% of license value). Non-negotiable for government contracting compliance and DCAA audit support.", optimization: "Already optimized under enterprise agreement. Ensure team receives adequate training to maximize AMC value and system utilization.", roi: "DCAA compliance required for all cost-plus contracts. Without Deltek, cannot bill government contracts. ROI = ∞ (business critical)." },
+            { line: 27, description: "Vehicle GPS Tracking (Fleet Management)", actual2024: 531, budget2025: 410, budget2026: 350, variance: -60, variancePercent: -14.6, cmmc: "N/A", status: "savings", category: "savings", justification: "Real-time GPS tracking for company vehicles and equipment. Reduction due to fleet optimization and contract renegotiation. ~15 devices @ $23/month.", comments: "Cost reduction through vendor consolidation and fleet rightsizing.", marketAnalysis: "$350/year for 15 devices ($23/year per device = $1.94/month) appears to be pricing error. Market rate GPS tracking: $15-$25/month per device.", optimization: "Verify pricing. Realistic: 15 devices × $20/month = $3,600/year. Current $350 budget appears to be mathematical error.", roi: "Fleet tracking saves 10% fuel costs + theft prevention + equipment utilization. 15 vehicles @ $5K/year fuel × 10% = $7.5K savings annually." },
+            { line: 28, description: "Penetration Testing as a Service (PTaaS)", actual2024: 63, budget2025: 5500, budget2026: 5500, variance: 0, variancePercent: 0, cmmc: "CA-8, RA-5, SI-2", status: "pending", category: "cmmc", justification: "Annual penetration testing of external perimeter, web applications, and internal network. CMMC Level 2 requires annual vulnerability assessments and penetration testing. PTaaS model provides continuous testing vs. point-in-time assessments.", comments: "Compliance requirement. Generates evidence for C3PAO audit. Third-party validation of security controls.", marketAnalysis: "Competitive pricing for annual pen test. Market rate: $5K-$8K for SMB external + internal + web app testing.", optimization: "Optional: Upgrade to quarterly PTaaS for $8,500 total (+$3K). CMMC continuous monitoring best practice, but annual testing meets minimum requirements.", roi: "Mandatory CMMC requirement. Identifies vulnerabilities before attackers exploit them. Single breach costs $50K-$500K." },
+            { line: 29, description: "Bluebeam Revu (Construction Markup)", actual2024: 978, budget2025: 570, budget2026: 7500, variance: 6930, variancePercent: 1215.8, cmmc: "N/A", status: "new", category: "new", justification: "Industry-standard PDF markup and collaboration for construction documents. 2025: 3 licenses. 2026: 30 licenses @ $250/seat for project teams. Supports RFI workflows, submittal reviews, and punch list management. Bluebeam Studio for real-time collaboration on large drawing sets.", comments: "EXPANSION. Moving from limited pilot to project team standard. Required for multi-party construction coordination.", marketAnalysis: "Bluebeam Revu Standard maintenance $249/year verified. Industry standard for construction PDF collaboration.", optimization: "Consider hybrid licensing: 15 power users (full Bluebeam) + 15 casual users (PDF-XChange) = $3,750 + $555 = $4,305 total vs $7,500. Save $3,195.", roi: "Real-time collaboration on construction drawings saves 5 hours/week per PM × 30 users × $100/hour = $780K annual value." },
+            { line: 30, description: "Actimo Employee Engagement Platform", actual2024: 12550, budget2025: 13500, budget2026: 15000, variance: 1500, variancePercent: 11.1, cmmc: "N/A", status: "pending", category: "", justification: "Employee intranet and engagement platform. 250 users @ $60/user/year. Subscription renewed December 2025 per HR (Joshna). 90-day termination notice required; data retrieval plan needed before cancellation. Platform under evaluation for replacement with M365 SharePoint intranet.", comments: "Under review for consolidation into M365. Current contract active through Q4 2026. Data migration complexity delays transition.", marketAnalysis: "Actimo $60/user/year can be replaced with Viva Connections (included in M365 E5/G5). One-time $8K deployment cost eliminates $15K/year from 2027.", optimization: "Deploy Viva Connections for $8K one-time cost. Serve 90-day notice March 2026, migrate Q2. Saves $15K/year starting 2027. ROI = 6 months payback.", roi: "Eliminates $15K/year recurring cost while improving M365 integration. Better mobile experience and SharePoint integration." },
+            { line: 31, description: "Digital Risk & Dark Web Monitoring", actual2024: 150, budget2025: 20000, budget2026: 20000, variance: 0, variancePercent: 0, cmmc: "RA-3, SI-4", status: "pending", category: "", justification: "Continuous monitoring of dark web, paste sites, and hacker forums for MVL credentials, leaked data, or threat intelligence. Alerts on exposed passwords, breached accounts, or targeted campaigns. Proactive threat intelligence for incident prevention.", comments: "Risk management tool. Early warning system for credential compromise or data exposure.", marketAnalysis: "$20K for 323 users = $62/user appears overpriced. Market rate for dark web monitoring: $20-$40/user for SMB tier. Competitive quotes could yield $10K-$13K pricing.", optimization: "Competitive quotes from Flare ($12K), SpyCloud ($9K), or integrate with Defender Threat Intelligence (partial coverage). Alternative: Invest in MFA enforcement instead.", roi: "Detective control (after breach) less valuable than preventive control (MFA). Consider reallocating budget to MFA enforcement project." },
+            { line: 32, description: "LinkedIn Recruiter Licenses", actual2024: 622, budget2025: 1244, budget2026: 5000, variance: 3756, variancePercent: 301.9, cmmc: "N/A", status: "pending", category: "", justification: "Professional recruiting platform for hiring surge. 2025: 1 license @ $1,244. 2026: 4 licenses @ $1,250/year to support 790-candidate recruitment pipeline across engineering, PM, and operations roles. Critical for reaching passive candidates in tight labor market.", comments: "EXPANSION to support aggressive hiring targets. ROI: LinkedIn hires typically higher quality and faster time-to-fill than traditional job boards.", marketAnalysis: "LinkedIn Recruiter Lite market rate: $1,200-$1,600/user/year depending on contract term. $1,250/user competitive pricing.", optimization: "Already optimized. Consider upgrading 1 license to full Recruiter ($8,500) if hitting search limits for specialized engineering roles.", roi: "Single quality hire saves $15K agency fee. 4 licenses pay for themselves with 1 direct hire vs. agency placement." },
+            { line: 33, description: "NordVPN (Personal Use / Non-CUI)", actual2024: 36, budget2025: 72, budget2026: 72, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Consumer VPN for non-CUI use cases: public WiFi protection during travel, geo-restricted vendor portals, or personal devices. NOT for CUI access (Zscaler ZPA is authorized solution). 5 licenses @ $14/year.", comments: "Minimal cost. Travel security tool only. Zero Trust architecture (Zscaler) handles all CUI connectivity.", marketAnalysis: "NordVPN Business $40/user/year appropriate for business use. Consumer plan $60/year/user less reliable for business travel.", optimization: "Consider upgrading to NordVPN Business for better reliability. 15 licenses × $40 = $600/year for expanded travel security coverage.", roi: "Travel security tool enabling safe public WiFi use. Prevents man-in-the-middle attacks and credential theft." },
+            { line: 34, description: "Grammarly Business (Writing Assistant)", actual2024: 144, budget2025: 540, budget2026: 540, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "AI-powered writing assistant for proposals, technical documents, and client communications. 10 licenses @ $54/user/year. Improves clarity and professionalism in external deliverables.", comments: "Proposal quality tool. ROI: Better-written proposals improve win probability.", marketAnalysis: "Grammarly Business retail $144/user/year, annual billing $120/user. Current $540 budget for 10 users ($54/user) appears to be significantly discounted.", optimization: "Test M365 Editor (included in E5/G5) first before purchasing Grammarly. May provide sufficient capability at zero additional cost.", roi: "Proposal quality tool. Improved writing clarity impacts win rates. Better-written proposals improve competitiveness on $500M bid pipeline." },
+            { line: 35, description: "RSMeans Data Online (Construction Cost Data)", actual2024: 2940, budget2025: 8950, budget2026: 8950, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Industry-standard construction cost database for estimating. Includes unit costs, labor rates, equipment costs, and location factors. Updated quarterly. Essential for accurate ROM estimates and budget validation.", comments: "Core estimating resource. Data accuracy critical for bid competitiveness and margin protection.", marketAnalysis: "RSMeans Online typical pricing $800-$1,200/user/year. Budget suggests approximately 9 users at $1,000/user average.", optimization: "Audit utilization quarterly. If only 3-5 active users, reduce licensing to match actual usage. Potential $3K-$5K savings.", roi: "Data accuracy critical for bid competitiveness and margin protection. Single bad estimate costs $100K+ in losses." },
+            { line: 36, description: "Acronis Cyber Backup Storage", actual2024: 170, budget2025: 20000, budget2026: 15000, variance: -5000, variancePercent: -25, cmmc: "CP-9, CP-10", status: "savings", category: "cmmc savings", justification: "Endpoint backup for laptops and workstations (already counted in line 5 as part of Cyber Protect Cloud). This line represents additional storage overage charges. 2026 reduction due to optimization and data lifecycle policies reducing cloud storage costs.", comments: "COST REDUCTION through data retention policy enforcement and duplicate file cleanup.", marketAnalysis: "Acronis cloud storage $80-$120/TB/year. Azure Blob Archive tier $12/TB/year. Hybrid approach could save 50%.", optimization: "Migrate cold backups to Azure Blob Archive tier. Active backups stay in Acronis. 50% cost reduction opportunity = $7.5K additional savings.", roi: "CMMC CP-9 backup requirement. Cost optimization while maintaining compliance. Prevents ransomware data loss." },
+            { line: 37, description: "Telnyx Cloud Communications (SIP Trunking)", actual2024: 131, budget2025: 300, budget2026: 400, variance: 100, variancePercent: 33.3, cmmc: "N/A", status: "pending", category: "", justification: "Cloud-based phone service and SIP trunking for Grandstream PBX systems. Per-minute usage billing for international calling. Increase due to expanded operations in Japan and Diego Garcia with higher international call volumes.", comments: "Usage-based pricing. Cost increase aligned to geographic expansion and international project activity.", marketAnalysis: "Telnyx competitive for international SIP trunking. Usage-based pricing appropriate for variable international calling patterns.", optimization: "Evaluate Microsoft Teams Phone ($15/user/month) as long-term replacement for Grandstream PBX + Telnyx. Could consolidate telephony into M365 ecosystem.", roi: "Usage-based pricing aligns cost to international project activity. Teams Phone consolidation would eliminate PBX hardware maintenance." },
+            { line: 38, description: "Procore Construction Management Platform", actual2024: 89039, budget2025: 70000, budget2026: 70000, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "Cloud-based construction project management. Unlimited projects, mobile access, document control, RFIs, submittals, daily reports, and financial tracking. Approximately 100 users (PM, super, engineer, QC). Pricing negotiated under enterprise agreement.", comments: "Mission-critical project platform. Contract pricing stable. Handles non-CUI project data only.", marketAnalysis: "Procore enterprise pricing approximately $700/user for unlimited projects. Market rate: $500-$800/user/year. Strong negotiation achievement: $89K → $70K (21% reduction).", optimization: "Already optimized under enterprise agreement. Audit quarterly utilization - remove inactive users to maintain optimal pricing tier.", roi: "Core project management platform for $500M pipeline. Document control, RFI workflow, and submittal tracking prevent $100K+ delays per project." },
+            { line: 39, description: "Grandstream IP Phone Equipment", actual2024: 0, budget2025: 5000, budget2026: 5000, variance: 0, variancePercent: 0, cmmc: "N/A", status: "pending", category: "", justification: "IP phone hardware for new hires and office expansions. ~25 phones @ $200/unit. Grandstream GXP series desktop phones integrated with Telnyx cloud trunking.", comments: "Capital refresh budget for telephony endpoints. Supports new hire onboarding.", marketAnalysis: "Grandstream competitive pricing at $150-$250/phone. Teams Phone alternative eliminates hardware but requires $15/user/month licenses.", optimization: "Consider Teams Phone pilot to evaluate softphone + headset alternative. Could eliminate future hardware refresh needs (shift to OpEx model).", roi: "Capital refresh budget for telephony endpoints. Teams Phone migration would shift to OpEx model ($15/user/month)." },
+            { line: 40, description: "Learning Management System - SharePoint Custom", actual2024: 0, budget2025: 0, budget2026: 15000, variance: 15000, variancePercent: 0, cmmc: "AT-2, AT-3", status: "new", category: "cmmc new", justification: "Custom LMS built on SharePoint for security awareness training, CMMC compliance training, and technical onboarding. CMMC Level 2 REQUIRES documented security training for all users handling CUI. Platform development, content creation, and annual maintenance. Target: 323 users completing quarterly training modules.", comments: "NEW requirement for CMMC Level 2. Security awareness training must be documented, tracked, and reported annually. Development cost + ongoing content updates.", marketAnalysis: "Custom SharePoint LMS development $15K reasonable. Alternative: Viva Learning (included in E5/G5) + KnowBe4 content ($5K) = better solution at lower cost.", optimization: "Use Viva Learning (included) + KnowBe4 professional content ($5K) instead of custom SharePoint LMS ($15K). Save $10K with better training quality.", roi: "CMMC AT-2/AT-3 mandatory training requirement. Security awareness reduces phishing susceptibility and improves security culture." },
+            { line: 41, description: "IT Research & Development (AI/Automation)", actual2024: 0, budget2025: 0, budget2026: 30000, variance: 30000, variancePercent: 0, cmmc: "N/A", status: "new", category: "new", justification: "Innovation budget for AI/automation pilots, process improvement tools, and software integrations. Supports initiatives like: (1) AI-assisted proposal writing, (2) Automated data flows between Deltek-Procore-Primavera, (3) RPA for repetitive admin tasks, (4) Custom M365 Power Platform apps. Led by COO (Rita) for enterprise automation roadmap.", comments: "NEW in 2026. Strategic investment in productivity tools and AI-era capabilities. Experimentation budget for emerging technologies with measurable ROI targets.", marketAnalysis: "Reasonable innovation budget for 323-user organization. $93/user experimentation budget for emerging technologies.", optimization: "Focus on high-ROI projects: M365 Copilot pilot (20 users × $30/month × 6 months = $7.2K), Power Apps Premium licenses ($3.6K), automation consulting ($9.2K).", roi: "Strategic investment in productivity tools. M365 Copilot 30% time savings on proposals = $780K value. Power Apps automation saves 10 hours/week = $39K/year." },
+            { line: 42, description: "Candy CMiC (Construction ERP - Europe)", actual2024: 0, budget2025: 12510, budget2026: 16680, variance: 4170, variancePercent: 33.3, cmmc: "N/A", status: "pending", category: "", justification: "Construction-specific ERP for European operations. Modules: project accounting, procurement, contract management, subcontractor management. User count increase from 15 to 20 licenses @ $834/user/year. Supports compliance with EU financial reporting requirements.", comments: "Geographic expansion driver. European contracts require localized accounting and VAT handling not available in U.S.-based Deltek system.", marketAnalysis: "Candy CMiC pricing appropriate for construction ERP. Market rate: $700-$1,000/user/year for full modules (accounting, procurement, contracts).", optimization: "Appropriate pricing. Consider consolidation with Deltek long-term (2027-2028) for unified ERP platform if Deltek adds European localization.", roi: "Required for European operations (UK, France, Germany, Netherlands). VAT compliance and multi-currency essential for international projects." },
+            { line: 43, description: "CMMC Level 2 Consulting & SSP Development", actual2024: 0, budget2025: 50000, budget2026: 50000, variance: 0, variancePercent: 0, cmmc: "All (110 controls)", status: "pending", category: "cmmc", justification: "External cybersecurity consulting for CMMC Level 2 certification preparation. Services: (1) Gap analysis against NIST SP 800-171, (2) System Security Plan (SSP) authoring, (3) Policy and procedure documentation (52 policies completed), (4) POA&M development, (5) Pre-assessment readiness review, (6) C3PAO audit support. Engagement with ControlCase and SecureIT under NDA.", comments: "MANDATORY for DoD prime contractor status effective 2026. One-time certification cost + annual re-assessment. Investment protects $100M+ annual DoD contract revenue stream.", marketAnalysis: "Competitive pricing for CMMC Level 2 consulting. Market rate: $40K-$75K for complete SSP development, gap analysis, and audit prep.", optimization: "Already competitive pricing. Bundle with GCC audit (Line 2) for potential $3K volume discount = $52K total vs $55K separate.", roi: "Protects $100M+ DoD contract portfolio. Without CMMC Level 2, cannot compete for or retain DoD contracts. ROI = 2,000X." },
+            { line: 44, description: "IT Cybersecurity & Systems Administrator", actual2024: 0, budget2025: 0, budget2026: 48720, variance: 48720, variancePercent: 0, cmmc: "AC-2, AU-6, CM-6, IA-2, IR-4, SC-7, SI-4", status: "critical", category: "cmmc critical new", justification: "Dedicated IT security and systems administration role for Dubai operations. Responsibilities: (1) M365 GCC tenant administration and user provisioning, (2) Zscaler ZIA/ZPA policy management and monitoring, (3) Acronis Cyber Protect endpoint management and backup monitoring, (4) Security event triage and incident response coordination with SOC, (5) CMMC compliance documentation and control validation, (6) Physical access control system administration. Supports 323-user environment with 24/7 operational requirements. Compensation: 15,000 AED/month × 12 months = 180,000 AED annually (≈$48,720 USD @ 3.69 AED/USD). Critical addition to 5-person IT team for CMMC Level 2 operational support.", comments: "NEW position for 2026. Current 5-person IT team cannot provide adequate coverage for cybersecurity operations, cloud administration, and compliance monitoring. This role bridges gap between lean internal team and external SOC services, providing hands-on daily management of security tools and user support. Required skill set: M365 admin, Zscaler certified, Acronis experience, NIST 800-171 knowledge. Dubai-based for 24/7 coverage across global time zones.", marketAnalysis: "Competitive Dubai IT security admin compensation. Market rate: 12K-18K AED/month ($39K-$59K USD). 15K AED mid-range for CMMC skillset.", optimization: "Already appropriately priced for Dubai market. Enables co-managed SOC model (Line 16) saving $10K/year vs full-service SOC.", roi: "Enables $10K SOC savings (Line 16) + provides 24/7 coverage for 323-user environment. First-year ROI = 18% through SOC cost reduction alone." }
+        ];
+
+        // Populate table
+        function populateTable(data = budgetData) {
+            const tbody = document.getElementById('budgetTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const row = tbody.insertRow();
+                row.dataset.category = item.category;
+                row.onclick = () => openModal(item);
+
+                row.innerHTML = `
+                    <td class="line-number">${item.line}</td>
+                    <td class="description-cell">${item.description}</td>
+                    <td class="amount">$${item.actual2024.toLocaleString()}</td>
+                    <td class="amount">$${item.budget2025.toLocaleString()}</td>
+                    <td class="amount">$${item.budget2026.toLocaleString()}</td>
+                    <td class="amount ${item.variance >= 0 ? 'variance-positive' : 'variance-negative'}">
+                        ${item.variance >= 0 ? '+' : ''}$${item.variance.toLocaleString()}
+                    </td>
+                    <td class="amount ${item.variancePercent >= 0 ? 'variance-positive' : 'variance-negative'}">
+                        ${item.variancePercent >= 0 ? '+' : ''}${item.variancePercent.toFixed(1)}%
+                    </td>
+                    <td>
+                        ${item.cmmc && item.cmmc !== 'N/A' ? `<span class="badge badge-cmmc">${item.cmmc}</span>` : '—'}
+                    </td>
+                    <td>
+                        ${getStatusBadge(item.status)}
+                    </td>
+                `;
+            });
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'pending': '<span class="badge badge-approved">Pending Review</span>',
+                'critical': '<span class="badge badge-critical">Critical</span>',
+                'savings': '<span class="badge badge-savings">Savings</span>',
+                'new': '<span class="badge badge-new">New</span>'
+            };
+            return badges[status] || '';
+        }
+
+        // Filter functions
+        function filterCategory(category) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const rows = document.querySelectorAll('#budgetTableBody tr');
+            rows.forEach(row => {
+                if (category === 'all') {
+                    row.style.display = '';
+                } else {
+                    const categories = row.dataset.category.split(' ');
+                    row.style.display = categories.includes(category) ? '' : 'none';
+                }
+            });
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#budgetTableBody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        // Sort table
+        let sortDirection = {};
+        function sortTable(columnIndex) {
+            const table = document.getElementById('budgetTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const direction = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+            sortDirection[columnIndex] = direction;
+
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent.trim();
+                let bVal = b.cells[columnIndex].textContent.trim();
+
+                // Remove $ and , for number comparison
+                aVal = aVal.replace(/[$,]/g, '');
+                bVal = bVal.replace(/[$,]/g, '');
+
+                // Try to parse as numbers
+                const aNum = parseFloat(aVal);
+                const bNum = parseFloat(bVal);
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return direction === 'asc' ? aNum - bNum : bNum - aNum;
+                } else {
+                    return direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                }
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Modal functions
+        function openModal(item) {
+            const modal = document.getElementById('itemModal');
+            document.getElementById('modalTitle').textContent = item.description;
+            document.getElementById('modalLineInfo').textContent = `Line ${item.line} | GL Code: 718.04/753.00`;
+            document.getElementById('modalCost').textContent = `$${item.budget2026.toLocaleString()}`;
+
+            // Build modal body with charts
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(event, 'overview')">Overview</div>
+                    <div class="tab" onclick="switchTab(event, 'analysis')">Market Analysis</div>
+                    <div class="tab" onclick="switchTab(event, 'financials')">Financials</div>
+                    ${item.cmmc && item.cmmc !== 'N/A' ? '<div class="tab" onclick="switchTab(event, \'cmmc\')">CMMC</div>' : ''}
+                </div>
+
+                <div id="overview" class="tab-content active">
+                    <div class="modal-grid">
+                        <div>
+                            <div class="modal-section">
+                                <h3>Business Justification</h3>
+                                <div class="justification-text">
+                                    ${item.justification}
+                                </div>
+                            </div>
+
+                            ${item.comments ? `
+                            <div class="modal-section">
+                                <h3>Implementation Notes</h3>
+                                <div class="highlight-box info">
+                                    ${item.comments}
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            ${item.roi ? `
+                            <div class="modal-section">
+                                <h3>Return on Investment</h3>
+                                <div class="highlight-box success">
+                                    <h4>💰 ROI Analysis</h4>
+                                    <p>${item.roi}</p>
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+
+                        <div>
+                            <div class="modal-section">
+                                <h3>Budget Summary</h3>
+                                <div class="info-grid">
+                                    <div class="info-card">
+                                        <div class="info-label">2024 Actual</div>
+                                        <div class="info-value">$${item.actual2024.toLocaleString()}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-label">2025 Budget</div>
+                                        <div class="info-value">$${item.budget2025.toLocaleString()}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-label">2026 Budget</div>
+                                        <div class="info-value">$${item.budget2026.toLocaleString()}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-label">Variance</div>
+                                        <div class="info-value ${item.variance >= 0 ? 'variance-positive' : 'variance-negative'}">
+                                            ${item.variance >= 0 ? '+' : ''}$${item.variance.toLocaleString()}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chart-container chart-small">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analysis" class="tab-content">
+                    <div class="modal-section">
+                        <h3>Market Rate Verification</h3>
+                        <div class="highlight-box ${item.status === 'critical' ? 'danger' : item.status === 'savings' ? 'success' : ''}">
+                            ${item.marketAnalysis || 'Market analysis in progress.'}
+                        </div>
+                    </div>
+
+                    ${item.optimization ? `
+                    <div class="modal-section">
+                        <h3>Cost Optimization Strategy</h3>
+                        <div class="highlight-box ${item.status === 'savings' ? 'success' : ''}">
+                            ${item.optimization}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="financials" class="tab-content">
+                    <div class="modal-section">
+                        <h3>3-Year Financial Trend</h3>
+                        <div class="chart-container">
+                            <canvas id="financialChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3>Variance Analysis</h3>
+                        <ul class="detail-list">
+                            <li>
+                                <span class="detail-label">2024 Actual</span>
+                                <span class="detail-value">$${item.actual2024.toLocaleString()}</span>
+                            </li>
+                            <li>
+                                <span class="detail-label">2025 Budget</span>
+                                <span class="detail-value">$${item.budget2025.toLocaleString()}</span>
+                            </li>
+                            <li>
+                                <span class="detail-label">2025 vs 2024</span>
+                                <span class="detail-value ${item.budget2025 - item.actual2024 >= 0 ? 'variance-positive' : 'variance-negative'}">
+                                    ${item.budget2025 - item.actual2024 >= 0 ? '+' : ''}$${(item.budget2025 - item.actual2024).toLocaleString()}
+                                </span>
+                            </li>
+                            <li>
+                                <span class="detail-label">2026 Budget</span>
+                                <span class="detail-value">$${item.budget2026.toLocaleString()}</span>
+                            </li>
+                            <li>
+                                <span class="detail-label">2026 vs 2025</span>
+                                <span class="detail-value ${item.variance >= 0 ? 'variance-positive' : 'variance-negative'}">
+                                    ${item.variance >= 0 ? '+' : ''}$${item.variance.toLocaleString()} (${item.variancePercent >= 0 ? '+' : ''}${item.variancePercent.toFixed(1)}%)
+                                </span>
+                            </li>
+                            <li>
+                                <span class="detail-label">2-Year Growth</span>
+                                <span class="detail-value ${item.budget2026 - item.actual2024 >= 0 ? 'variance-positive' : 'variance-negative'}">
+                                    ${item.budget2026 - item.actual2024 >= 0 ? '+' : ''}$${(item.budget2026 - item.actual2024).toLocaleString()}
+                                    ${item.actual2024 > 0 ? `(${(((item.budget2026 - item.actual2024) / item.actual2024) * 100).toFixed(1)}%)` : '(New)'}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                ${item.cmmc && item.cmmc !== 'N/A' ? `
+                <div id="cmmc" class="tab-content">
+                    <div class="modal-section">
+                        <h3>CMMC Level 2 Alignment</h3>
+                        <div class="highlight-box">
+                            <h4>NIST SP 800-171 Control Families</h4>
+                            <div class="cmmc-controls">
+                                ${item.cmmc.split(',').map(control => `<span class="cmmc-badge">${control.trim()}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3>Compliance Impact</h3>
+                        <p style="line-height: 1.8; color: #444;">
+                            This budget item directly supports CMMC Level 2 certification requirements.
+                            The controls listed above are part of the 110 NIST SP 800-171 requirements
+                            mandatory for DoD contractors handling Controlled Unclassified Information (CUI).
+                            <br><br>
+                            <strong>Q3 2026 Certification Deadline:</strong> MVL Group must achieve CMMC Level 2
+                            certification to maintain eligibility for DoD prime and subcontractor awards.
+                            Current portfolio at risk: $100M+ annual revenue.
+                        </p>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="cmmcChart"></canvas>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            modal.style.display = 'block';
+
+            // Initialize charts
+            setTimeout(() => {
+                createTrendChart(item);
+                createComparisonChart(item);
+                createFinancialChart(item);
+                if (item.cmmc && item.cmmc !== 'N/A') {
+                    createCMMCChart(item);
+                }
+            }, 100);
+        }
+
+        function switchTab(event, tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active from all tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('itemModal').style.display = 'none';
+        }
+
+        // Chart creation functions
+        function createTrendChart(item) {
+            const ctx = document.getElementById('trendChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2024 Actual', '2025 Budget', '2026 Budget'],
+                    datasets: [{
+                        label: 'Budget Trend',
+                        data: [item.actual2024, item.budget2025, item.budget2026],
+                        borderColor: '#1e3c72',
+                        backgroundColor: 'rgba(30, 60, 114, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: '3-Year Budget Trend'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createComparisonChart(item) {
+            const ctx = document.getElementById('comparisonChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024 Actual', '2025 Budget', '2026 Budget'],
+                    datasets: [{
+                        label: 'Amount',
+                        data: [item.actual2024, item.budget2025, item.budget2026],
+                        backgroundColor: [
+                            'rgba(107, 114, 128, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(30, 60, 114, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(107, 114, 128)',
+                            'rgb(59, 130, 246)',
+                            'rgb(30, 60, 114)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Year-over-Year Comparison'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createFinancialChart(item) {
+            const ctx = document.getElementById('financialChart');
+            if (!ctx) return;
+
+            const variance2025 = item.budget2025 - item.actual2024;
+            const variance2026 = item.budget2026 - item.budget2025;
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024→2025 Change', '2025→2026 Change'],
+                    datasets: [{
+                        label: 'Variance ($)',
+                        data: [variance2025, variance2026],
+                        backgroundColor: [
+                            variance2025 >= 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)',
+                            variance2026 >= 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)'
+                        ],
+                        borderColor: [
+                            variance2025 >= 0 ? 'rgb(16, 185, 129)' : 'rgb(239, 68, 68)',
+                            variance2026 >= 0 ? 'rgb(16, 185, 129)' : 'rgb(239, 68, 68)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Year-over-Year Variance'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function (value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCMMCChart(item) {
+            const ctx = document.getElementById('cmmcChart');
+            if (!ctx) return;
+
+            const controls = item.cmmc.split(',').map(c => c.trim());
+            const controlNames = {
+                'AC': 'Access Control',
+                'AU': 'Audit & Accountability',
+                'IA': 'Identification & Authentication',
+                'SC': 'System & Communications Protection',
+                'SI': 'System & Information Integrity',
+                'CP': 'Contingency Planning',
+                'IR': 'Incident Response',
+                'PE': 'Physical Environment',
+                'PS': 'Personnel Security',
+                'CA': 'Security Assessment',
+                'RA': 'Risk Assessment',
+                'CM': 'Configuration Management',
+                'AT': 'Awareness & Training',
+                'MP': 'Media Protection'
+            };
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: controls.map(c => controlNames[c] || c),
+                    datasets: [{
+                        data: controls.map(() => 1),
+                        backgroundColor: [
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(251, 191, 36, 0.7)',
+                            'rgba(252, 211, 77, 0.7)',
+                            'rgba(254, 243, 199, 0.7)'
+                        ],
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'CMMC Control Family Coverage'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('itemModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            populateTable();
+        });
+    </script>
+</body>
+
+</html>
