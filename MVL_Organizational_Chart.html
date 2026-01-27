@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MVL Group - Interactive Organizational Chart">
+    <title>MVL Organization Chart - Interactive Directory</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --dark-bg: #0f172a;
+            --light-bg: #ffffff;
+            --card-bg-light: rgba(255, 255, 255, 0.95);
+            --card-bg-dark: rgba(15, 23, 42, 0.95);
+            --text-light: #0f172a;
+            --text-dark: #f1f5f9;
+            --border-light: rgba(0, 0, 0, 0.05);
+            --border-dark: rgba(255, 255, 255, 0.05);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 50%, #fef3c7 100%);
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+            padding: 0.75rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            box-shadow: 0 6px 8px -1px rgb(0 0 0 / 0.2), 0 4px 6px -2px rgb(0 0 0 / 0.15);
+        }
+
+        .dark-mode .header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .mvl-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .mvl-logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-strips {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            width: 40px;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+        }
+
+        .logo-strip {
+            height: 6px;
+            width: 100%;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .mvl-logo:hover .logo-strip {
+            transform: scaleX(1.05);
+        }
+
+        .strip-1 {
+            background: #9fa1a4;
+        }
+
+        /* Light Gray */
+        .strip-2 {
+            background: #ad1a27;
+        }
+
+        /* Red */
+        .strip-3 {
+            background: #673366;
+        }
+
+        /* Purple */
+        .strip-4 {
+            background: #807d31;
+        }
+
+        /* Olive Green */
+        .strip-5 {
+            background: #f4774e;
+        }
+
+        /* Orange */
+
+        .logo-text {
+            font-size: 2.625rem;
+            font-weight: 900;
+            color: #475569;
+            letter-spacing: -3px;
+            line-height: 1;
+            font-family: 'Inter', 'Arial Black', sans-serif;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .mvl-logo:hover .logo-text {
+            color: #334155;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .logo-text {
+            color: #e2e8f0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode .mvl-logo:hover .logo-text {
+            color: #ffffff;
+        }
+
+        .company-info {
+            text-align: center;
+            flex: 1;
+        }
+
+        .company-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .company-name {
+            color: #f1f5f9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .company-tagline {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            background: white;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .search-box input {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .btn-custom {
+            padding: 0.625rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .dark-mode .btn-outline-custom {
+            color: var(--text-dark);
+            border-color: var(--text-dark);
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg-light);
+            border: 2px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .theme-toggle {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: none;
+            \n
+        }
+
+        .dark-mode .filter-section {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: white;
+            border: 2px solid var(--border-light);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .chip {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .chip:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .chip.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Organization Tree */
+        .org-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .org-chart-wrapper {
+            overflow: auto;
+            width: 100%;
+            height: calc(100vh - 80px);
+            border: none;
+            background: transparent;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            cursor: grab;
+            padding: 1rem;
+        }
+
+        .org-chart-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .org-chart-wrapper.dragging {
+            cursor: grabbing;
+            user-select: none;
+        }
+
+        .dark-mode .org-chart-wrapper {
+            border-color: var(--border-dark);
+        }
+
+        .zoom-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .zoom-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg-light);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .dark-mode .zoom-btn {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .zoom-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        .zoom-level {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--card-bg-light);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-light);
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .dark-mode .zoom-level {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .org-level {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .level-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .dark-mode .level-title {
+            color: var(--text-dark);
+        }
+
+        .level-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+
+        /* Organizational Tree Structure */
+        .org-tree {
+            display: inline-block;
+            min-width: max-content;
+            padding: 4rem;
+            transform-origin: top center;
+            transition: transform 0.3s ease;
+        }
+
+        .org-tree ul {
+            padding-top: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+        }
+
+        .org-tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+        }
+
+        .org-tree li::before,
+        .org-tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid rgba(71, 85, 105, 0.4);
+            width: 50%;
+            height: 20px;
+        }
+
+        .org-tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid rgba(71, 85, 105, 0.4);
+        }
+
+        .org-tree li:only-child::after,
+        .org-tree li:only-child::before {
+            display: none;
+        }
+
+        .org-tree li:only-child {
+            padding-top: 0;
+        }
+
+        .org-tree li:first-child::before,
+        .org-tree li:last-child::after {
+            border: 0 none;
+        }
+
+        .org-tree li:last-child::before {
+            border-right: 2px solid rgba(71, 85, 105, 0.4);
+            border-radius: 0 5px 0 0;
+        }
+
+        .org-tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+
+        .org-tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid rgba(71, 85, 105, 0.4);
+            width: 0;
+            height: 20px;
+        }
+
+        .org-tree-node {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            min-width: 240px;
+            max-width: 300px;
+            pointer-events: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .org-tree-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .org-tree-node:hover::before {
+            opacity: 1;
+        }
+
+        .dark-mode .org-tree-node {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.9));
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .org-tree-node:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        /* Staff List Box - Compact display for end users */
+        .staff-list-box {
+            background: var(--card-bg-light);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            display: inline-block;
+            min-width: 280px;
+            max-width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dark-mode .staff-list-box {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .staff-list-header {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .staff-list-header {
+            color: var(--text-dark);
+            border-bottom-color: var(--border-dark);
+        }
+
+        .staff-count-badge {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .staff-list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .staff-item {
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .staff-item {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .staff-item:hover {
+            background: rgba(37, 99, 235, 0.2);
+            transform: translateX(5px);
+        }
+
+        .staff-item-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .staff-item-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .staff-item-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dark-mode .staff-item-name {
+            color: var(--text-dark);
+        }
+
+        .staff-item-title {
+            font-size: 0.75rem;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Employee Card */
+        .employee-card {
+            background: var(--card-bg-light);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .employee-card {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .employee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .employee-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        .employee-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .dark-mode .employee-name {
+            color: var(--text-dark);
+        }
+
+        .employee-title {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .info-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .badge-executive {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+        }
+
+        .badge-director {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+        }
+
+        .badge-mid-manager {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+        }
+
+        .badge-manager {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .badge-staff {
+            background: linear-gradient(135deg, #64748b, #475569);
+            color: white;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 2rem;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 3rem;
+            margin: 0 auto 1rem;
+        }
+
+        .modal-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-title-text {
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        .detail-section {
+            margin: 1.5rem 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-value {
+            color: #64748b;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-value a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+
+        /* Stats */
+        .stats-section {
+            display: none;
+            \n
+        }
+
+        .stat-card {
+            background: var(--card-bg-light);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .dark-mode .stat-card {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(37, 99, 235, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .cards-grid {
+                flex-direction: column;
+            }
+
+            .level-title {
+                font-size: 1.25rem;
+            }
+
+            /* Mobile org tree adjustments */
+            .org-tree ul {
+                flex-direction: column;
+            }
+
+            .org-tree li {
+                float: none;
+                padding: 10px 0;
+            }
+
+            .org-tree li::before,
+            .org-tree li::after {
+                display: none;
+            }
+
+            .org-tree ul ul::before {
+                display: none;
+            }
+
+            .org-tree-node {
+                min-width: auto;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header,
+            .controls,
+            .filter-section,
+            .theme-toggle,
+            .btn-custom {
+                display: none;
+            }
+
+            .employee-card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .no-results h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="logo-section">
+                    <div class="mvl-logo">
+                        <div class="logo-strips">
+                            <div class="logo-strip strip-1"></div>
+                            <div class="logo-strip strip-2"></div>
+                            <div class="logo-strip strip-3"></div>
+                            <div class="logo-strip strip-4"></div>
+                            <div class="logo-strip strip-5"></div>
+                        </div>
+                        <div class="logo-text">MVL</div>
+                    </div>
+                </div>
+                <div class="company-info">
+                    <h1 class="company-name">MVL Group - Interactive Organization Chart</h1>
+                </div>
+                <div class="controls">
+                    <div class="search-box">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search employees...">
+                    </div>
+                    <select id="departmentFilter" class="btn-custom btn-outline-custom">
+                        <option value="">All Departments</option>
+                    </select>
+                    <select id="locationFilter" class="btn-custom btn-outline-custom">
+                        <option value="">All Locations</option>
+                    </select>
+                    <button class="btn-custom btn-primary-custom" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Print
+                    </button>
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="bi bi-moon-stars" id="themeIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <div class="container">
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalEmployees">0</div>
+                <div class="stat-label">Total Employees</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalDepartments">0</div>
+                <div class="stat-label">Departments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalLocations">0</div>
+                <div class="stat-label">Locations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalManagers">0</div>
+                <div class="stat-label">Managers</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organization Chart -->
+    <div class="container org-container">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+        <div id="orgChart" style="display: none;"></div>
+        <div id="noResults" class="no-results" style="display: none;">
+            <i class="bi bi-search"></i>
+            <h3>No Results Found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
+    </div>
+
+    <!-- Zoom Controls -->
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">
+            <i class="bi bi-dash"></i>
+        </button>
+        <div class="zoom-level" id="zoomLevel">100%</div>
+        <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">
+            <i class="bi bi-plus"></i>
+        </button>
+        <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
+
+    <!-- Employee Details Modal -->
+    <div class="modal fade" id="employeeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="w-100">
+                        <div class="modal-avatar" id="modalAvatar"></div>
+                        <h2 class="modal-name" id="modalName"></h2>
+                        <p class="modal-title-text" id="modalTitle"></p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-section">
+                        <div class="detail-label">
+                            <i class="bi bi-envelope"></i> Email
+                        </div>
+                        <div class="detail-value" id="modalEmail"></div>
+                    </div>
+                    <div class="detail-section" id="modalMobileSection" style="display: none;">
+                        <div class="detail-label">
+                            <i class="bi bi-telephone"></i> Mobile
+                        </div>
+                        <div class="detail-value" id="modalMobile"></div>
+                    </div>
+                    <div class="detail-section" id="modalDepartmentSection" style="display: none;">
+                        <div class="detail-label">
+                            <i class="bi bi-building"></i> Department
+                        </div>
+                        <div class="detail-value" id="modalDepartment"></div>
+                    </div>
+                    <div class="detail-section" id="modalLocationSection" style="display: none;">
+                        <div class="detail-label">
+                            <i class="bi bi-geo-alt"></i> Location
+                        </div>
+                        <div class="detail-value" id="modalLocation"></div>
+                    </div>
+                    <div class="detail-section" id="modalManagerSection" style="display: none;">
+                        <div class="detail-label">
+                            <i class="bi bi-person-badge"></i> Reports To
+                        </div>
+                        <div class="detail-value" id="modalManager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Embedded Employee Data (321 employees from MVL_Employees_Hierarchy.csv)
+        let employeesData = [{ "Designation": "Chief Executive Officer", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Executive Management", "EmploymentType": "Employee", "EmployeeName": "Abie Musa", "EmailID": "Abie.Musa@mvl-group.com", "LineManager": "Abie Musa", "Location": "Dubai", "MobileNumber": "+971 50 273 2942" }, { "Designation": "Operations Manager", "Hierarchy": "MID MANAGER", "Department": "Executive Management", "EmploymentType": "Employee", "EmployeeName": "Inara Musa", "EmailID": "Inara.Musa@mvl-group.com", "LineManager": "Abie Musa", "Location": "Dubai", "MobileNumber": "+971 50 726 1928" }, { "Designation": "Supply Chain Manager", "Hierarchy": "MID MANAGER", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Mahesh Bhavani", "EmailID": "Mahesh.Bhavani@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 50 154 1841" }, { "Designation": "IT - Web Design & Microtrack", "Hierarchy": "EMPLOYEE", "Department": "IT", "EmploymentType": "Consultant", "EmployeeName": "Vijay Gajera", "EmailID": "Vijay.Gajera@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "India", "MobileNumber": "+91 88669 38118" }, { "Designation": "Admin/Pro", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Shahbas Shah", "EmailID": "Shahbas.Shah@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 56 255 0168" }, { "Designation": "Accounts Manager", "Hierarchy": "Manager", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Bala Chandran", "EmailID": "Bala.Chandran@mvl-group.com", "LineManager": "Jamil Oudeif", "Location": "Dubai", "MobileNumber": "+971 56 721 4972" }, { "Designation": "Director of Project Control", "Hierarchy": "Director", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Hayat Mansour", "EmailID": "Hayat.Mansour@mvl-group.com", "LineManager": "Ziad Jabr", "Location": "Dubai", "MobileNumber": "+971 50 688 8796" }, { "Designation": "Senior Contracts Administrator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Cecil Reyes", "EmailID": "Cecil.Reyes@mvl-group.com", "LineManager": "Perelino DeLaCruzJr", "Location": "Dubai", "MobileNumber": "+971 55 744 5113" }, { "Designation": "HR & Adminstrative Specialist", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Raquel Ilagan", "EmailID": "Raquel.Ilagan@mvl-group.com", "LineManager": "Joshna Sunil", "Location": "Dubai", "MobileNumber": "+971 55 233 8743" }, { "Designation": "Admin/Pro", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Sulman Habib", "EmailID": "Sulman.Habib@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 459 0013" }, { "Designation": "Procurement Assistant", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Marman Imperial", "EmailID": "Marman.Imperial@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 55 510 4678" }, { "Designation": "VP Business Development", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "John Hilker", "EmailID": "John.Hilker@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "USA", "MobileNumber": "+1 734 277 0649" }, { "Designation": "Projects Coordination Manager", "Hierarchy": "Manager", "Department": "Project Coordination", "EmploymentType": "Employee", "EmployeeName": "Naleef Abdeen", "EmailID": "Naleef.Abdeen@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "USA", "MobileNumber": "+971 55 871 8663" }, { "Designation": "Assistant Controller", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Shwetha Shainy", "EmailID": "Shwetha.Shainy@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Dubai", "MobileNumber": "+971 55 826 5896" }, { "Designation": "Operation Auditor", "Hierarchy": "EMPLOYEE", "Department": "Compliance and Audit", "EmploymentType": "Employee", "EmployeeName": "Zafar Asim", "EmailID": "Zafar.Asim@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 50 601 9988" }, { "Designation": "Quantity Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Norie Mendoza", "EmailID": "Norie.Mendoza@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+971 50 241 8439" }, { "Designation": "VP Proposals and Contracts", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Jailani Mohaideen", "EmailID": "Jailani.Mohaideen@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 406 6733" }, { "Designation": "Project Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Project Coordination", "EmploymentType": "Employee", "EmployeeName": "Shifan Ali", "EmailID": "Shifan.Ali@mvl-group.com", "LineManager": "Naleef Abdeen", "Location": "Dubai", "MobileNumber": "+971 55 185 1434" }, { "Designation": "HR & Adminstrative Specialist", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Emman Baul", "EmailID": "Emman.Baul@mvl-group.com", "LineManager": "Joshna Sunil", "Location": "Dubai", "MobileNumber": "+971 56 673 0392" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Pramod Prasad", "EmailID": "Pramod.Prasad@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Dubai", "MobileNumber": "+9 74 502 56564" }, { "Designation": "Admin & Procurement Officer", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Shaji Chalil", "EmailID": "Shaji.Chalil@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Qatar", "MobileNumber": "+9 74 705 84419" }, { "Designation": "Proposal Manager", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Perelino DeLaCruzJr", "EmailID": "Perelino.DelacruzJr@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+971 55 689 4032" }, { "Designation": "Project Control Admin", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Abdu Samed", "EmailID": "Abdu.Samed@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 50 559 1942" }, { "Designation": "EVP Projects", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ziad Jabr", "EmailID": "Ziad.Jabr@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 291 1679" }, { "Designation": "Chief Operation Officer", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Executive Management", "EmploymentType": "Employee", "EmployeeName": "Hani Khawaja", "EmailID": "Hani.Khawaja@mvl-group.com", "LineManager": "Abie Musa", "Location": "Dubai", "MobileNumber": "+971 50 568 1717" }, { "Designation": "Compliance Specialist / Admin.", "Hierarchy": "EMPLOYEE", "Department": "Compliance and Audit", "EmploymentType": "Employee", "EmployeeName": "Ingrid Karam", "EmailID": "Ingrid.Karam@mvl-group.com", "LineManager": "Marie-Claude Kazarian", "Location": "Lebanon", "MobileNumber": "+961 71 380 067" }, { "Designation": "Chief Financial Officer", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Jamil Oudeif", "EmailID": "Jamil.Oudeif@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+1 734 925 0221" }, { "Designation": "IT System Administrator", "Hierarchy": "EMPLOYEE", "Department": "IT", "EmploymentType": "Employee", "EmployeeName": "Rusevalt Salim", "EmailID": "Rusevalt.Salim@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 50 477 1383" }, { "Designation": "Administrative Supervisor", "Hierarchy": "MID MANAGER", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Mohamed Rally", "EmailID": "Mohamed.Rally@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 947 00269" }, { "Designation": "Proposal Manager", "Hierarchy": "Manager", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Andrea Harouny", "EmailID": "Andrea.Harouny@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Lebanon", "MobileNumber": "+9613281427" }, { "Designation": "Technical Engineering Manager", "Hierarchy": "Manager", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ayman Girgis", "EmailID": "Ayman.Girgis@mvl-group.com", "LineManager": "Ziad Jabr", "Location": "Dubai", "MobileNumber": "+971 52 772 5841" }, { "Designation": "Procurement Engineer", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Arun Nath", "EmailID": "Arun.Nath@mvl-group.com", "LineManager": "Mahesh Bhavani", "Location": "Dubai", "MobileNumber": "+971 55 707 5025" }, { "Designation": "Proposal Engineer", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Vera Chaparian", "EmailID": "Vera.Chaparian@mvl-group.com", "LineManager": "Andrea Harouny", "Location": "Lebanon", "MobileNumber": "+961 03 983 118" }, { "Designation": "Compliance Manager", "Hierarchy": "MANAGER", "Department": "Compliance and Audit", "EmploymentType": "Employee", "EmployeeName": "Marie-Claude Kazarian", "EmailID": "Marie.Kazarian@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Lebanon", "MobileNumber": "+961 70 948 231" }, { "Designation": "MEP Estimation Manager", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Martin Thankachan", "EmailID": "Martin.Thankachan@mvl-group.com", "LineManager": "Perelino DeLaCruzJr", "Location": "Dubai", "MobileNumber": "+971 52 181 7309" }, { "Designation": "Scheduler", "Hierarchy": "Consultant", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Masumul Haque", "EmailID": "Masumul.Haque@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Bangladesh", "MobileNumber": "+880 19 341 07414" }, { "Designation": "Projects Director", "Hierarchy": "Director", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ferdinand Reyneke", "EmailID": "Ferdinand.Reyneke@mvl-group.com", "LineManager": "Ziad Jabr", "Location": "Dubai", "MobileNumber": "+971 56 945 2466" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Almie Ruth", "EmailID": "Almie.Ruth@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Dubai", "MobileNumber": "+971 52 957 2378" }, { "Designation": "Project Manager", "Hierarchy": "Manager", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Moatazbellah Husni", "EmailID": "Moatazbellah.Husni@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 909 85770" }, { "Designation": "QC Engineer", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Hassin Shaik", "EmailID": "Hassin.Shaik@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 993 14876" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Irfan Ali", "EmailID": "Irfan.Ali@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 996 01480" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ron Saliba", "EmailID": "Ron.Saliba@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 900 09539" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Marlon Montero", "EmailID": "Marlon.Montero@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+9 74 311 30335" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Alvin Gulapa", "EmailID": "Alvin.Gulapa@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+9 74 776 71558" }, { "Designation": "Admin (Jeddah Office)", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Mansour Hadi", "EmailID": "Mansour.Hadi@mvl-group.com", "LineManager": "Ziad Jabr", "Location": "Saudi Arabia", "MobileNumber": "+966 54 541 0707" }, { "Designation": "Admin  (Alkharj & Khamis)", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Kurian Mundadan", "EmailID": "Kurian.Mundadan@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Saudi Arabia", "MobileNumber": "+966 56 294 1322" }, { "Designation": "Contracts Administrator", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Norman Matunan", "EmailID": "Norman.Matunan@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Philippines", "MobileNumber": "+63 960 204 2316" }, { "Designation": "EVP Europe & USA", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ernie Hogue", "EmailID": "Ernie.Hogue@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 50 942 5633" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Enza Parrinello", "EmailID": "Enza.Parrinello@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+3895166510" }, { "Designation": "Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Basso Daniele", "EmailID": "Basso.Daniele@mvl-group.com", "LineManager": "Raghu Bandari", "Location": "Italy", "MobileNumber": "+39 34 885 57770" }, { "Designation": "Construction Manager/D.Pm", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Melvin Korah", "EmailID": "Melvin.Korah@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 960 25627" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ravi Kakran", "EmailID": "Ravi.Kakran@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 56 920 7309" }, { "Designation": "Estimator Project Manager", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Jonathan Clapper", "EmailID": "Jonathan.Clapper@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "USA", "MobileNumber": "+1 843 655 3244" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Christopher James", "EmailID": "Christopher.James@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Qatar", "MobileNumber": "+9 74 778 70063" }, { "Designation": "QC Engineer", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Prasanth Sadasivan", "EmailID": "Prasanth.Sadasivan@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 975 74199" }, { "Designation": "Document Controller", "Hierarchy": "EMPLOYEE", "Department": "Project Coordination", "EmploymentType": "Employee", "EmployeeName": "Nematullah Mohammad", "EmailID": "Nematullah.Mohammad@mvl-group.com", "LineManager": "Naleef Abdeen", "Location": "Dubai", "MobileNumber": "+971 56 107 4218" }, { "Designation": "Project Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Marco Hernandez", "EmailID": "Marco.Hernandez@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+39 37 143 17307" }, { "Designation": "Project Manager", "Hierarchy": "MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Joveniano Labendia", "EmailID": "Joveniano.Labendia@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463818991" }, { "Designation": "Project Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Project Coordination", "EmploymentType": "Employee", "EmployeeName": "Rifath Yoosuf", "EmailID": "Rifath.Yoosuf@mvl-group.com", "LineManager": "Naleef Abdeen", "Location": "Dubai", "MobileNumber": "+971 58 568 1978" }, { "Designation": "Alliance Manager", "Hierarchy": "MID MANAGER", "Department": "Alliance", "EmploymentType": "Employee", "EmployeeName": "Ayoub Kassis", "EmailID": "Ayoub.Kassis@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Lebanon", "MobileNumber": "+9613747399" }, { "Designation": "Program Manager", "Hierarchy": "Director", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kento Kumagai", "EmailID": "Kento.Kumagai@mvl-yamauchi.co.jp", "LineManager": "Ziad Jabr", "Location": "Japan", "MobileNumber": "+81 80 6480 7153" }, { "Designation": "Finance Officer", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Soni Koshy", "EmailID": "Soni.Koshy@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Dubai", "MobileNumber": "+971 52 336 3321" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Rona Deleon", "EmailID": "Rona.Deleon@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463814334" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Franco Battistella", "EmailID": "Franco.Battistella@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+39 34 826 26423" }, { "Designation": "Administrator/Site HR/Translator", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Konstantinos Lamprou", "EmailID": "Konstantinos.Lamprou@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 833 08494" }, { "Designation": "Technical Engineer Assistant", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Mujeeb Ahmad", "EmailID": "Mujeeb.Ahmad@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+971 58 853 5846" }, { "Designation": "Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Health, Safety, and Environment (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Dowty Fuller", "EmailID": "Dowty.Fuller@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+2 77 965 15817" }, { "Designation": "Project Manager", "Hierarchy": "Manager", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "David Rand", "EmailID": "David.Rand@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+39 34 251 41214" }, { "Designation": "SSHO Officer", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Kerwin Macan", "EmailID": "Kerwin.Macan@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463814954" }, { "Designation": "Projects Director", "Hierarchy": "Director", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Walid Khaled", "EmailID": "Walid.Khaled@mvl-group.com", "LineManager": "Ziad Jabr", "Location": "Dubai", "MobileNumber": "+971 50 615 0546" }, { "Designation": "QC Engineer", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Karla Arugay", "EmailID": "Karla.Arugay@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Philippines", "MobileNumber": "+2463814335" }, { "Designation": "Business Development Manager", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Gilbert Jadarian", "EmailID": "Gilbert.Jadarian@mvl-group.com", "LineManager": "John Hilker", "Location": "Lebanon", "MobileNumber": "+9613701092" }, { "Designation": "Alliance Specialist", "Hierarchy": "EMPLOYEE", "Department": "Alliance", "EmploymentType": "Employee", "EmployeeName": "Makram Jarawan", "EmailID": "Makram.Jarawan@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Lebanon", "MobileNumber": "+961 71 575 537" }, { "Designation": "CM Site", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Tiansu Co", "EmailID": "Tiansu.Co@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463814333" }, { "Designation": "HR Generalist", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Ranjit Kannel", "EmailID": "Ranjit.Kannel@mvl-group.com", "LineManager": "Joshna Sunil", "Location": "Dubai", "MobileNumber": "+971 55 975 3542" }, { "Designation": "Operations Manager", "Hierarchy": "MID MANAGER", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Xavier Gomes", "EmailID": "Xavier.Gomes@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 50 765 8599" }, { "Designation": "QC Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Filippo Battistella", "EmailID": "Filippo.Battistella@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+3925124812" }, { "Designation": "Supervisor/SSHO", "Hierarchy": "EMPLOYEE", "Department": "Health, Safety, and Environment (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Julius Bustamante", "EmailID": "Julius.Bustamante@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816730" }, { "Designation": "Sr. Estimator", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Suresh Sathianathan", "EmailID": "Suresh.Sathianathan@mvl-group.com", "LineManager": "Perelino DeLaCruzJr", "Location": "Dubai", "MobileNumber": "+971 55 675 9451" }, { "Designation": "QCM", "Hierarchy": "MID MANAGER", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Bahi Bassem", "EmailID": "Bahi.Bassem@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 52 617 2233" }, { "Designation": "Human Resources Manager", "Hierarchy": "Manager", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Joshna Sunil", "EmailID": "Joshna.Sunil@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 322 9305" }, { "Designation": "Mechanical QC Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Antonious Halim", "EmailID": "Antonious.Halim@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 50 363 5619" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Troy Dacanay", "EmailID": "Troy.Dacanay@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816061" }, { "Designation": "Quantity Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Renz Mallari", "EmailID": "Renz.Mallari@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 56 648 9209" }, { "Designation": "Project Manager", "Hierarchy": "Manager", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Myron Koumadorakis", "EmailID": "Myron.Koumadorakis@mvl-group.com", "LineManager": "Ernie Hogue", "Location": "Greece", "MobileNumber": "+30 96 731 89798" }, { "Designation": "Project Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Awny Mounir", "EmailID": "Awny.Mounir@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 55 523 1982" }, { "Designation": "Procurement Officer", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Lince Mary", "EmailID": "Lince.Mary@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 54 500 1442" }, { "Designation": "Senior Procurement Engineer", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Rahul Nair", "EmailID": "Rahul.Nair@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 52 363 6037" }, { "Designation": "SSHO Manager", "Hierarchy": "MID MANAGER", "Department": "Health, Safety, and Environment (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Petros Sampris", "EmailID": "Petros.Sampris@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 731 89870" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Eva Flores", "EmailID": "Eva.Flores@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463815635" }, { "Designation": "Senior Procurement Manager", "Hierarchy": "MID MANAGER", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Rabih Khoury", "EmailID": "Rabih.Khoury@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 56 647 0989" }, { "Designation": "Alternate SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Ioannis Koutsoupakis", "EmailID": "Ioannis.Koutsoupakis@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 768 21217" }, { "Designation": "QC Mechanical", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Mohammad Niyaz", "EmailID": "Mohammad.Niyaz@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 55 821 2953" }, { "Designation": "Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Health, Safety, and Environment (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Pankaj Sikligar", "EmailID": "Pankaj.Sikligar@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 52 203 9722" }, { "Designation": "Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Vasiliki Mantadaki", "EmailID": "Vasiliki.Mantadaki@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 477 92186" }, { "Designation": "HR Admin", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Tabitha Fornah", "EmailID": "Tabitha.Fornah@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 574 329 1629" }, { "Designation": "Storekeeper", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rommel Yambao", "EmailID": "Rommel.Yambao@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816017" }, { "Designation": "QC Electrical Engineer", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Jorge Javelosa", "EmailID": "Jorge.Javelosa@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 55 407 8798" }, { "Designation": "Project Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Aldrin Santos", "EmailID": "Aldrin.Santos@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463814326" }, { "Designation": "QC Mechanical Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Christino Patacsil", "EmailID": "Christino.Patacsil@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463814070" }, { "Designation": "Site Safety And Health Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Edward Nebres", "EmailID": "Edward.Nebres@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463815203" }, { "Designation": "Project Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Emedel Rivera", "EmailID": "Emedel.Rivera@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463813444" }, { "Designation": "Site Safety And Health Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Robert Waniwan", "EmailID": "Robert.Waniwan@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463815282" }, { "Designation": "IT Engineer", "Hierarchy": "EMPLOYEE", "Department": "IT", "EmploymentType": "Employee", "EmployeeName": "Sajesh Sukumaran", "EmailID": "sajesh.sukumaran@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 50 391 8070" }, { "Designation": "Alt Site Superntindent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Konstantinos Zacharioudakis", "EmailID": "Konstantinos.Zacharioudakis@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 451 05610" }, { "Designation": "Accountant", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Minerva Gonzales", "EmailID": "Minerva.Gonzales@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Dubai", "MobileNumber": "+971 56 114 5445" }, { "Designation": "MEP Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Ali Asgar", "EmailID": "Ali.Asgar@mvl-group.com", "LineManager": "Martin Thankachan", "Location": "Dubai", "MobileNumber": "+971 58 588 2053" }, { "Designation": "Storekeeper", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Remigio Roman", "EmailID": "Remigio.Roman@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816397" }, { "Designation": "Accountant", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Rouba Mouawad", "EmailID": "Rouba.Mouawad@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Lebanon", "MobileNumber": "+961 70 609 438" }, { "Designation": "Draftman Cum Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jeovany Granada", "EmailID": "Jeovany.Granada@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817348" }, { "Designation": "HR Admin", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Jotatsu Nakanishi", "EmailID": "Jotatsu.Nakanishi@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 90 9789 3953" }, { "Designation": "Supervisor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jeffrey Lumapag", "EmailID": "Jeffrey.Lumapag@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816463" }, { "Designation": "Quality Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Roopesh Kumar", "EmailID": "Roopesh.Kumar@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 54 523 5393" }, { "Designation": "Supervisor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Alexander Patacsil", "EmailID": "Alexander.Patacsil@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816219" }, { "Designation": "CAD Operator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Amelia Menes", "EmailID": "Amelia.Menes@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816214" }, { "Designation": "Supervisor", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jhon Gregorio", "EmailID": "Jhon.Gregorio@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816216" }, { "Designation": "Supervisor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "John Quilala", "EmailID": "John.Quilala@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816223" }, { "Designation": "Supervisor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Liezette Disquitado", "EmailID": "Liezette.Disquitado@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816217" }, { "Designation": "Safety And Health Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nurbu Lama", "EmailID": "Nurbu.Lama@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+977 98 623 61880" }, { "Designation": "Electrical Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Emmanouil Psarakis", "EmailID": "Emmanouil.Psarakis@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 763 33729" }, { "Designation": "Project Manager", "Hierarchy": "Manager", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Daisuke Kinjo", "EmailID": "Daisuke.Kinjo@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 8569 8920" }, { "Designation": "Deputy Procurement Manager", "Hierarchy": "MID MANAGER", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Shinso Manjaly", "EmailID": "Shinso.Manjaly@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 52 591 4497" }, { "Designation": "Assistant Project Manager/Project Controls", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Office", "EmployeeName": "Fabian Rendon", "EmailID": "Fabian.Rendon@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 604 715 1236" }, { "Designation": "Deputy Procurement Manager", "Hierarchy": "MID MANAGER", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Vinith Babu", "EmailID": "Vinith.Babu@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 52 629 1226" }, { "Designation": "Mechanical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Jazzy Nuguid", "EmailID": "Jazzy.Nuguid@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817311" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Juvert Ladiero", "EmailID": "Juvert.Ladiero@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817307" }, { "Designation": "Electrical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Mark Balagtas", "EmailID": "Mark.Balagtas@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817309" }, { "Designation": "Civil QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Relon Yambao", "EmailID": "Relon.Yambao@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817310" }, { "Designation": "Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Mohamed Salam", "EmailID": "Mohamed.Salam@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 55 224 4106" }, { "Designation": "Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Health, Safety, and Environment (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Raghu Bandari", "EmailID": "Raghu.Bandari@mvl-group.com", "LineManager": "James Sheehan", "Location": "Italy", "MobileNumber": "+91 99597 82552" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rufo Oalican", "EmailID": "Rufo.Oalican@mvl-yamauchi.co.jp", "LineManager": "Walid Khaled", "Location": "Japan", "MobileNumber": "+81 90 6864 0906" }, { "Designation": "Civil Quality Control Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Alfredo Arcebuche", "EmailID": "Alfredo.Arcebuche@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817586" }, { "Designation": "Planning Engineer/Scheduler", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Fernando Catolos", "EmailID": "Fernando.Catolos@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Diego Garcia", "MobileNumber": "+1 671 997 3846" }, { "Designation": "Electrical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Maria Gapasin", "EmailID": "Maria.Gapasin@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817575" }, { "Designation": "Electrical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nicca Rebanal", "EmailID": "Nicca.Rebanal@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817576" }, { "Designation": "Cost Control Engineer", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Thanveer Ahammed", "EmailID": "Thanveer.Ahammed@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 54 725 5604" }, { "Designation": "Alternate Qulaity Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Themistoklis Kontomaris", "EmailID": "Themistoklis.Kontomaris@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+30 69 722 59035" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Mansoor Junbesh", "EmailID": "Mansoor.Junbesh@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 571 277 1395" }, { "Designation": "Qulaity Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Edison Espinosa", "EmailID": "Edison.Espinosa@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 90 8572 0172" }, { "Designation": "Project Coordinator/Translator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kento Ishikawa", "EmailID": "Kento.Ishikawa@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 9694 7763" }, { "Designation": "SITE SAFETY & HEALTH OFFICER", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Julie Osias", "EmailID": "Julie.Osias@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817885" }, { "Designation": "Planning Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Beldrick Baptista", "EmailID": "Beldrick.Baptista@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Kwajalein", "MobileNumber": "+63 927 323 6282" }, { "Designation": "QC Engineer - Electrical", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ramjo Ballonado", "EmailID": "Ramjo.Ballonado@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+966 53 768 2838" }, { "Designation": "Program Manager", "Hierarchy": "MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "James Sheehan", "EmailID": "James.Sheehan@mvl-group.com", "LineManager": "Ernie Hogue", "Location": "USA", "MobileNumber": "+1 561 283 1851" }, { "Designation": "Site Safety And Health Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Wilfredo Sanchez", "EmailID": "Wilfredo.Sanchez@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+9 73 330 69568" }, { "Designation": "Sr. Document controller /project coordinator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Franklin Waje", "EmailID": "Franklin.Waje@mvl-group.com", "LineManager": "Naleef Abdeen", "Location": "Dubai", "MobileNumber": "+971 58 599 2936" }, { "Designation": "Scheduler(Proposal Team)", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Zekrullah Kochai", "EmailID": "Zekrullah.Kochai@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 706 888 3864" }, { "Designation": "Planning Engineer/ Scheduler", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Lynard Ramos", "EmailID": "Lynard.Ramos@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Diego Garcia", "MobileNumber": "+2463818224" }, { "Designation": "HSE Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rey Amorgiente", "EmailID": "Rey.Amorgiente@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 4785 0622" }, { "Designation": "Technical Office Civil Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kamal Kumar", "EmailID": "Kamal.Kumar@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 54 214 7350" }, { "Designation": "Quality Control Assistant", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Gerald Besa", "EmailID": "Gerald.Besa@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463815941" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Arlan Williams", "EmailID": "Arlan.Williams@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 423 312 0913" }, { "Designation": "Translator / Admin", "Hierarchy": "EMPLOYEE", "Department": "Site Administration", "EmploymentType": "Employee", "EmployeeName": "Airi Martinez", "EmailID": "Airi.Martinez@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 4690 3317" }, { "Designation": "Translator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Gage Oshiro", "EmailID": "Gage.Oshiro@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 90 3013 5434" }, { "Designation": "Alternative Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Noel Avilla", "EmailID": "Noel.Avilla@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 945 578 0598" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Roberto Cania", "EmailID": "Roberto.Cania@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 925 351 3487" }, { "Designation": "General Manager - Africa", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Justin Abboud", "EmailID": "Justin.Abboud@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Lebanon", "MobileNumber": "+9613609292" }, { "Designation": "QC Electrical Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Arun Nair", "EmailID": "Arun.Nair@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 55 344 6494" }, { "Designation": "Alternate QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Stanley Williams", "EmailID": "Stanley.Williams@mvl-group.com", "LineManager": "Walid Khaled", "Location": "USA", "MobileNumber": "+1 423 312 4703" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Dean Llewellyn", "EmailID": "Dean.Llewellyn@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 757 771 4578" }, { "Designation": "Quality Control Assistant", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Consultant", "EmployeeName": "Giovanni Sartori", "EmailID": "Giovanni.Sartori@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+39 32 823 19002" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Franklin Asuncion", "EmailID": "Franklin.Asuncion@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463813405" }, { "Designation": "QC Mechanical Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nizamuddin Ziauddin", "EmailID": "Nizamuddin.Ziauddin@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+91 75983 38898" }, { "Designation": "Accountant", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Jastrzebski Wojciech", "EmailID": "Jastrzebski.Wojciech@mvl-yamauchi.co.jp", "LineManager": "Bala Chandran", "Location": "Japan", "MobileNumber": "+81 70 3245 2317" }, { "Designation": "Alternate QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Joel Galang", "EmailID": "Joel.Galang@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+8085523242" }, { "Designation": "Project Procurement and Logistics Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Erwin Plantilla", "EmailID": "Erwin.Plantilla@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Kwajalein", "MobileNumber": "+63 977 487 6670" }, { "Designation": "AutoCAD Draftsman", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ayman Bebawy", "EmailID": "Ayman.Bebawy@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 56 721 8840" }, { "Designation": "HSE Manager", "Hierarchy": "MID MANAGER", "Department": "Health, Safety, and Environment (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rajesh Ramsingh", "EmailID": "Rajesh.Ramsingh@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 347 553 8811" }, { "Designation": "Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Raunaque Afroz", "EmailID": "Raunaque.Afroz@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+91 86574 24070" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Antonio Abana", "EmailID": "Antonio.Abana@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 916 247 2442" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Antony Cabaja", "EmailID": "Antony.Cabaja-an@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 956 821 9983" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Janine Marilejos", "EmailID": "Janine.Marilejos@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 967 542 3897" }, { "Designation": "QC Civil specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jerome Red", "EmailID": "Jerome.Red@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 998 996 599800639958156084" }, { "Designation": "Mechanical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kevin Gonzales", "EmailID": "Kevin.Gonzales@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 912 206 2361" }, { "Designation": "Environmental Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Romualdo Medina", "EmailID": "Romualdo.Medina@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463813891" }, { "Designation": "Cost Control Engineer", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Abdullah Ammar Ameer", "EmailID": "Abdullah.Ameer@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 54 751 1377" }, { "Designation": "Cost Estimation Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Morimasa Maeshiro", "EmailID": "Morimasa.Maeshiro@mvl-yamauchi.co.jp", "LineManager": "Jailani Mohaideen", "Location": "Japan", "MobileNumber": "+9037956068" }, { "Designation": "Health and Safety officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Martin Chacko", "EmailID": "Martin.Chacko@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 50 739 8619" }, { "Designation": "Electrician", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "kamal Chakraborthy", "EmailID": "kamal.Chakraborthy@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+91 82963 95462" }, { "Designation": "Project Laboratory Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Darwin Gongob", "EmailID": "Darwin.Gongob@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 905 573 2693" }, { "Designation": "Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kimura Shuichi", "EmailID": "Kimura.Shuichi@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+9028693614" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Giovanni Segura", "EmailID": "Giovanni.Segura@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 6489 4716" }, { "Designation": "Alternate QCM and Electrical QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ronie Nietes", "EmailID": "Ronie.Nietes@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 70 4487 4281" }, { "Designation": "SSHO/Environmental", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Carlos Formanes", "EmailID": "Carlos.Formanes@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+8091772520" }, { "Designation": "HR Admin", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jayke Bolante", "EmailID": "Jayke.Bolante@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 917 902 1644" }, { "Designation": "Junior Proposal Manager", "Hierarchy": "MID MANAGER", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Genc Rexhaj", "EmailID": "Genc.Rexhaj@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Kosovo", "MobileNumber": "+3 83 458 87695" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Elizarde Serrano", "EmailID": "Elizarde.Serrano@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 925 781 1988" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Mark Koeppen", "EmailID": "Mark.Koeppen@mvl-group.com", "LineManager": "Ernie Hogue", "Location": "Italy", "MobileNumber": "+961 81 765 789" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Roberto Gualberto", "EmailID": "Roberto.Gualberto@mvl-yamauchi.co.jp", "LineManager": "Walid Khaled", "Location": "Japan", "MobileNumber": "+8032289682" }, { "Designation": "MEP Quantity Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Abdul Obed", "EmailID": "Abdul.Obed@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+966 56 094 7943" }, { "Designation": "Quality Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Yorlando Penaso", "EmailID": "Yorlando.Penaso@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463815944" }, { "Designation": "Planning Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Seif Mahmoud", "EmailID": "Seif.Mahmoud@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Egypt", "MobileNumber": "+20 10 677 62045" }, { "Designation": "HR & Corporate Communications Director", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Human Resources and Administration", "EmploymentType": "Consultant", "EmployeeName": "Rana Naoum", "EmailID": "Rana.Naoum@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 606 9100" }, { "Designation": "Alternate superintendent / Batch plant manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Roberto Dela Cruz", "EmailID": "Roberto.DelaCruz@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 671 797 7891" }, { "Designation": "Senior contracts Engineer", "Hierarchy": "SENIOR EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nivas Thalla", "EmailID": "Nivas.Thalla@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+971 52 252 0106" }, { "Designation": "Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Romualdo Sanchez", "EmailID": "Romualdo.Sanchez@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 671 486 8002" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Clive Obrien", "EmailID": "Clive.Obrien@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 954 401 8839" }, { "Designation": "Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Germaine Smith", "EmailID": "Germaine.Smith@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 904 750 9144" }, { "Designation": "QC Electrical Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Dennis Tigno", "EmailID": "Dennis.Tigno@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 505 33615" }, { "Designation": "QC", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Joval Pangga", "EmailID": "Joval.Pangga@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 4690 1990" }, { "Designation": "Contracts Engineer", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Arathy Ramesan", "EmailID": "Arathy.Ramesan@mvl-group.com", "LineManager": "Perelino DeLaCruzJr", "Location": "Dubai", "MobileNumber": "+971 52 964 2325" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Shailesh Patel", "EmailID": "Shailesh.Patel@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 803 466 4793" }, { "Designation": "QCM", "Hierarchy": "MID MANAGER", "Department": "Quality Control (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Robert Marshall", "EmailID": "Robert.Marshall@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+90 53 321 17892" }, { "Designation": "Site Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Takayoshi Yago", "EmailID": "Takayoshi.Yago@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 70 1419 1295" }, { "Designation": "NURSE", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ralph Sagabaen", "EmailID": "Ralph.Sagabaen@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816492" }, { "Designation": "Project Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Nasser Al Atshan", "EmailID": "Nasser.AlAtshan@mvl-group.com", "LineManager": "Myron Koumadorakis", "Location": "Greece", "MobileNumber": "+966 56 855 7766" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Sam Farhat", "EmailID": "Sam.Farhat@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 313 392 3777" }, { "Designation": "Accountant", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Israr Shaikh", "EmailID": "Israr.Shaikh@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Dubai", "MobileNumber": "+971 52 274 5883" }, { "Designation": "Store Keeper", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jolito Martin", "EmailID": "Jolito.Martin@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 998 975 1307" }, { "Designation": "Health & Safety Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Huzaifa Mandlekar", "EmailID": "Huzaifa.Mandlekar@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 980 42325" }, { "Designation": "HSE Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rajibul Islam", "EmailID": "Rajibul.Islam@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 966 03288" }, { "Designation": "Cost Estimate Engineer", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Masayuki Udagawa", "EmailID": "Masayuki.Udagawa@mvl-yamauchi.co.jp", "LineManager": "Jailani Mohaideen", "Location": "Japan", "MobileNumber": "+81 90 8105 5577" }, { "Designation": "CAD Operator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "February Villete", "EmailID": "February.Villete@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463816990" }, { "Designation": "Batch Plant Operator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Saulo Ingente", "EmailID": "Saulo.Ingente@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463707901" }, { "Designation": "Senior Planning Engineer", "Hierarchy": "SENIOR EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Rufino Sigua", "EmailID": "Rufino.Sigua@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+63 956 072 9859" }, { "Designation": "Expeditor/ Logistics Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Mohamed Raffi", "EmailID": "Mohamed.Raffi@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 56 977 1563" }, { "Designation": "QC Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Glorimel Cambaliza", "EmailID": "Glorimel.Cambaliza@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 8374 8451" }, { "Designation": "Laboratory Technician", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Florsheldon Hortelano", "EmailID": "Florsheldon.Hortelano@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817102" }, { "Designation": "Laboratory Technician", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Sheldon Marquez", "EmailID": "Sheldon.Marquez@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+2463817100" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Eri Tanaka", "EmailID": "Eri.Tanaka@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 4149 6322" }, { "Designation": "Site Supervisor", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Ernie Mendoza", "EmailID": "Ernie.Mendoza@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 961 570 3046" }, { "Designation": "Quality Control Specialist-Civil", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Koji Kerth Roque", "EmailID": "Koji.Roque@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 945 773 1899" }, { "Designation": "Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Mark John Rafael", "EmailID": "Mark.Rafael@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 966 443 2333" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Melvin Pesebre", "EmailID": "Melvin.Pesebre@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 945 991 5549" }, { "Designation": "Site Supervisor", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Shamsudin Daud Graycochea", "EmailID": "Shamsudin.Graycochea@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 960 688 2265" }, { "Designation": "Accountant", "Hierarchy": "EMPLOYEE", "Department": "Finance and Accounting", "EmploymentType": "Employee", "EmployeeName": "Joud Chami", "EmailID": "Joud.Chami@mvl-group.com", "LineManager": "Bala Chandran", "Location": "Dubai", "MobileNumber": "+00971551289628" }, { "Designation": "Procurement Specialist", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Shah Faisal", "EmailID": "Shah.Faisal@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 55 230 4367" }, { "Designation": "Cost Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Itsuo Tsuha", "EmailID": "Itsuo.Tsuha@mvl-yamauchi.co.jp", "LineManager": "Jailani Mohaideen", "Location": "Japan", "MobileNumber": "+81 90 6771 8620" }, { "Designation": "Procurement Officer", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Hideko Takara", "EmailID": "Hideko.Takara@mvl-yamauchi.co.jp", "LineManager": "Jailani Mohaideen", "Location": "Japan", "MobileNumber": "+81 90 2856 0056" }, { "Designation": "Cost Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Takeshi Arakaki", "EmailID": "Takeshi.Arakaki@mvl-yamauchi.co.jp", "LineManager": "Jailani Mohaideen", "Location": "Japan", "MobileNumber": "+81 90 3972 9050" }, { "Designation": "Draftsman", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Azeem Mohammed", "EmailID": "Azeem.Mohammed@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+91 83419 85953" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Eulogio Lagunias", "EmailID": "Eulogio.Lagunias@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 80 4880 8545" }, { "Designation": "Kwaj - Site HR Admin", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Consultant", "EmployeeName": "Patrick Mesina", "EmailID": "Patrick.Mesina@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 960 304 7842" }, { "Designation": "Client Service Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Consultant", "EmployeeName": "Darlene Apuyod", "EmailID": "Darlene.Apuyod@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Diego Garcia", "MobileNumber": "+63 962 486 3386" }, { "Designation": "Quality Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Assaf Kassab", "EmailID": "Assaf.Kassab@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Lebanon", "MobileNumber": "+961 70 965 747" }, { "Designation": "Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Christian Hajj", "EmailID": "Christian.Hajj@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Lebanon", "MobileNumber": "+961 70 951 718" }, { "Designation": "Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Sanjiv Ray", "EmailID": "Sanjiv.Ray@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+977 98 624 08158" }, { "Designation": "QC Engineer - Mechanical", "Hierarchy": "EMPLOYEE", "Department": "Quality Control (Mena Asia- Pacific Region)", "EmploymentType": "Employee", "EmployeeName": "Dindo Ninal", "EmailID": "Dindo.Ninal@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 906 815 6576" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Lloyd Ledama", "EmailID": "lloyd.ledama@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 910 242 4501" }, { "Designation": "Procurement Consultant", "Hierarchy": "CONSULTANT", "Department": "Supply Chain and Procurement", "EmploymentType": "Consultant", "EmployeeName": "Maricar Imperial", "EmailID": "Maricar.Imperial@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Philippines", "MobileNumber": "+63 956 584 3023" }, { "Designation": "Senior Logistics Officer", "Hierarchy": "EMPLOYEE", "Department": "Supply Chain and Procurement", "EmploymentType": "Employee", "EmployeeName": "Teejay Bautista", "EmailID": "Teejay.Bautista@mvl-group.com", "LineManager": "Rabih Khoury", "Location": "Dubai", "MobileNumber": "+971 50 230 3878" }, { "Designation": "Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Eric Van Gieson", "EmailID": "Eric.Vangieson@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "USA", "MobileNumber": "+1 719 580 3155" }, { "Designation": "Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Consultant", "EmployeeName": "Ibrahim Mansour", "EmailID": "Ibrahim.Mansour@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Lebanon", "MobileNumber": "+961 70 782 012" }, { "Designation": "Quantity Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Danace Aquino", "EmailID": "Danace.Aquino@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Diego Garcia", "MobileNumber": "+2463707901" }, { "Designation": "MEP Estimator", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Nayana Manakatt", "EmailID": "Nayana.Manakatt@mvl-group.com", "LineManager": "Martin Thankachan", "Location": "Dubai", "MobileNumber": "+971 50 475 4698" }, { "Designation": "QCM", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Allen Diaz", "EmailID": "Allen.Diaz@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 636 399 0463" }, { "Designation": "Administrative Assistant", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Marius Reveredo", "EmailID": "Marius.Reveredo@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 517 36199" }, { "Designation": "Project Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Alfred Kik", "EmailID": "Alfred.Kik@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Lebanon", "MobileNumber": "+9614530705" }, { "Designation": "Project Lead Site Superintendent", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "David Lynn Phinizy", "EmailID": "David.Phinizy@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+1 423 790 2493" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Tim Leo Macasil", "EmailID": "TimLeo.Macasil@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 926 122 5514" }, { "Designation": "Laboratory and Material Technician", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Hilario Rosel", "EmailID": "Hilario.Rosel@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 096 030 15719" }, { "Designation": "Graphic Marketing Coordinator/Graphics Designer", "Hierarchy": "EMPLOYEE", "Department": "Marketing and Communication", "EmploymentType": "Consultant", "EmployeeName": "Rony Haddad", "EmailID": "Rony.Haddad@mvl-group.com", "LineManager": "Rana Naoum", "Location": "Lebanon", "MobileNumber": "+961 03 235 159" }, { "Designation": "Health & Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nithu Rajan", "EmailID": "Nithu.Rajan@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 657 06661" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Delson Dsouza", "EmailID": "Delson.Dsouza@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+91 84948 68985" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Papa Badji", "EmailID": "Papa.Badji@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 70 4086 4580" }, { "Designation": "Health & Safety Officer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Dheeraj Dasan", "EmailID": "Dheeraj.Dasan@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Kuwait", "MobileNumber": "+9 65 987 32279" }, { "Designation": "Civil QC Specialist", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jobelle Maramara", "EmailID": "Jobelle.Maramara@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 975 976 7804" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Kathyleen Ilajas", "EmailID": "Kathyleen.Ilajas@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 945 401 7341" }, { "Designation": "QC Specialist-Electrical", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Michael Apostol", "EmailID": "Michael.Apostol@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 916 389 4206" }, { "Designation": "Inventory Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Templar Villaluna", "EmailID": "Templar.Villaluna@mvl-group.com", "LineManager": "Zafar Asim", "Location": "Diego Garcia", "MobileNumber": "+63 969 091 8574" }, { "Designation": "Cost Control Engineer", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Ahamed Ansar", "EmailID": "Ahamed.Ansar@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 56 213 4897" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Anoop Kumar", "EmailID": "Anoop.Kumar@mvl-group.com", "LineManager": "Pankaj Sikligar", "Location": "Dubai", "MobileNumber": "+971 54 231 7241" }, { "Designation": "Senior AutoCAD Draftsman", "Hierarchy": "SENIOR EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Mena Ibrahim", "EmailID": "Mena.Ibrahim@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+20 12 269 35554" }, { "Designation": "Coordinator", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Mai Ishikawa", "EmailID": "Mai.Ishikawa@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 70 3283 6513" }, { "Designation": "QCM", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Edwin Beasley", "EmailID": "Edwin.Beasley@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 910 977 6374" }, { "Designation": "Senior Planning Engineer", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Amr Afifi", "EmailID": "Amr.Afifi@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+20 11 569 72697" }, { "Designation": "Consultant - SharePoint Developer", "Hierarchy": "EMPLOYEE", "Department": "IT", "EmploymentType": "Consultant", "EmployeeName": "Kamal Mokh", "EmailID": "Kamal.Mokh@mvl-group.com", "LineManager": "Rana Naoum", "Location": "Lebanon", "MobileNumber": "+9613204216" }, { "Designation": "Estimator & Contracts Engineer", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Mardhini Siddaiah", "EmailID": "Mardhini.Siddaiah@mvl-group.com", "LineManager": "Suresh Sathianathan", "Location": "Dubai", "MobileNumber": "+971 58 693 8083" }, { "Designation": "SSHO/Alt QC", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Austin Jacques", "EmailID": "Austin.Jacques@mvl-group.com", "LineManager": "James Sheehan", "Location": "USA", "MobileNumber": "+1 907 290 0641" }, { "Designation": "Alt QCM/QC Civil", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Yasar Abbasi", "EmailID": "Yasar.Abbasi@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Saudi Arabia", "MobileNumber": "+966 59 180 2610" }, { "Designation": "Deputy Project Manager/ Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Farhan Janjua", "EmailID": "Farhan.Janjua@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Saudi Arabia", "MobileNumber": "+966 53 253 3862" }, { "Designation": "HSE Manager", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jehangir Muhammad", "EmailID": "Jehangir.Muhammad@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Saudi Arabia", "MobileNumber": "+966 59 913 0506" }, { "Designation": "Alternate Health and Safety Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Reynante Aguilar", "EmailID": "Reynante.Aguilar@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 919 254 9939" }, { "Designation": "SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (Europe & USA)", "EmploymentType": "Employee", "EmployeeName": "Gianberto Antonello", "EmailID": "Gianberto.Antonello@mvl-group.com", "LineManager": "Mark Koeppen", "Location": "Italy", "MobileNumber": "+39 32 823 70043" }, { "Designation": "Site Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Bhoj Bohara", "EmailID": "Bhoj.Bohara@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+971 50 605 1843" }, { "Designation": "Certified Person (CP) Safety Compliance", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Fernando Halaghay", "EmailID": "Fernando.Halaghay@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 947 400 1099" }, { "Designation": "Project Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Edwin Gervacio", "EmailID": "Edwin.Gervacio@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 906 367 7559" }, { "Designation": "Construction Site Supervisor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Jerico Tamor", "EmailID": "Jerico.Tamor@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 966 752 2929" }, { "Designation": "Alternate SSHO", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Eric DelaCruz", "EmailID": "Eric.DelaCruz@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 956 798 1393" }, { "Designation": "Electrical Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Andrew Cabigon", "EmailID": "Andrew.Cabigon@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 947 249 3572" }, { "Designation": "Electrical Quality Control Engineer", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Arthur Alfonso", "EmailID": "Arthur.Alfonso@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 927 586 7250" }, { "Designation": "Assistant Surveyor", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Rogelio Estanislao", "EmailID": "Rogelio.Estanislao@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 967 330 1620" }, { "Designation": "Mechanical Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Romeo Chua", "EmailID": "Romeo.Chua@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 961 874 2834" }, { "Designation": "QC Civil", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Benigno Tiglao", "EmailID": "Benigno.Tiglao@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+966 50 340 1845" }, { "Designation": "Mechanical Superintendent", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Nuvoirnau Bagatsolon", "EmailID": "Nuvoirnau.Bagatsolon@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Diego Garcia", "MobileNumber": "+63 919 462 2603" }, { "Designation": "Sr. Contracts Engineer", "Hierarchy": "EMPLOYEE", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Sourav Chakraborty", "EmailID": "sourav.chakraborty@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+971 52 425 4835" }, { "Designation": "Planning Engineer", "Hierarchy": "EMPLOYEE", "Department": "Project Control", "EmploymentType": "Employee", "EmployeeName": "Ahmed Hassan Mahgoub Farah", "EmailID": "ahmed.farah@mvl-group.com", "LineManager": "Hayat Mansour", "Location": "Dubai", "MobileNumber": "+971 54 729 7533" }, { "Designation": "Construction Manager", "Hierarchy": "EMPLOYEE", "Department": "Engineering", "EmploymentType": "Employee", "EmployeeName": "Sarfaraz Ahmad", "EmailID": "sarfaraz.ahmad@mvl-group.com", "LineManager": "Ferdinand Reyneke", "Location": "Abu Dhabi", "MobileNumber": "+971 55 826 2988" }, { "Designation": "Quality Control Manager", "Hierarchy": "MID MANAGER", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Sijesh Vadakkedath Muralidharan", "EmailID": "Sijesh.Muralidharan@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+91 94955 67501" }, { "Designation": "Chief Transformation & Innovation Officer", "Hierarchy": "EXECUTIVE MANAGEMENT", "Department": "Transformation and Innovation", "EmploymentType": "Employee", "EmployeeName": "Rita El Jamal", "EmailID": "rita.jamal@mvl-group.com", "LineManager": "Hani Khawaja", "Location": "Dubai", "MobileNumber": "+971 55 226 0503" }, { "Designation": "Admin", "Hierarchy": "EMPLOYEE", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "Employee", "EmployeeName": "Aoi Kuninaka", "EmailID": "Aoi.Kuninaka@mvl-yamauchi.co.jp", "LineManager": "Kento Kumagai", "Location": "Japan", "MobileNumber": "+81 90 9789 9348" }, { "Designation": "Sr. Technical Office Engineer - Mechanical", "Hierarchy": "EMPLOYEE", "Department": "Engineering", "EmploymentType": "Employee", "EmployeeName": "Majid Ali", "EmailID": "majid.ali@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+9 65 606 24452" }, { "Designation": "Site - Human Resource Administrator", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "John Banias", "EmailID": "John.Banias@mvl-group.com", "LineManager": "Walid Khaled", "Location": "Kwajalein", "MobileNumber": "+63 962 967 5821" }, { "Designation": "HR & Admin Officer", "Hierarchy": "EMPLOYEE", "Department": "Human Resources and Administration", "EmploymentType": "Employee", "EmployeeName": "Maria Glaiza Asuncion Magno", "EmailID": "maria.magno@mvl-group.com", "LineManager": "Joshna Sunil", "Location": "Dubai", "MobileNumber": "+971 93 033 9536" }, { "Designation": "Senior Technical Engineer", "Hierarchy": "EMPLOYEE", "Department": "Engineering", "EmploymentType": "Employee", "EmployeeName": "Romany Magdy", "EmailID": "romany.magdy@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+20 12 829 34232" }, { "Designation": "Contracts Director", "Hierarchy": "Manager", "Department": "Business Development, Proposals, and Contracts", "EmploymentType": "Employee", "EmployeeName": "Samer Hicham Malaeb", "EmailID": "samer.malaeb@mvl-group.com", "LineManager": "Jailani Mohaideen", "Location": "Dubai", "MobileNumber": "+971 50 692 0696" }, { "Designation": "AutoCAD Draftsman", "Hierarchy": "EMPLOYEE", "Department": "Engineering", "EmploymentType": "Employee", "EmployeeName": "Ahmed Hassan Sayed", "EmailID": "ahmed.sayed@mvl-group.com", "LineManager": "Ayman Girgis", "Location": "Dubai", "MobileNumber": "+971 50 526 1338" }, { "Designation": "Global Admin", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "MVL Global Admin", "EmailID": "Admin@MVLGROUPUSA.onmicrosoft.com", "LineManager": "", "Location": "", "MobileNumber": "+971 50 477 1383" }, { "Designation": "Cost Control Engineer", "Hierarchy": "", "Department": "", "EmploymentType": "", "EmployeeName": "Afraj Rasheed", "EmailID": "Afraj.Rasheed@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+00971585435377" }, { "Designation": "Safety Officer - CP Scaffolding", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Alejandro Vergonia", "EmailID": "Alejandro.Vergonia@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+63 905 236 0628" }, { "Designation": "LSA Admin", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Alvin DeAla", "EmailID": "Alvin.DeAla@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+63 915 584 7024" }, { "Designation": "Site Safety and Health Officer", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Andres Baraquil", "EmailID": "Andres.Baraquil@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+63 961 675 4073" }, { "Designation": "Quality Control Manager", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Artur Marynowski", "EmailID": "Artur.Marynowski@mvl-yamauchi.co.jp", "LineManager": "", "Location": "", "MobileNumber": "+81 90 4519 4889" }, { "Designation": "", "Hierarchy": "", "Department": "", "EmploymentType": "", "EmployeeName": "IT Consultant", "EmailID": "bivin@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "" }, { "Designation": "Health and Safety Officer", "Hierarchy": "", "Department": "Health, Safety, and Environment", "EmploymentType": "", "EmployeeName": "Chinthu Prasanna", "EmailID": "Chinthu.Prasanna@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+9 73 342 08897" }, { "Designation": "Alternate SSHO", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Evangelos Nikolidakis", "EmailID": "Evangelos.Nikolidakis@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+30 69 865 73881" }, { "Designation": "MVL IT Support", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "IT Support", "EmailID": "IT.Support@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+001 20 279 80056" }, { "Designation": "MVL IT Operations", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "MVL IT Operations", "EmailID": "itoperations@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "" }, { "Designation": "Project Engineer/Environmental Manager", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Jorge Garcia", "EmailID": "Jorge.Garcia@mvl-yamauchi.co.jp", "LineManager": "", "Location": "", "MobileNumber": "+81 80 4930 3666" }, { "Designation": "Document Controller", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Lambett Joy Disquitado", "EmailID": "Lambett.Disquitado@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+63 931 870 5691" }, { "Designation": "QC - Electrical", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Marte Alzate", "EmailID": "Marte.Alzate@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+63 927 540 5822" }, { "Designation": "Service Account - Social Media", "Hierarchy": "", "Department": "Marketing and Communication", "EmploymentType": "", "EmployeeName": "MVL Connect", "EmailID": "MVL.Connect@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "" }, { "Designation": "", "Hierarchy": "", "Department": "", "EmploymentType": "", "EmployeeName": "MVL OneDrive", "EmailID": "MVL.OneDrive@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "" }, { "Designation": "QCM", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Nathan Linn", "EmailID": "Nathan.Linn@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+91 67878 79427" }, { "Designation": "Surveyor/ Draftsman", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Rodel Ocampo", "EmailID": "Rodel.Ocampo@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+971 55 705 9580" }, { "Designation": "IT Manager - Global", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "Rusevalt Global Admin", "EmailID": "Rusevalt.Admin@MVLGROUPUSA.onmicrosoft.com", "LineManager": "", "Location": "", "MobileNumber": "+971 50 477 1383" }, { "Designation": "IT Engineer", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "Sajesh Admin", "EmailID": "sajesh.admin@MVLGROUPUSA.onmicrosoft.com", "LineManager": "", "Location": "", "MobileNumber": "+91 94007 12681" }, { "Designation": "Test Manager", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "SharepointTestManager Manager", "EmailID": "Sharepoint.TestMgr@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+971 50 123 4567" }, { "Designation": "Test User", "Hierarchy": "", "Department": "IT", "EmploymentType": "", "EmployeeName": "SharepointTestUser Employee", "EmailID": "Sharepoint.Testuser@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+971 50 123 4568" }, { "Designation": "Admin/Recruiter", "Hierarchy": "", "Department": "Executive Management", "EmploymentType": "", "EmployeeName": "Takafumi Kawahara", "EmailID": "Takafumi.Kawahara@mvl-yamauchi.co.jp", "LineManager": "", "Location": "", "MobileNumber": "+81 80 6489 1903" }, { "Designation": "Warehouse Supervisor / Heavy Equipment Operator", "Hierarchy": "", "Department": "Projects Department (MENA Asia-Pacific)", "EmploymentType": "", "EmployeeName": "Wycliffe Yegon", "EmailID": "Wycliffe.Yegon@mvl-group.com", "LineManager": "", "Location": "", "MobileNumber": "+25 47 242 42307" }];
+        let filteredEmployees = [];
+
+        // Initialize App immediately with embedded data
+        function initializeApp() {
+            filteredEmployees = [...employeesData];
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('orgChart').style.display = 'block';
+
+            populateFilters();
+            updateStats();
+            renderOrgChart();
+            setupEventListeners();
+        }
+
+        // Populate Filters
+        function populateFilters() {
+            const departments = [...new Set(employeesData.map(e => e.Department).filter(d => d))].sort();
+            const locations = [...new Set(employeesData.map(e => e.Location).filter(l => l))].sort();
+
+            const deptFilter = document.getElementById('departmentFilter');
+            const locFilter = document.getElementById('locationFilter');
+
+            departments.forEach(dept => {
+                const option = document.createElement('option');
+                option.value = dept;
+                option.textContent = dept;
+                deptFilter.appendChild(option);
+            });
+
+            locations.forEach(loc => {
+                const option = document.createElement('option');
+                option.value = loc;
+                option.textContent = loc;
+                locFilter.appendChild(option);
+            });
+        }
+
+        // Update Stats
+        function updateStats() {
+            // Use filtered employees for stats when filters are active
+            const dataToUse = filteredEmployees.length > 0 ? filteredEmployees : employeesData;
+
+            const departments = new Set(dataToUse.map(e => e.Department).filter(d => d));
+            const locations = new Set(dataToUse.map(e => e.Location).filter(l => l));
+            const managers = dataToUse.filter(e =>
+                e.Designation && (
+                    e.Designation.includes('Manager') ||
+                    e.Designation.includes('Director') ||
+                    e.Designation.includes('EVP') ||
+                    e.Designation.includes('CEO') ||
+                    e.Designation.includes('COO')
+                )
+            );
+
+            document.getElementById('totalEmployees').textContent = dataToUse.length;
+            document.getElementById('totalDepartments').textContent = departments.size;
+            document.getElementById('totalLocations').textContent = locations.size;
+            document.getElementById('totalManagers').textContent = managers.length;
+        }
+
+        // Get Initials
+        function getInitials(name) {
+            if (!name) return '?';
+            const parts = name.split(' ');
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+        }
+
+        // Format Phone Number (fix Excel scientific notation)
+        function formatPhoneNumber(phone) {
+            if (!phone || phone === '') return '';
+
+            // Convert to string
+            let phoneStr = String(phone);
+
+            // Check if it's in scientific notation (e.g., "9.71503E+11")
+            if (phoneStr.includes('E+') || phoneStr.includes('e+')) {
+                // Parse scientific notation to full number
+                const num = parseFloat(phoneStr);
+                phoneStr = num.toFixed(0); // Convert to integer string
+            }
+
+            // Remove all non-digits
+            phoneStr = phoneStr.replace(/\D/g, '');
+
+            // If it's empty after cleaning, return
+            if (!phoneStr) return '';
+
+            // Format based on length and country code
+            if (phoneStr.startsWith('971')) {
+                // UAE number: +971 XX XXX XXXX
+                return `+971 ${phoneStr.substring(3, 5)} ${phoneStr.substring(5, 8)} ${phoneStr.substring(8)}`;
+            } else if (phoneStr.startsWith('1') && phoneStr.length === 11) {
+                // US/Canada: +1 XXX XXX XXXX
+                return `+1 ${phoneStr.substring(1, 4)} ${phoneStr.substring(4, 7)} ${phoneStr.substring(7)}`;
+            } else if (phoneStr.startsWith('961')) {
+                // Lebanon: +961 XX XXX XXX
+                return `+961 ${phoneStr.substring(3, 5)} ${phoneStr.substring(5, 8)} ${phoneStr.substring(8)}`;
+            } else if (phoneStr.startsWith('966')) {
+                // Saudi Arabia: +966 XX XXX XXXX
+                return `+966 ${phoneStr.substring(3, 5)} ${phoneStr.substring(5, 8)} ${phoneStr.substring(8)}`;
+            } else if (phoneStr.startsWith('91')) {
+                // India: +91 XXXXX XXXXX
+                return `+91 ${phoneStr.substring(2, 7)} ${phoneStr.substring(7)}`;
+            } else if (phoneStr.startsWith('81')) {
+                // Japan: +81 XX XXXX XXXX
+                return `+81 ${phoneStr.substring(2, 4)} ${phoneStr.substring(4, 8)} ${phoneStr.substring(8)}`;
+            } else if (phoneStr.length > 10) {
+                // Generic international: +XXX XX XXX XXXX
+                return `+${phoneStr.substring(0, phoneStr.length - 9)} ${phoneStr.substring(phoneStr.length - 9, phoneStr.length - 7)} ${phoneStr.substring(phoneStr.length - 7, phoneStr.length - 4)} ${phoneStr.substring(phoneStr.length - 4)}`;
+            } else {
+                // Default format
+                return phoneStr;
+            }
+        }
+
+        // Get Badge Level based on Hierarchy field from CSV
+        function getBadgeLevel(designation, hierarchy) {
+            if (!hierarchy || hierarchy === '') {
+                // Fallback to designation-based logic for missing hierarchy
+                if (!designation) return 'badge-staff';
+                const d = designation.toLowerCase();
+                if (d.includes('chief') || d.includes('ceo') || d.includes('coo') || d.includes('cto') || d.includes('cfo') || d.includes('ctio') || d.includes('evp')) {
+                    return 'badge-executive';
+                }
+                if (d.includes('director')) {
+                    return 'badge-director';
+                }
+                if (d.includes('manager') || d.includes('vp')) {
+                    return 'badge-manager';
+                }
+                return 'badge-staff';
+            }
+
+            const h = hierarchy.toUpperCase();
+            if (h === 'EXECUTIVE MANAGEMENT') {
+                return 'badge-executive';
+            }
+            if (h === 'DIRECTOR') {
+                return 'badge-director';
+            }
+            if (h === 'MID MANAGER') {
+                return 'badge-mid-manager';
+            }
+            if (h === 'MANAGER' || h === 'Manager') {
+                return 'badge-manager';
+            }
+            return 'badge-staff';
+        }
+
+        // Build hierarchical tree
+        function renderOrgChart() {
+            const orgChart = document.getElementById('orgChart');
+            orgChart.innerHTML = '';
+
+            if (filteredEmployees.length === 0) {
+                document.getElementById('noResults').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('noResults').style.display = 'none';
+            updateStats();
+
+            // Find top-level employees in filtered results
+            // 1. Try to find CEO first
+            let topLevelEmployees = [];
+            const ceo = filteredEmployees.find(e =>
+                e.Designation && e.Designation.toLowerCase().includes('chief executive officer')
+            );
+
+            if (ceo) {
+                // CEO is in filtered results, show full tree from CEO
+                const tree = buildOrgTree(ceo, filteredEmployees);
+                orgChart.innerHTML = `<div class="org-chart-wrapper" id="chartWrapper"><div class="org-tree" id="orgTree">${tree}</div></div>`;
+            } else {
+                // CEO not in filter, find all employees whose managers are NOT in filtered list
+                const filteredNames = new Set(filteredEmployees.map(e => e.EmployeeName));
+                topLevelEmployees = filteredEmployees.filter(emp => {
+                    // Include if manager is not in filtered list (orphaned in this view)
+                    return !emp.LineManager || !filteredNames.has(emp.LineManager) || emp.LineManager === emp.EmployeeName;
+                });
+
+                // Build multiple trees for top-level employees
+                let treesHtml = '<div class="org-chart-wrapper" id="chartWrapper"><div class="org-tree" id="orgTree"><ul>';
+                topLevelEmployees.forEach(topEmp => {
+                    const tree = buildOrgTree(topEmp, filteredEmployees);
+                    // Extract just the inner content
+                    treesHtml += tree.replace('<ul><li>', '<li>').replace('</li></ul>', '</li>');
+                });
+                treesHtml += '</ul></div></div>';
+                orgChart.innerHTML = treesHtml;
+            }
+
+            // Initialize drag after render
+            setTimeout(initializeDragToPan, 100);
+        }
+
+        // Build hierarchical tree recursively (unlimited depth)
+        function buildOrgTree(manager, allEmployees, processedIds = new Set()) {
+            // Prevent infinite loops
+            if (processedIds.has(manager.EmployeeName)) {
+                return '';
+            }
+            processedIds.add(manager.EmployeeName);
+
+            const directReports = allEmployees.filter(e =>
+                e.LineManager === manager.EmployeeName &&
+                e.EmployeeName !== manager.EmployeeName &&
+                !processedIds.has(e.EmployeeName)
+            );
+
+            let html = '<ul><li>';
+            html += createTreeNode(manager);
+
+            if (directReports.length > 0) {
+                // Separate managers from staff (end users)
+                const reportManagers = [];
+                const reportStaff = [];
+
+                directReports.forEach(report => {
+                    const hasSubordinates = allEmployees.some(e =>
+                        e.LineManager === report.EmployeeName &&
+                        e.EmployeeName !== report.EmployeeName
+                    );
+
+                    if (hasSubordinates) {
+                        reportManagers.push(report);
+                    } else {
+                        reportStaff.push(report);
+                    }
+                });
+
+                html += '<ul>';
+
+                // Show managers with full tree nodes
+                reportManagers.forEach(report => {
+                    html += '<li>';
+                    html += createTreeNode(report);
+
+                    // Recursively build tree for ALL levels
+                    const subReports = allEmployees.filter(e =>
+                        e.LineManager === report.EmployeeName &&
+                        e.EmployeeName !== report.EmployeeName &&
+                        !processedIds.has(e.EmployeeName)
+                    );
+
+                    if (subReports.length > 0) {
+                        // Recursive call for unlimited depth
+                        html += buildSubTree(report, allEmployees, new Set(processedIds));
+                    }
+
+                    html += '</li>';
+                });
+
+                // Show staff in compact list if more than 3
+                if (reportStaff.length > 3) {
+                    html += '<li>' + createStaffListBox(reportStaff) + '</li>';
+                } else {
+                    // Show individual nodes if 3 or fewer
+                    reportStaff.forEach(staff => {
+                        html += '<li>' + createTreeNode(staff) + '</li>';
+                    });
+                }
+
+                html += '</ul>';
+            }
+
+            html += '</li></ul>';
+            return html;
+        }
+
+        // Helper function to build sub-trees recursively
+        function buildSubTree(manager, allEmployees, processedIds) {
+            if (processedIds.has(manager.EmployeeName)) {
+                return '';
+            }
+            processedIds.add(manager.EmployeeName);
+
+            const directReports = allEmployees.filter(e =>
+                e.LineManager === manager.EmployeeName &&
+                e.EmployeeName !== manager.EmployeeName &&
+                !processedIds.has(e.EmployeeName)
+            );
+
+            if (directReports.length === 0) {
+                return '';
+            }
+
+            // Separate managers from staff
+            const reportManagers = [];
+            const reportStaff = [];
+
+            directReports.forEach(report => {
+                const hasSubordinates = allEmployees.some(e =>
+                    e.LineManager === report.EmployeeName &&
+                    e.EmployeeName !== report.EmployeeName
+                );
+
+                if (hasSubordinates) {
+                    reportManagers.push(report);
+                } else {
+                    reportStaff.push(report);
+                }
+            });
+
+            let html = '<ul>';
+
+            // Managers get full nodes
+            reportManagers.forEach(report => {
+                html += '<li>';
+                html += createTreeNode(report);
+
+                // Recursively continue for all depths
+                const subTree = buildSubTree(report, allEmployees, new Set(processedIds));
+                if (subTree) {
+                    html += subTree;
+                }
+
+                html += '</li>';
+            });
+
+            // Staff in compact list if more than 3
+            if (reportStaff.length > 3) {
+                html += '<li>' + createStaffListBox(reportStaff) + '</li>';
+            } else {
+                reportStaff.forEach(staff => {
+                    html += '<li>' + createTreeNode(staff) + '</li>';
+                });
+            }
+
+            html += '</ul>';
+
+            return html;
+        }
+
+        // Create tree node
+        function createTreeNode(employee) {
+            const initials = getInitials(employee.EmployeeName);
+            const badgeLevel = getBadgeLevel(employee.Designation, employee.Hierarchy);
+
+            // Build info items with icons
+            let infoItems = '';
+            if (employee.Department) {
+                infoItems += `<div style="font-size: 0.7rem; color: #64748b; display: flex; align-items: center; gap: 0.3rem; margin-top: 0.5rem;"><i class="bi bi-building"></i> <span>${employee.Department.substring(0, 25)}${employee.Department.length > 25 ? '...' : ''}</span></div>`;
+            }
+            if (employee.Location) {
+                infoItems += `<div style="font-size: 0.7rem; color: #64748b; display: flex; align-items: center; gap: 0.3rem; margin-top: 0.25rem;"><i class="bi bi-geo-alt-fill"></i> <span>${employee.Location}</span></div>`;
+            }
+
+            return `
+                <div class="org-tree-node" onclick="showEmployeeDetails('${(employee.EmployeeName || '').replace(/'/g, "\\'")}')">
+                    <div class="avatar" style="width: 55px; height: 55px; margin: 0 auto 0.75rem; font-size: 1.35rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">${initials}</div>
+                    <div class="employee-name" style="font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: #1e293b;">${employee.EmployeeName}</div>
+                    <div class="employee-title" style="font-size: 0.85rem; color: #64748b; font-weight: 500; line-height: 1.3;">${employee.Designation || 'Staff'}</div>
+                    ${infoItems}
+                    <span class="badge-custom ${badgeLevel}" style="font-size: 0.7rem; padding: 0.35rem 0.7rem; margin-top: 0.75rem; display: inline-block;">
+                        ${badgeLevel.replace('badge-', '').toUpperCase()}
+                    </span>
+                </div>
+            `;
+        }
+
+        // Create compact staff list box for multiple end users
+        function createStaffListBox(staffMembers) {
+            const items = staffMembers.map(staff => {
+                const initials = getInitials(staff.EmployeeName);
+                return `
+                    <div class="staff-item" onclick="showEmployeeDetails('${(staff.EmployeeName || '').replace(/'/g, "\\'")}')">
+                        <div class="staff-item-avatar">${initials}</div>
+                        <div class="staff-item-info">
+                            <div class="staff-item-name">${staff.EmployeeName}</div>
+                            <div class="staff-item-title">${staff.Designation || 'Staff'}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="staff-list-box">
+                    <div class="staff-list-header">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Team Members</span>
+                        <span class="staff-count-badge">${staffMembers.length}</span>
+                    </div>
+                    <div class="staff-list-items">
+                        ${items}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show Employee Details
+        function showEmployeeDetails(name) {
+            const employee = employeesData.find(e => e.EmployeeName === name);
+            if (!employee) return;
+
+            document.getElementById('modalAvatar').textContent = getInitials(employee.EmployeeName);
+            document.getElementById('modalName').textContent = employee.EmployeeName;
+            document.getElementById('modalTitle').textContent = employee.Designation || 'Staff Member';
+
+            const emailLink = employee.EmailID ?
+                `<a href="mailto:${employee.EmailID}">${employee.EmailID}</a>` :
+                'Not available';
+            document.getElementById('modalEmail').innerHTML = emailLink;
+
+            // Mobile
+            if (employee.MobileNumber) {
+                document.getElementById('modalMobileSection').style.display = 'block';
+                const formattedPhone = formatPhoneNumber(employee.MobileNumber);
+                document.getElementById('modalMobile').textContent = formattedPhone || employee.MobileNumber;
+            } else {
+                document.getElementById('modalMobileSection').style.display = 'none';
+            }
+
+            // Department
+            if (employee.Department) {
+                document.getElementById('modalDepartmentSection').style.display = 'block';
+                document.getElementById('modalDepartment').textContent = employee.Department;
+            } else {
+                document.getElementById('modalDepartmentSection').style.display = 'none';
+            }
+
+            // Location
+            if (employee.Location) {
+                document.getElementById('modalLocationSection').style.display = 'block';
+                document.getElementById('modalLocation').textContent = employee.Location;
+            } else {
+                document.getElementById('modalLocationSection').style.display = 'none';
+            }
+
+            // Line Manager
+            if (employee.LineManager) {
+                document.getElementById('modalManagerSection').style.display = 'block';
+                document.getElementById('modalManager').textContent = employee.LineManager;
+            } else {
+                document.getElementById('modalManagerSection').style.display = 'none';
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('employeeModal'));
+            modal.show();
+        }
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterEmployees();
+            });
+
+            // Department Filter
+            document.getElementById('departmentFilter').addEventListener('change', filterEmployees);
+
+            // Location Filter
+            document.getElementById('locationFilter').addEventListener('change', filterEmployees);
+
+            // Theme Toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        }
+
+        // Filter Employees
+        function filterEmployees() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const department = document.getElementById('departmentFilter').value;
+            const location = document.getElementById('locationFilter').value;
+
+            filteredEmployees = employeesData.filter(emp => {
+                const matchesSearch = !searchTerm ||
+                    (emp.EmployeeName || '').toLowerCase().includes(searchTerm) ||
+                    (emp.Designation || '').toLowerCase().includes(searchTerm) ||
+                    (emp.Department || '').toLowerCase().includes(searchTerm) ||
+                    (emp.Location || '').toLowerCase().includes(searchTerm);
+
+                const matchesDepartment = !department || emp.Department === department;
+                const matchesLocation = !location || emp.Location === location;
+
+                return matchesSearch && matchesDepartment && matchesLocation;
+            });
+
+            renderOrgChart();
+        }
+
+        // Toggle Theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('themeIcon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'bi bi-sun';
+            } else {
+                icon.className = 'bi bi-moon-stars';
+            }
+        }
+
+        // Zoom functionality
+        let currentZoom = 1;
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            applyZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+            // Also reset scroll position
+            const wrapper = document.getElementById('chartWrapper');
+            if (wrapper) {
+                wrapper.scrollLeft = 0;
+                wrapper.scrollTop = 0;
+            }
+        }
+
+        function applyZoom() {
+            const orgTree = document.getElementById('orgTree');
+            if (orgTree) {
+                orgTree.style.transition = 'transform 0.1s ease-out';
+                orgTree.style.transform = `scale(${currentZoom})`;
+                orgTree.style.transformOrigin = 'top left';
+                document.getElementById('zoomLevel').textContent = `${Math.round(currentZoom * 100)}%`;
+            }
+        }
+
+        // Click and drag to pan
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        function initializeDragToPan() {
+            const wrapper = document.getElementById('chartWrapper');
+            if (!wrapper) return;
+
+            wrapper.addEventListener('mousedown', (e) => {
+                // Don't drag if clicking on a node
+                if (e.target.closest('.org-tree-node')) return;
+
+                isDragging = true;
+                wrapper.classList.add('dragging');
+                startX = e.pageX - wrapper.offsetLeft;
+                startY = e.pageY - wrapper.offsetTop;
+                scrollLeft = wrapper.scrollLeft;
+                scrollTop = wrapper.scrollTop;
+            });
+
+            wrapper.addEventListener('mouseleave', () => {
+                isDragging = false;
+                wrapper.classList.remove('dragging');
+            });
+
+            wrapper.addEventListener('mouseup', () => {
+                isDragging = false;
+                wrapper.classList.remove('dragging');
+            });
+
+            wrapper.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - wrapper.offsetLeft;
+                const y = e.pageY - wrapper.offsetTop;
+                const walkX = (x - startX) * 1.5;
+                const walkY = (y - startY) * 1.5;
+                wrapper.scrollLeft = scrollLeft - walkX;
+                wrapper.scrollTop = scrollTop - walkY;
+            });
+
+            // Touch support for mobile
+            wrapper.addEventListener('touchstart', (e) => {
+                if (e.target.closest('.org-tree-node')) return;
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.pageX - wrapper.offsetLeft;
+                startY = touch.pageY - wrapper.offsetTop;
+                scrollLeft = wrapper.scrollLeft;
+                scrollTop = wrapper.scrollTop;
+            });
+
+            wrapper.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            wrapper.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const touch = e.touches[0];
+                const x = touch.pageX - wrapper.offsetLeft;
+                const y = touch.pageY - wrapper.offsetTop;
+                const walkX = (x - startX) * 1.5;
+                const walkY = (y - startY) * 1.5;
+                wrapper.scrollLeft = scrollLeft - walkX;
+                wrapper.scrollTop = scrollTop - walkY;
+            });
+
+            // Mouse wheel zoom - smooth zoom towards cursor
+            wrapper.addEventListener('wheel', (e) => {
+                // Don't zoom if hovering over UI controls, buttons, modals, etc.
+                if (e.target.closest('.zoom-controls') ||
+                    e.target.closest('.zoom-btn') ||
+                    e.target.closest('button') ||
+                    e.target.closest('.modal') ||
+                    e.target.closest('.header') ||
+                    e.target.closest('.staff-list-box') ||
+                    e.target.closest('select') ||
+                    e.target.closest('input')) {
+                    return; // Allow normal scrolling on these elements
+                }
+
+                e.preventDefault();
+
+                // Smaller delta for smoother, slower zoom
+                const delta = e.deltaY > 0 ? -0.05 : 0.05;
+                const oldZoom = currentZoom;
+                const newZoom = Math.max(0.3, Math.min(3, currentZoom + delta));
+
+                if (newZoom !== currentZoom) {
+                    // Get mouse position relative to wrapper
+                    const rect = wrapper.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+
+                    // Get scroll positions
+                    const scrollX = wrapper.scrollLeft;
+                    const scrollY = wrapper.scrollTop;
+
+                    // Calculate mouse position in content space (before zoom)
+                    const contentX = scrollX + mouseX;
+                    const contentY = scrollY + mouseY;
+
+                    // Apply zoom
+                    currentZoom = newZoom;
+
+                    // Calculate zoom ratio
+                    const zoomRatio = newZoom / oldZoom;
+
+                    // Update transform immediately for smooth feel
+                    const orgTree = document.getElementById('orgTree');
+                    if (orgTree) {
+                        orgTree.style.transition = 'none';
+                        orgTree.style.transform = `scale(${currentZoom})`;
+                        orgTree.style.transformOrigin = 'top left';
+                        document.getElementById('zoomLevel').textContent = `${Math.round(currentZoom * 100)}%`;
+                    }
+
+                    // Adjust scroll to keep content under mouse at same position
+                    // Use requestAnimationFrame for smooth scroll adjustment
+                    requestAnimationFrame(() => {
+                        wrapper.scrollLeft = (contentX * zoomRatio) - mouseX;
+                        wrapper.scrollTop = (contentY * zoomRatio) - mouseY;
+                    });
+                }
+            }, { passive: false });
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+            // Small delay to ensure DOM is ready
+            setTimeout(initializeDragToPan, 100);
+        });
+    </script>
+</body>
+
+</html>
