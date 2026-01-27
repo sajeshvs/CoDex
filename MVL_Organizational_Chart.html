@@ -1482,7 +1482,10 @@
                         e.EmployeeName !== report.EmployeeName
                     );
 
-                    if (hasSubordinates) {
+                    // Always show Rita El Jamal and Samer Malaeb as individual nodes
+                    const isSpecialEmployee = report.EmployeeName === 'Rita El Jamal' || report.EmployeeName === 'Samer Hicham Malaeb';
+
+                    if (hasSubordinates || isSpecialEmployee) {
                         reportManagers.push(report);
                     } else {
                         reportStaff.push(report);
@@ -1555,7 +1558,10 @@
                     e.EmployeeName !== report.EmployeeName
                 );
 
-                if (hasSubordinates) {
+                // Always show Rita El Jamal and Samer Malaeb as individual nodes
+                const isSpecialEmployee = report.EmployeeName === 'Rita El Jamal' || report.EmployeeName === 'Samer Hicham Malaeb';
+
+                if (hasSubordinates || isSpecialEmployee) {
                     reportManagers.push(report);
                 } else {
                     reportStaff.push(report);
