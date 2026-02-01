@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC Mapping</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-VkRzW3aM4XCX8vuIbX5K9SJc5qCWaGH5zU9pBIzpzX3FDgHE9C1HV4u5eANB2J7P" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <style>
+        body { padding:20px; }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="mb-4">NIST Controls Mapping to CMMC Levels</h1>
+    <div class="d-flex mb-3">
+        <select id="levelFilter" class="form-select" style="max-width:200px">
+            <option value="">All Levels</option>
+        </select>
+        <div class="ms-auto">
+            <button id="exportCsv" class="btn btn-outline-primary me-2">Export CSV</button>
+            <button id="exportExcel" class="btn btn-outline-success">Export Excel</button>
+        </div>
+    </div>
+    <table id="mapTable" class="display nowrap" style="width:100%">
+        <thead>
+        <tr>
+            <th>Control ID</th>
+            <th>Security Requirement</th>
+            <th>CMMC Level</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script>
+$(function(){
+    var table;
+    $.getJSON('data/controls.json', function(data){
+        data.forEach(function(item){
+            var match = item.cmmcMapping.match(/CMMC-L(\d)/);
+            item.level = match ? match[1] : '';
+        });
+        table = $('#mapTable').DataTable({
+            data:data,
+            columns:[
+                {data:'id'},
+                {data:'requirement'},
+                {data:'level', render:function(d){
+                    return '<span class="badge bg-primary">Level '+d+'</span>';
+                }},
+                {data:'status', render:function(d){
+                    var cls = d === 'Complete' ? 'bg-success' : d === 'Partial' ? 'bg-warning text-dark' : 'bg-secondary';
+                    return '<span class="badge '+cls+'">'+d+'</span>';
+                }}
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                { extend: 'csvHtml5', text:'CSV', className:'d-none' },
+                { extend: 'excelHtml5', text:'Excel', className:'d-none' }
+            ]
+        });
+        var levels = new Set(data.map(d => d.level));
+        levels.forEach(function(l){
+            if(l) $('#levelFilter').append('<option>'+l+'</option>');
+        });
+        $('#levelFilter').on('change', function(){
+            table.column(2).search(this.value).draw();
+        });
+    });
+    $('#exportCsv').on('click', function(){ table.button('.buttons-csv').trigger(); });
+    $('#exportExcel').on('click', function(){ table.button('.buttons-excel').trigger(); });
+});
+</script>
+</body>
+</html>

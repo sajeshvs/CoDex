@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVL NIST &amp; CMMC Controls Tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-VkRzW3aM4XCX8vuIbX5K9SJc5qCWaGH5zU9pBIzpzX3FDgHE9C1HV4u5eANB2J7P" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <style>
+        body { padding: 20px; }
+        .summary { margin-bottom: 20px; }
+        .filters .form-select, .filters .form-control { margin-right: 10px; }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="mb-3">MVL NIST &amp; CMMC Controls Tracker</h1>
+    <p><a href="cmmc-mapping.html" class="btn btn-outline-secondary btn-sm">View CMMC Mapping</a></p>
+    <div class="summary row" id="summaryStats">
+        <!-- Summary stats inserted here by JS -->
+    </div>
+    <div class="filters d-flex flex-wrap mb-3">
+        <select id="statusFilter" class="form-select" style="max-width: 200px">
+            <option value="">All Statuses</option>
+        </select>
+        <select id="categoryFilter" class="form-select" style="max-width: 250px">
+            <option value="">All Categories</option>
+        </select>
+        <select id="responsibleFilter" class="form-select" style="max-width: 200px">
+            <option value="">All Responsible</option>
+        </select>
+        <input type="text" id="keywordSearch" class="form-control" placeholder="Search keyword" style="max-width: 250px">
+        <div class="ms-auto">
+            <a href="control-details.html?id=new" class="btn btn-success me-2">Add Control</a>
+            <button id="importBtn" class="btn btn-secondary me-2">Import CSV/Excel</button>
+            <button id="exportBtn" class="btn btn-primary">Export Excel (All Fields)</button>
+        </div>
+    </div>
+    <table id="controlsTable" class="display nowrap" style="width:100%">
+        <thead>
+        <tr>
+            <th>Control ID</th>
+            <th>Security Requirement</th>
+            <th>Status</th>
+            <th>Internal Score</th>
+            <th>Responsible</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Hidden file input and import modal -->
+<input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none">
+
+<div class="modal fade" id="importModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Import Controls</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="mappingArea" style="display:none">
+          <table class="table" id="mappingTable">
+            <thead><tr><th>File Column</th><th>Map To</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="importPrompt" class="mb-3">Select a CSV or Excel file to import.</div>
+        <div class="text-end">
+          <button type="button" id="confirmImport" class="btn btn-primary" disabled>Import</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zucZXPY329xNX1/SuKD5Vac/mswHxZ34rnOG0r8QwMCKaRZ3eLaxhUJQ6BZBxB2E" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    var table;
+    $.getJSON('data/controls.json', function(data) {
+        var storedNew = JSON.parse(localStorage.getItem('controls_new') || '[]');
+        data = data.concat(storedNew);
+        data = data.map(function(item){
+            var local = localStorage.getItem('control_'+item.id);
+            return local ? Object.assign({}, item, JSON.parse(local)) : item;
+        });
+
+        var statuses = new Set(), categories = new Set(), responsibles = new Set();
+        table = $('#controlsTable').DataTable({
+            data: data,
+            columns: [
+                { data: 'id' },
+                { data: 'requirement' },
+                { data: 'status' },
+                { data: 'score' },
+               { data: 'responsible' },
+               { data: 'dueDate' },
+               { data: 'category', visible: false },
+               {
+                   data: 'id',
+                   render: function(d) {
+                       return '<a class="btn btn-sm btn-info" href="control-details.html?id='+d+'">Details</a>';
+                   }
+                }
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'csvHtml5',
+                    text: 'Export CSV',
+                    className: 'btn btn-outline-primary'
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export Excel',
+                    className: 'btn btn-outline-success'
+                }
+            ]
+        });
+
+        // populate filter values
+        data.forEach(function(item){
+            statuses.add(item.status);
+            categories.add(item.category);
+            responsibles.add(item.responsible);
+        });
+        statuses.forEach(function(s){ $('#statusFilter').append('<option>'+s+'</option>'); });
+        categories.forEach(function(c){ $('#categoryFilter').append('<option>'+c+'</option>'); });
+        responsibles.forEach(function(r){ $('#responsibleFilter').append('<option>'+r+'</option>'); });
+
+        $('#statusFilter').on('change', function(){
+            table.column(2).search(this.value).draw();
+        });
+        $('#categoryFilter').on('change', function(){
+            table.column(0).search('', false, false); // reset search in column 0 (ID)
+            table.column(6).search(this.value).draw();
+        });
+        $('#responsibleFilter').on('change', function(){
+            table.column(4).search(this.value).draw();
+        });
+        $('#keywordSearch').on('keyup', function(){
+            table.search(this.value).draw();
+        });
+
+        updateStats();
+    });
+
+    function updateStats(){
+        var dataArr = table.data().toArray();
+        var total = dataArr.length;
+        var complete = dataArr.filter(d => d.status === 'Complete').length;
+        var progress = dataArr.filter(d => d.status === 'Partial').length;
+        var html = `<div class="col">Total Controls: <strong>${total}</strong></div>`+
+                   `<div class="col">% Complete: <strong>${(complete/total*100).toFixed(1)}%</strong></div>`+
+                   `<div class="col">% In Progress: <strong>${(progress/total*100).toFixed(1)}%</strong></div>`;
+        $('#summaryStats').html(html);
+    }
+
+    $('#importBtn').on('click', function(){
+        $('#fileInput').val('');
+        $('#mappingArea').hide();
+        $('#confirmImport').prop('disabled', true);
+        $('#importPrompt').show();
+        var modal = new bootstrap.Modal(document.getElementById('importModal'));
+        modal.show();
+        $('#fileInput').trigger('click');
+    });
+
+    $('#fileInput').on('change', function(e){
+        var file = e.target.files[0];
+        if(!file) return;
+        var ext = file.name.split('.').pop().toLowerCase();
+        function buildMapping(headers, rows){
+            $('#mappingTable tbody').empty();
+            var sample = table.data().toArray()[0] || {};
+            var fields = Object.keys(sample);
+            headers.forEach(h=>{
+                var opts = '<option value="">Ignore</option>';
+                fields.forEach(f=>{
+                    var sel = (h.toLowerCase()===f.toLowerCase())? ' selected': '';
+                    opts += `<option value="${f}"${sel}>${f}</option>`;
+                });
+                opts += '<option value="__custom">Custom...</option>';
+                $('#mappingTable tbody').append(`<tr data-header="${h}"><td>${h}</td><td><select class="form-select map-select">${opts}</select><input class="form-control mt-1 custom-name" style="display:none" placeholder="Field name"></td></tr>`);
+            });
+            $('#mappingArea').data('rows', rows).show();
+            $('#importPrompt').hide();
+            $('#confirmImport').prop('disabled', false);
+        }
+
+        if(ext === 'csv'){
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(res){
+                    buildMapping(res.meta.fields, res.data);
+                }
+            });
+        }else{
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                var wb = XLSX.read(evt.target.result, {type:'array'});
+                var sheet = wb.Sheets[wb.SheetNames[0]];
+                var json = XLSX.utils.sheet_to_json(sheet, {header:1, defval:''});
+                var headers = json.shift();
+                var rows = json.map(r=>{var obj={};headers.forEach((h,i)=>obj[h]=r[i]);return obj;});
+                buildMapping(headers, rows);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    });
+
+    $(document).on('change','.map-select', function(){
+        $(this).siblings('.custom-name').toggle(this.value==='__custom');
+    });
+
+    $('#confirmImport').on('click', function(){
+        var rows = $('#mappingArea').data('rows') || [];
+        var mapping = {};
+        $('#mappingTable tbody tr').each(function(){
+            var header = $(this).data('header');
+            var val = $(this).find('.map-select').val();
+            if(val==='__custom') val = $(this).find('.custom-name').val().trim();
+            mapping[header] = val;
+        });
+        var current = table.data().toArray();
+        var ids = current.map(r=>parseInt(r.id.split('-')[1])).filter(n=>!isNaN(n));
+        var next = ids.length ? Math.max.apply(Math, ids)+1 : 1;
+        var newData = [];
+        rows.forEach(r=>{
+            var obj = {};
+            Object.keys(r).forEach(h=>{
+                var f = mapping[h];
+                if(!f) return;
+                obj[f] = r[h];
+            });
+            if(Object.keys(obj).length){
+                if(!obj.id){
+                    obj.id = 'C-'+String(next++).padStart(3,'0');
+                }
+                obj.lastUpdated = new Date().toISOString().split('T')[0];
+                newData.push(obj);
+            }
+        });
+        if(newData.length){
+            table.rows.add(newData).draw();
+            var stored = JSON.parse(localStorage.getItem('controls_new')||'[]');
+            stored = stored.concat(newData);
+            localStorage.setItem('controls_new', JSON.stringify(stored));
+            updateStats();
+        }
+        bootstrap.Modal.getInstance(document.getElementById('importModal')).hide();
+    });
+
+    $('#exportBtn').on('click', function(){
+        var allData = table.data().toArray();
+        if(!allData.length) return;
+        var headers = Object.keys(allData.reduce((a,b)=>Object.assign(a,b), {}));
+        var ws = XLSX.utils.json_to_sheet(allData, {header: headers});
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Controls');
+        XLSX.writeFile(wb, 'controls_export.xlsx');
+    });
+});
+</script>
+</body>
+</html>
